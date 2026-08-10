@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>হাত-খরচ — Personal Money Manager</title>
+    
+    <!-- Google Fonts for Bengali, Arabic and English -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600&family=Scheherazade+New:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Variables & Theme Setup */
+        :root {
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --accent-gold: #d97706;
+            --bg-main: #f0f9ff;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #bae6fd;
+            --income-color: #16a34a;
+            --income-bg: #dcfce7;
+            --expense-color: #dc2626;
+            --expense-bg: #fee2e2;
+            --transfer-color: #2563eb;
+            --transfer-bg: #dbeafe;
+            --shadow: 0 4px 10px -2px rgba(2, 132, 199, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+            --radius: 14px;
+            --font-bn: 'Hind Siliguri', sans-serif;
+            --font-ar: 'Amiri', 'Scheherazade New', serif;
+            --font-en: 'Poppins', sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --primary: #38bdf8;
+            --primary-hover: #0284c7;
+            --accent-gold: #f59e0b;
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --income-color: #4ade80;
+            --income-bg: #064e3b;
+            --expense-color: #f87171;
+            --expense-bg: #7f1d1d;
+            --transfer-color: #60a5fa;
+            --transfer-bg: #1e3a8a;
+            --shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-bn);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-bottom: 75px;
+        }
+
+        /* Bismillah Bar */
+        .bismillah-bar {
+            background-color: var(--bg-card);
+            text-align: center;
+            padding: 10px 12px 6px 12px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .bismillah-arabic {
+            font-size: 1.3rem;
+            color: var(--accent-gold);
+            font-family: var(--font-ar);
+            font-weight: bold;
+            direction: rtl;
+            line-height: 1.2;
+        }
+
+        .bismillah-meaning {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        /* Header */
+        .app-header {
+            background-color: var(--bg-card);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .app-logo {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            line-height: 1.1;
+            font-weight: 700;
+        }
+
+        .header-title .subtitle {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            display: block;
+            font-family: var(--font-en);
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .website-link {
+            font-size: 0.75rem;
+            color: var(--primary);
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .website-link:hover {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            color: var(--text-main);
+        }
+
+        /* Main Container & Layout */
+        .main-container {
+            padding: 16px;
+            max-width: 650px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .app-view {
+            display: none;
+        }
+
+        .app-view.active {
+            display: block;
+        }
+
+        /* Cards & Grid Layouts */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            padding: 12px 14px;
+        }
+
+        .stat-card .card-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stat-card h3 {
+            font-size: 1.15rem;
+            margin-top: 4px;
+            font-weight: 700;
+        }
+
+        .income-bg h3 { color: var(--income-color); }
+        .expense-bg h3 { color: var(--expense-color); }
+
+        .section-header {
+            margin: 16px 0 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h3 {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+            gap: 10px;
+        }
+
+        .source-item {
+            background-color: var(--bg-card);
+            padding: 12px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .source-item strong {
+            display: block;
+            font-size: 0.88rem;
+            margin-bottom: 4px;
+            color: var(--text-main);
+        }
+
+        .source-item span {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Quran Verse Card */
+        .quran-card {
+            border: 1px solid var(--accent-gold);
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.05) 0%, rgba(2, 134, 199, 0.05) 100%);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 18px 16px;
+        }
+
+        .quran-card-header {
+            font-size: 0.82rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .quran-arabic {
+            font-size: 1.35rem;
+            color: var(--text-main);
+            font-family: var(--font-ar);
+            direction: rtl;
+            margin-bottom: 8px;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+
+        .quran-bangla {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            line-height: 1.4;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .quran-ref {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Forms & Inputs */
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.82rem;
+            margin-bottom: 4px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+        }
+
+        .inline-form {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: opacity 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .btn-primary { background-color: var(--primary); color: #fff; }
+        .btn-outline { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
+        .btn-danger { background-color: var(--expense-color); color: #fff; }
+
+        /* Tag Management */
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag-item {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tag-item .delete-tag {
+            cursor: pointer;
+            color: var(--expense-color);
+            font-weight: bold;
+        }
+
+        /* Settings Toggle */
+        .setting-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--border-color);
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        /* List Items */
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .item-card {
+            background-color: var(--bg-card);
+            padding: 12px 14px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .item-details strong {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .item-details span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .item-amount-group {
+            text-align: right;
+        }
+
+        .item-amount {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .item-amount.INCOME, .item-amount.RECEIVABLE { color: var(--income-color); }
+        .item-amount.EXPENSE, .item-amount.PAYABLE { color: var(--expense-color); }
+        .item-amount.TRANSFER { color: var(--transfer-color); }
+
+        .item-actions {
+            margin-top: 4px;
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            font-size: 0.78rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .action-btn:hover { color: var(--primary); }
+
+        /* FAB & Bottom Nav */
+        .fab-container {
+            position: fixed;
+            bottom: 75px;
+            right: 20px;
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .fab-main {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            font-size: 1.6rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .fab-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .fab-option {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            font-size: 0.85rem;
+        }
+
+        .income-btn { background-color: var(--income-color); }
+        .expense-btn { background-color: var(--expense-color); }
+        .transfer-btn { background-color: var(--transfer-color); }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: var(--bg-card);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.72rem;
+            width: 20%;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 1.15rem;
+            margin-bottom: 2px;
+        }
+
+        /* Modal Backdrop & Content */
+        .modal-backdrop {
+            position: fixed;
+            top:0; left:0; right:0; bottom:0;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            width: 100%;
+            max-width: 450px;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        /* Profile Banner */
+        .profile-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            background-color: #e2e8f0;
+        }
+
+        .profile-info h4 {
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .profile-info p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* Print / PDF Specific Styling */
+        @media print {
+            body { background: white; color: black; padding-bottom: 0; }
+            .app-header, .bottom-nav, .fab-container, .btn, .icon-btn, .filter-card, .section-header { display: none !important; }
+            .main-container { max-width: 100%; padding: 0; }
+            .app-view { display: none !important; }
+            #reportView { display: block !important; }
+            .card { box-shadow: none; border: 1px solid #ccc; margin-bottom: 10px; }
+            .print-header { display: block !important; text-align: center; margin-bottom: 20px; }
+        }
+
+        .print-header { display: none; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- Islamic Bismillah Bar -->
+    <div class="bismillah-bar">
+        <div class="bismillah-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <div class="bismillah-meaning">পরম করুণাময়, অতি দয়ালু আল্লাহর নামে</div>
+    </div>
+
+    <!-- Header Bar -->
+    <header class="app-header">
+        <div class="header-brand">
+            <!-- Embedded User Original Logo Base64 -->
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1eb12Afl5ebzhjr3ebf22Wb23/2wBDARERER4RHGQaGG2AeUd5gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgID/wAARCAEgASADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnA09PV1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIR0520443S8A5s77e3/9k=" alt="হাত-খরচ লোগো" class="app-logo">
+            <div class="header-title">
+                <h1 id="headerAppName">হাত-খরচ</h1>
+                <span class="subtitle">Personal Money Manager</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <a href="https://salmanfarshi1630.github.io/" target="_blank" class="website-link">আমার ওয়েবসাইট</a>
+            <button id="themeToggleBtn" class="icon-btn" aria-label="Toggle Theme">
+                <span id="themeIcon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-container">
+        
+        <!-- DASHBOARD VIEW -->
+        <section id="dashboardView" class="app-view active">
+            
+            <!-- Quran Verse Card (Replaces Total Balance Card) -->
+            <div class="card quran-card">
+                <div class="quran-card-header">📖 কুরআনের মহান উপদেশ</div>
+                <div class="quran-arabic">وَلَا تُسْرِفُوا ۚ إِنَّهُ لَا يُحِبُّ الْمُسْرِفِينَ</div>
+                <div class="quran-bangla">“আর তোমরা অপব্যয় করো না। নিশ্চয়ই তিনি অপব্যয়কারীদের ভালোবাসেন না।”</div>
+                <div class="quran-ref">— সূরা আল-আ'রাফ (৭:৩১)</div>
+            </div>
+
+            <!-- Money Sources List -->
+            <div class="section-header">
+                <h3>টাকার উৎসসমূহ (Sources)</h3>
+            </div>
+            <div id="sourcesList" class="sources-grid"></div>
+
+            <!-- Income & Expense Summary Grid -->
+            <div class="section-header">
+                <h3>আয়-ব্যয় সংক্ষিপ্ত</h3>
+            </div>
+            <div class="grid-2">
+                <div class="card stat-card income-bg">
+                    <span class="card-label">আজকের আয়</span>
+                    <h3 id="todayIncomeText">৳০</h3>
+                </div>
+                <div class="card stat-card expense-bg">
+                    <span class="card-label">আজকের খরচ</span>
+                    <h3 id="todayExpenseText">৳০</h3>
+                </div>
+                <div class="card stat-card income-bg">
+                    <span class="card-label">এই মাসের আয়</span>
+                    <h3 id="monthIncomeText">৳০</h3>
+                </div>
+                <div class="card stat-card expense-bg">
+                    <span class="card-label">এই মাসের খরচ</span>
+                    <h3 id="monthExpenseText">৳০</h3>
+                </div>
+            </div>
+
+            <!-- Loan Summary -->
+            <div class="section-header">
+                <h3>ধার-পাওনা সংক্ষিপ্ত</h3>
+            </div>
+            <div class="grid-2">
+                <div class="card stat-card income-bg">
+                    <span class="card-label">আমি পাব (Receivable)</span>
+                    <h3 id="totalReceivableText">৳০</h3>
+                </div>
+                <div class="card stat-card expense-bg">
+                    <span class="card-label">আমি দেব (Payable)</span>
+                    <h3 id="totalPayableText">৳০</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- HISTORY VIEW -->
+        <section id="historyView" class="app-view">
+            <div class="section-header">
+                <h3>লেনদেনের ইতিহাস</h3>
+            </div>
+
+            <!-- Filters -->
+            <div class="card filter-card">
+                <div class="form-group">
+                    <input type="text" id="searchInput" placeholder="খুঁজুন (নোট, ক্যাটাগরি বা উৎস)..." class="form-control">
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="typeFilter">টাইপ</label>
+                        <select id="typeFilter" class="form-control">
+                            <option value="ALL">সব টাইপ</option>
+                            <option value="INCOME">আয়</option>
+                            <option value="EXPENSE">খরচ</option>
+                            <option value="TRANSFER">ট্রান্সফার</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateFilter">সময়সীমা</label>
+                        <select id="dateFilter" class="form-control">
+                            <option value="ALL">সব সময়</option>
+                            <option value="TODAY">আজ</option>
+                            <option value="WEEK">এই সপ্তাহ</option>
+                            <option value="MONTH">এই মাস</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="sourceFilter">উৎস</label>
+                        <select id="sourceFilter" class="form-control"><option value="ALL">সব উৎস</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryFilter">ক্যাটাগরি</label>
+                        <select id="categoryFilter" class="form-control"><option value="ALL">সব ক্যাটাগরি</option></select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction List -->
+            <div id="transactionList" class="item-list"></div>
+        </section>
+
+        <!-- LOAN / DEBT VIEW -->
+        <section id="loanView" class="app-view">
+            <div class="section-header">
+                <h3>ধার ও পাওনা ব্যবস্থাপনা</h3>
+                <button id="addLoanBtn" class="btn btn-primary">+ নতুন ধার/পাওনা</button>
+            </div>
+
+            <div class="grid-2">
+                <div class="card stat-card income-bg">
+                    <span class="card-label">মোট পাওনা (পাব)</span>
+                    <h3 id="loanPaboText">৳০</h3>
+                </div>
+                <div class="card stat-card expense-bg">
+                    <span class="card-label">মোট দেনা (দেব)</span>
+                    <h3 id="loanDeboText">৳০</h3>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h3>ধার ও পাওনার তালিকা</h3>
+            </div>
+            <div id="loanList" class="item-list"></div>
+        </section>
+
+        <!-- REPORT VIEW -->
+        <section id="reportView" class="app-view">
+            <div class="print-header">
+                <h2>হাত-খরচ — Personal Money Manager</h2>
+                <p id="printProfileName">ব্যবহারকারী: -</p>
+                <p id="printDateRange">তারিখ: -</p>
+                <hr style="margin: 10px 0;">
+            </div>
+
+            <div class="section-header">
+                <h3>স্টেটমেন্ট ও রিপোর্ট</h3>
+                <button id="printReportBtn" class="btn btn-primary">🖨️ প্রিন্ট / PDF সেভ</button>
+            </div>
+
+            <div class="card filter-card">
+                <div class="form-group">
+                    <label for="reportRangeSelect">সময়সীমা নির্বাচন করুন</label>
+                    <select id="reportRangeSelect" class="form-control">
+                        <option value="TODAY">আজ</option>
+                        <option value="WEEK">এই সপ্তাহ</option>
+                        <option value="THIS_MONTH" selected>এই মাস</option>
+                        <option value="LAST_MONTH">গত মাস</option>
+                        <option value="THIS_YEAR">এই বছর</option>
+                        <option value="CUSTOM">কাস্টম তারিখ</option>
+                    </select>
+                </div>
+                <div class="grid-2 hidden" id="customDateGroup">
+                    <div class="form-group">
+                        <label for="reportStartDate">শুরু তারিখ</label>
+                        <input type="date" id="reportStartDate" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="reportEndDate">শেষ তারিখ</label>
+                        <input type="date" id="reportEndDate" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div id="reportSummaryContent" class="card">
+                <h4 style="font-size:1rem; margin-bottom:12px; color:var(--primary);">রিপোর্ট সংক্ষিপ্তি</h4>
+                <p style="margin-bottom:6px;"><strong>মোট আয়:</strong> <span id="repIncome">৳০</span></p>
+                <p style="margin-bottom:6px;"><strong>মোট খরচ:</strong> <span id="repExpense">৳০</span></p>
+                <p style="margin-bottom:6px;"><strong>নিট সঞ্চয়/ব্যালেন্স:</strong> <span id="repNet">৳০</span></p>
+                <p style="margin-bottom:6px;"><strong>বাকি পাওনা (পাব):</strong> <span id="repReceivable">৳০</span></p>
+                <p style="margin-bottom:6px;"><strong>বাকি দেনা (দেব):</strong> <span id="repPayable">৳০</span></p>
+            </div>
+
+            <div class="section-header">
+                <h3>বিস্তারিত লেনদেন তালিকা</h3>
+            </div>
+            <div id="reportTableContainer" class="card" style="padding: 10px;">
+                <!-- Printable Table Content -->
+            </div>
+        </section>
+
+        <!-- SETTINGS VIEW -->
+        <section id="settingsView" class="app-view">
+            <div class="section-header">
+                <h3>সেটিংস ও প্রোফাইল</h3>
+            </div>
+
+            <!-- Profile Settings -->
+            <div class="card">
+                <div class="profile-banner">
+                    <img id="profileDisplayImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 24 24' fill='none' stroke='%230284c7' stroke-width='2'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>" class="profile-avatar">
+                    <div class="profile-info">
+                        <h4 id="profileDisplayName">ব্যবহারকারী</h4>
+                        <p id="profileDisplayPhone">মোবাইল: -</p>
+                    </div>
+                </div>
+                <hr style="margin: 10px 0; border-color: var(--border-color);">
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="profName">আপনার নাম</label>
+                        <input type="text" id="profName" class="form-control" placeholder="আপনার নাম লিখুন">
+                    </div>
+                    <div class="form-group">
+                        <label for="profPhone">মোবাইল নম্বর</label>
+                        <input type="text" id="profPhone" class="form-control" placeholder="01XXXXXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="profImg">প্রোফাইল ছবি (ঐচ্ছিক)</label>
+                        <input type="file" id="profImg" accept="image/*" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">প্রোফাইল সেভ করুন</button>
+                </form>
+            </div>
+
+            <!-- Allow Negative Balance Option -->
+            <div class="card">
+                <div class="setting-toggle">
+                    <div>
+                        <strong>নেগেটিভ ব্যালেন্স অনুমতি</strong>
+                        <p style="font-size:0.75rem; color:var(--text-muted);">ব্যালেন্স ০-এর কম হলেও খরচ/ট্রান্সফার করার অনুমতি দিন</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="allowNegativeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Manage Sources -->
+            <div class="card">
+                <h4 style="font-size:0.95rem; margin-bottom:8px;">উৎস (Sources) ব্যবস্থাপনা</h4>
+                <form id="addSourceForm" class="inline-form">
+                    <input type="text" id="newSourceName" placeholder="নতুন উৎসের নাম..." class="form-control" required>
+                    <button type="submit" class="btn btn-primary">যোগ</button>
+                </form>
+                <div id="manageSourcesList" class="tag-list"></div>
+            </div>
+
+            <!-- Manage Categories -->
+            <div class="card">
+                <h4 style="font-size:0.95rem; margin-bottom:8px;">ক্যাটাগরি ব্যবস্থাপনা</h4>
+                <form id="addCategoryForm" class="inline-form">
+                    <input type="text" id="newCategoryName" placeholder="নতুন ক্যাটাগরির নাম..." class="form-control" required>
+                    <button type="submit" class="btn btn-primary">যোগ</button>
+                </form>
+                <div id="manageCategoriesList" class="tag-list"></div>
+            </div>
+
+            <!-- Data Backup & Restore -->
+            <div class="card">
+                <h4 style="font-size:0.95rem; margin-bottom:8px;">ডাটা ব্যাকআপ ও রিস্টোর</h4>
+                <div class="grid-2">
+                    <button id="exportBtn" class="btn btn-outline">ডাটা এক্সপোর্ট (JSON)</button>
+                    <button id="importBtnTrigger" class="btn btn-outline">ডাটা ইমপোর্ট (JSON)</button>
+                    <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                </div>
+            </div>
+
+            <!-- Clear Data -->
+            <div class="card" style="border-color: var(--expense-color);">
+                <h4 style="font-size:0.95rem; margin-bottom:4px; color: var(--expense-color);">ডাটা রিসেট</h4>
+                <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">সমস্ত লেনদেন, ধার-পাওনা, প্রোফাইল ডাটা মুছে ফেলুন।</p>
+                <button id="clearDataBtn" class="btn btn-danger">সব ডাটা মুছে ফেলুন</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Floating Action Button & Menu -->
+    <div class="fab-container">
+        <div id="fabOptions" class="fab-options hidden">
+            <button class="fab-option income-btn" data-action="INCOME">➕ আয়</button>
+            <button class="fab-option expense-btn" data-action="EXPENSE">➖ খরচ</button>
+            <button class="fab-option transfer-btn" data-action="TRANSFER">🔄 ট্রান্সফার</button>
+        </div>
+        <button id="mainFab" class="fab-main">+</button>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-view="dashboardView">
+            <span class="nav-icon">🏠</span>
+            <span>হোম</span>
+        </button>
+        <button class="nav-item" data-view="historyView">
+            <span class="nav-icon">📜</span>
+            <span>ইতিহাস</span>
+        </button>
+        <button class="nav-item" data-view="loanView">
+            <span class="nav-icon">🤝</span>
+            <span>ধার-পাওনা</span>
+        </button>
+        <button class="nav-item" data-view="reportView">
+            <span class="nav-icon">📊</span>
+            <span>রিপোর্ট</span>
+        </button>
+        <button class="nav-item" data-view="settingsView">
+            <span class="nav-icon">⚙️</span>
+            <span>সেটিংস</span>
+        </button>
+    </nav>
+
+    <!-- MODAL FOR ADD / EDIT TRANSACTION -->
+    <div id="transactionModal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle" style="font-size:1.1rem;">নতুন লেনদেন</h3>
+                <button class="close-btn closeModalBtn">&times;</button>
+            </div>
+            <form id="transactionForm">
+                <input type="hidden" id="txId">
+                <input type="hidden" id="txType">
+
+                <div class="form-group">
+                    <label for="txAmount">পরিমাণ (৳) *</label>
+                    <input type="number" step="any" min="0.01" id="txAmount" class="form-control" placeholder="0.00" required>
+                </div>
+
+                <div class="form-group" id="sourceGroup">
+                    <label for="txSource" id="sourceLabel">উৎস *</label>
+                    <select id="txSource" class="form-control" required></select>
+                </div>
+
+                <div class="form-group hidden" id="toSourceGroup">
+                    <label for="txToSource">কোন উৎসে পাঠাবেন *</label>
+                    <select id="txToSource" class="form-control"></select>
+                </div>
+
+                <div class="form-group" id="categoryGroup">
+                    <label for="txCategory">ক্যাটাগরি *</label>
+                    <select id="txCategory" class="form-control"></select>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="txDate">তারিখ *</label>
+                        <input type="date" id="txDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="txTime">সময় *</label>
+                        <input type="time" id="txTime" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="txNote">নোট (ঐচ্ছিক)</label>
+                    <input type="text" id="txNote" class="form-control" placeholder="সংক্ষিপ্ত বিবরণ...">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline closeModalBtn">বাতিল</button>
+                    <button type="submit" class="btn btn-primary">সংরক্ষণ করুন</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL FOR ADD / EDIT LOAN -->
+    <div id="loanModal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="loanModalTitle" style="font-size:1.1rem;">ধার/পাওনা যোগ</h3>
+                <button class="close-btn closeLoanModalBtn">&times;</button>
+            </div>
+            <form id="loanForm">
+                <input type="hidden" id="loanId">
+
+                <div class="form-group">
+                    <label for="loanType">ধরণ *</label>
+                    <select id="loanType" class="form-control" required>
+                        <option value="RECEIVABLE">আমি পাব (Receivable)</option>
+                        <option value="PAYABLE">আমি দেব (Payable)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="loanPerson">ব্যক্তির নাম *</label>
+                    <input type="text" id="loanPerson" class="form-control" placeholder="নাম..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loanPhone">মোবাইল নম্বর (ঐচ্ছিক)</label>
+                    <input type="text" id="loanPhone" class="form-control" placeholder="01XXXXXXXXX">
+                </div>
+
+                <div class="form-group">
+                    <label for="loanAmount">পরিমাণ (৳) *</label>
+                    <input type="number" step="any" min="0.01" id="loanAmount" class="form-control" placeholder="0.00" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loanAccountSource">টাকার উৎস/অ্যাকাউন্ট *</label>
+                    <select id="loanAccountSource" class="form-control" required></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="loanDate">তারিখ *</label>
+                    <input type="date" id="loanDate" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loanNote">কারণ/নোট (ঐচ্ছিক)</label>
+                    <input type="text" id="loanNote" class="form-control" placeholder="বিবরণ...">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline closeLoanModalBtn">বাতিল</button>
+                    <button type="submit" class="btn btn-primary">সংরক্ষণ করুন</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL FOR LOAN REPAYMENT -->
+    <div id="repayModal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="font-size:1.1rem;">ধার পরিশোধ / প্রাপ্তি</h3>
+                <button class="close-btn closeRepayModalBtn">&times;</button>
+            </div>
+            <form id="repayForm">
+                <input type="hidden" id="repayLoanId">
+
+                <p id="repayInfoText" style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;"></p>
+
+                <div class="form-group">
+                    <label for="repayAmount">পরিশোধের পরিমাণ (৳) *</label>
+                    <input type="number" step="any" min="0.01" id="repayAmount" class="form-control" placeholder="0.00" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="repaySource">টাকার উৎস/অ্যাকাউন্ট *</label>
+                    <select id="repaySource" class="form-control" required></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="repayDate">তারিখ *</label>
+                    <input type="date" id="repayDate" class="form-control" required>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline closeRepayModalBtn">বাতিল</button>
+                    <button type="submit" class="btn btn-primary">জমা নিশ্চিত করুন</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        (function () {
+            'use strict';
+
+            const DEFAULT_SOURCES = ["হাতে ক্যাশ", "bKash", "Nagad", "Rocket", "Upay", "Bank", "অন্যান্য"];
+            const DEFAULT_CATEGORIES = ["খাবার", "যাতায়াত", "শিক্ষা", "মোবাইল/ইন্টারনেট", "চিকিৎসা", "পরিবার", "কেনাকাটা", "ইসলামিক/দান", "বিনোদন", "বিল", "অন্যান্য"];
+
+            let state = {
+                transactions: [],
+                loans: [], // { id, person, phone, type: 'RECEIVABLE'|'PAYABLE', amount, paidAmount: 0, date, note, source }
+                sources: [],
+                categories: [],
+                profile: { name: '', phone: '', photo: '' },
+                settings: { theme: 'light', allowNegative: false }
+            };
+
+            const elem = {
+                themeToggleBtn: document.getElementById('themeToggleBtn'),
+                themeIcon: document.getElementById('themeIcon'),
+                views: document.querySelectorAll('.app-view'),
+                navItems: document.querySelectorAll('.bottom-nav .nav-item'),
+                
+                todayIncomeText: document.getElementById('todayIncomeText'),
+                todayExpenseText: document.getElementById('todayExpenseText'),
+                monthIncomeText: document.getElementById('monthIncomeText'),
+                monthExpenseText: document.getElementById('monthExpenseText'),
+                totalReceivableText: document.getElementById('totalReceivableText'),
+                totalPayableText: document.getElementById('totalPayableText'),
+                sourcesList: document.getElementById('sourcesList'),
+
+                searchInput: document.getElementById('searchInput'),
+                typeFilter: document.getElementById('typeFilter'),
+                dateFilter: document.getElementById('dateFilter'),
+                sourceFilter: document.getElementById('sourceFilter'),
+                categoryFilter: document.getElementById('categoryFilter'),
+                transactionList: document.getElementById('transactionList'),
+
+                loanPaboText: document.getElementById('loanPaboText'),
+                loanDeboText: document.getElementById('loanDeboText'),
+                loanList: document.getElementById('loanList'),
+                addLoanBtn: document.getElementById('addLoanBtn'),
+
+                mainFab: document.getElementById('mainFab'),
+                fabOptions: document.getElementById('fabOptions'),
+
+                allowNegativeToggle: document.getElementById('allowNegativeToggle'),
+                addSourceForm: document.getElementById('addSourceForm'),
+                newSourceName: document.getElementById('newSourceName'),
+                manageSourcesList: document.getElementById('manageSourcesList'),
+                addCategoryForm: document.getElementById('addCategoryForm'),
+                newCategoryName: document.getElementById('newCategoryName'),
+                manageCategoriesList: document.getElementById('manageCategoriesList'),
+                exportBtn: document.getElementById('exportBtn'),
+                importBtnTrigger: document.getElementById('importBtnTrigger'),
+                importFileInput: document.getElementById('importFileInput'),
+                clearDataBtn: document.getElementById('clearDataBtn'),
+
+                profileForm: document.getElementById('profileForm'),
+                profName: document.getElementById('profName'),
+                profPhone: document.getElementById('profPhone'),
+                profImg: document.getElementById('profImg'),
+                profileDisplayName: document.getElementById('profileDisplayName'),
+                profileDisplayPhone: document.getElementById('profileDisplayPhone'),
+                profileDisplayImg: document.getElementById('profileDisplayImg'),
+
+                reportRangeSelect: document.getElementById('reportRangeSelect'),
+                customDateGroup: document.getElementById('customDateGroup'),
+                reportStartDate: document.getElementById('reportStartDate'),
+                reportEndDate: document.getElementById('reportEndDate'),
+                printReportBtn: document.getElementById('printReportBtn'),
+                reportTableContainer: document.getElementById('reportTableContainer'),
+                repIncome: document.getElementById('repIncome'),
+                repExpense: document.getElementById('repExpense'),
+                repNet: document.getElementById('repNet'),
+                repReceivable: document.getElementById('repReceivable'),
+                repPayable: document.getElementById('repPayable'),
+
+                transactionModal: document.getElementById('transactionModal'),
+                modalTitle: document.getElementById('modalTitle'),
+                transactionForm: document.getElementById('transactionForm'),
+                txId: document.getElementById('txId'),
+                txType: document.getElementById('txType'),
+                txAmount: document.getElementById('txAmount'),
+                txSource: document.getElementById('txSource'),
+                sourceGroup: document.getElementById('sourceGroup'),
+                sourceLabel: document.getElementById('sourceLabel'),
+                txToSource: document.getElementById('txToSource'),
+                toSourceGroup: document.getElementById('toSourceGroup'),
+                txCategory: document.getElementById('txCategory'),
+                categoryGroup: document.getElementById('categoryGroup'),
+                txDate: document.getElementById('txDate'),
+                txTime: document.getElementById('txTime'),
+                txNote: document.getElementById('txNote'),
+
+                loanModal: document.getElementById('loanModal'),
+                loanForm: document.getElementById('loanForm'),
+                loanId: document.getElementById('loanId'),
+                loanType: document.getElementById('loanType'),
+                loanPerson: document.getElementById('loanPerson'),
+                loanPhone: document.getElementById('loanPhone'),
+                loanAmount: document.getElementById('loanAmount'),
+                loanAccountSource: document.getElementById('loanAccountSource'),
+                loanDate: document.getElementById('loanDate'),
+                loanNote: document.getElementById('loanNote'),
+
+                repayModal: document.getElementById('repayModal'),
+                repayForm: document.getElementById('repayForm'),
+                repayLoanId: document.getElementById('repayLoanId'),
+                repayAmount: document.getElementById('repayAmount'),
+                repaySource: document.getElementById('repaySource'),
+                repayDate: document.getElementById('repayDate'),
+                repayInfoText: document.getElementById('repayInfoText')
+            };
+
+            function init() {
+                loadStorage();
+                applyTheme(state.settings.theme);
+                setupEvents();
+                renderAll();
+            }
+
+            function loadStorage() {
+                try {
+                    const st = localStorage.getItem('hk_app_data');
+                    if (st) {
+                        const parsed = JSON.parse(st);
+                        state.transactions = parsed.transactions || [];
+                        state.loans = parsed.loans || [];
+                        state.sources = parsed.sources || [...DEFAULT_SOURCES];
+                        state.categories = parsed.categories || [...DEFAULT_CATEGORIES];
+                        state.profile = parsed.profile || { name: '', phone: '', photo: '' };
+                        state.settings = parsed.settings || { theme: 'light', allowNegative: false };
+                    } else {
+                        state.sources = [...DEFAULT_SOURCES];
+                        state.categories = [...DEFAULT_CATEGORIES];
+                    }
+                } catch (e) {
+                    console.error("Storage Load Error", e);
+                }
+            }
+
+            function saveStorage() {
+                localStorage.setItem('hk_app_data', JSON.stringify(state));
+            }
+
+            // ACCOUNTING LOGIC (NO DOUBLE COUNTING)
+            function calculateSourceBalance(sourceName, excludeTxId = null) {
+                let balance = 0;
+                
+                // Base Transactions
+                state.transactions.forEach(tx => {
+                    if (excludeTxId && tx.id === excludeTxId) return;
+                    const amt = parseFloat(tx.amount) || 0;
+                    if (tx.type === 'INCOME' && tx.source === sourceName) balance += amt;
+                    if (tx.type === 'EXPENSE' && tx.source === sourceName) balance -= amt;
+                    if (tx.type === 'TRANSFER') {
+                        if (tx.source === sourceName) balance -= amt;
+                        if (tx.toSource === sourceName) balance += amt;
+                    }
+                });
+
+                // Loans: Giving loan (RECEIVABLE) reduces money from source.
+                // Taking loan (PAYABLE) adds money to source.
+                state.loans.forEach(loan => {
+                    const amt = parseFloat(loan.amount) || 0;
+                    const paid = parseFloat(loan.paidAmount) || 0;
+
+                    if (loan.source === sourceName) {
+                        if (loan.type === 'RECEIVABLE') {
+                            balance -= amt; // Gave cash
+                            balance += paid; // Received payback
+                        } else if (loan.type === 'PAYABLE') {
+                            balance += amt; // Got cash
+                            balance -= paid; // Paid back cash
+                        }
+                    }
+                });
+
+                return balance;
+            }
+
+            function calculateTotals() {
+                const today = getTodayStr();
+                const mRange = getMonthRange();
+
+                let todayInc = 0, todayExp = 0, monthInc = 0, monthExp = 0;
+
+                state.transactions.forEach(tx => {
+                    const amt = parseFloat(tx.amount) || 0;
+                    if (tx.date === today) {
+                        if (tx.type === 'INCOME') todayInc += amt;
+                        if (tx.type === 'EXPENSE') todayExp += amt;
+                    }
+                    if (tx.date >= mRange.start && tx.date <= mRange.end) {
+                        if (tx.type === 'INCOME') monthInc += amt;
+                        if (tx.type === 'EXPENSE') monthExp += amt;
+                    }
+                });
+
+                let totReceivable = 0, totPayable = 0;
+                state.loans.forEach(loan => {
+                    const due = (parseFloat(loan.amount) || 0) - (parseFloat(loan.paidAmount) || 0);
+                    if (due > 0) {
+                        if (loan.type === 'RECEIVABLE') totReceivable += due;
+                        if (loan.type === 'PAYABLE') totPayable += due;
+                    }
+                });
+
+                return { todayInc, todayExp, monthInc, monthExp, totReceivable, totPayable };
+            }
+
+            function getTodayStr() {
+                return new Date().toISOString().split('T')[0];
+            }
+
+            function getMonthRange() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const lastDay = new Date(year, now.getMonth() + 1, 0).getDate();
+                return {
+                    start: `${year}-${month}-01`,
+                    end: `${year}-${month}-${String(lastDay).padStart(2, '0')}`
+                };
+            }
+
+            function formatCurrency(amount) {
+                return `৳${Number(amount || 0).toLocaleString('bn-BD', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+            }
+
+            function escapeHtml(str) {
+                if (!str) return '';
+                return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+            }
+
+            // RENDERING
+            function renderAll() {
+                renderDashboard();
+                renderHistory();
+                renderLoans();
+                renderProfile();
+                renderSettings();
+                renderReport();
+                populateDropdowns();
+            }
+
+            function renderDashboard() {
+                const totals = calculateTotals();
+                elem.todayIncomeText.textContent = formatCurrency(totals.todayInc);
+                elem.todayExpenseText.textContent = formatCurrency(totals.todayExp);
+                elem.monthIncomeText.textContent = formatCurrency(totals.monthInc);
+                elem.monthExpenseText.textContent = formatCurrency(totals.monthExp);
+                elem.totalReceivableText.textContent = formatCurrency(totals.totReceivable);
+                elem.totalPayableText.textContent = formatCurrency(totals.totPayable);
+
+                elem.sourcesList.innerHTML = '';
+                state.sources.forEach(src => {
+                    const bal = calculateSourceBalance(src);
+                    const div = document.createElement('div');
+                    div.className = 'source-item';
+                    div.innerHTML = `<strong>${escapeHtml(src)}</strong><span>${formatCurrency(bal)}</span>`;
+                    elem.sourcesList.appendChild(div);
+                });
+            }
+
+            function renderHistory() {
+                const search = elem.searchInput.value.toLowerCase().trim();
+                const type = elem.typeFilter.value;
+                const range = elem.dateFilter.value;
+                const src = elem.sourceFilter.value;
+                const cat = elem.categoryFilter.value;
+
+                const today = getTodayStr();
+                const now = new Date();
+
+                const filtered = state.transactions.filter(tx => {
+                    if (type !== 'ALL' && tx.type !== type) return false;
+                    if (src !== 'ALL' && tx.source !== src && tx.toSource !== src) return false;
+                    if (cat !== 'ALL' && tx.category !== cat) return false;
+
+                    if (search) {
+                        const mNote = tx.note ? tx.note.toLowerCase().includes(search) : false;
+                        const mCat = tx.category ? tx.category.toLowerCase().includes(search) : false;
+                        const mSrc = tx.source ? tx.source.toLowerCase().includes(search) : false;
+                        if (!mNote && !mCat && !mSrc) return false;
+                    }
+
+                    if (range === 'TODAY' && tx.date !== today) return false;
+                    if (range === 'WEEK') {
+                        const diffDays = (now - new Date(tx.date)) / (1000 * 60 * 60 * 24);
+                        if (diffDays < 0 || diffDays > 7) return false;
+                    }
+                    if (range === 'MONTH') {
+                        const mr = getMonthRange();
+                        if (tx.date < mr.start || tx.date > mr.end) return false;
+                    }
+
+                    return true;
+                });
+
+                filtered.sort((a, b) => new Date(`${b.date}T${b.time || '00:00'}`) - new Date(`${a.date}T${a.time || '00:00'}`));
+
+                elem.transactionList.innerHTML = '';
+                if (filtered.length === 0) {
+                    elem.transactionList.innerHTML = '<div class="card" style="text-align:center; color:var(--text-muted); font-size:0.85rem;">কোনো লেনদেন পাওয়া যায়নি।</div>';
+                    return;
+                }
+
+                filtered.forEach(tx => {
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+
+                    let title = tx.type === 'TRANSFER' 
+                        ? `${escapeHtml(tx.source)} ➔ ${escapeHtml(tx.toSource)}`
+                        : `${escapeHtml(tx.source)} • ${escapeHtml(tx.category || '')}`;
+
+                    card.innerHTML = `
+                        <div class="item-details">
+                            <strong>${title}</strong>
+                            <span>📅 ${tx.date} ${tx.time ? '🕒 ' + tx.time : ''} ${tx.note ? '• ' + escapeHtml(tx.note) : ''}</span>
+                        </div>
+                        <div class="item-amount-group">
+                            <div class="item-amount ${tx.type}">
+                                ${tx.type === 'EXPENSE' ? '-' : (tx.type === 'INCOME' ? '+' : '')}${formatCurrency(tx.amount)}
+                            </div>
+                            <div class="item-actions">
+                                <button class="action-btn edit-tx" data-id="${tx.id}">✏️ এডিট</button>
+                                <button class="action-btn delete-tx" data-id="${tx.id}">🗑️ ডিলেট</button>
+                            </div>
+                        </div>
+                    `;
+                    elem.transactionList.appendChild(card);
+                });
+            }
+
+            function renderLoans() {
+                let rec = 0, pay = 0;
+                elem.loanList.innerHTML = '';
+
+                state.loans.forEach(loan => {
+                    const due = (parseFloat(loan.amount) || 0) - (parseFloat(loan.paidAmount) || 0);
+                    if (loan.type === 'RECEIVABLE') rec += due;
+                    if (loan.type === 'PAYABLE') pay += due;
+
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+
+                    const typeText = loan.type === 'RECEIVABLE' ? 'পাব' : 'দেব';
+                    const badgeColor = loan.type === 'RECEIVABLE' ? 'var(--income-color)' : 'var(--expense-color)';
+
+                    card.innerHTML = `
+                        <div class="item-details">
+                            <strong>${escapeHtml(loan.person)} (${typeText}) ${loan.phone ? '• 📞 ' + escapeHtml(loan.phone) : ''}</strong>
+                            <span>📅 ${loan.date} • মোট: ${formatCurrency(loan.amount)} | পরিশোধ: ${formatCurrency(loan.paidAmount)}</span>
+                            <span style="display:block; color:${badgeColor}; font-weight:bold; margin-top:2px;">বাকি: ${formatCurrency(due)}</span>
+                        </div>
+                        <div class="item-amount-group">
+                            <div class="item-actions">
+                                ${due > 0 ? `<button class="action-btn repay-loan" data-id="${loan.id}">💳 পরিশোধ</button>` : '<span style="font-size:0.75rem; color:var(--income-color);">পরিশোধিত</span>'}
+                                <button class="action-btn edit-loan" data-id="${loan.id}">✏️ এডিট</button>
+                                <button class="action-btn delete-loan" data-id="${loan.id}">🗑️ ডিলেট</button>
+                            </div>
+                        </div>
+                    `;
+                    elem.loanList.appendChild(card);
+                });
+
+                if (state.loans.length === 0) {
+                    elem.loanList.innerHTML = '<div class="card" style="text-align:center; color:var(--text-muted); font-size:0.85rem;">কোনো ধার-পাওনার হিসাব নেই।</div>';
+                }
+
+                elem.loanPaboText.textContent = formatCurrency(rec);
+                elem.loanDeboText.textContent = formatCurrency(pay);
+            }
+
+            function renderProfile() {
+                const prof = state.profile;
+                elem.profileDisplayName.textContent = prof.name || 'ব্যবহারকারী';
+                elem.profileDisplayPhone.textContent = prof.phone ? `মোবাইল: ${prof.phone}` : 'মোবাইল: -';
+                if (prof.photo) {
+                    elem.profileDisplayImg.src = prof.photo;
+                }
+                elem.profName.value = prof.name || '';
+                elem.profPhone.value = prof.phone || '';
+            }
+
+            function renderSettings() {
+                elem.allowNegativeToggle.checked = state.settings.allowNegative;
+
+                elem.manageSourcesList.innerHTML = state.sources.map(s => `
+                    <div class="tag-item"><span>${escapeHtml(s)}</span><span class="delete-tag" data-type="SOURCE" data-name="${escapeHtml(s)}">&times;</span></div>
+                `).join('');
+
+                elem.manageCategoriesList.innerHTML = state.categories.map(c => `
+                    <div class="tag-item"><span>${escapeHtml(c)}</span><span class="delete-tag" data-type="CATEGORY" data-name="${escapeHtml(c)}">&times;</span></div>
+                `).join('');
+            }
+
+            function renderReport() {
+                const range = elem.reportRangeSelect.value;
+                let start = '', end = '';
+                const today = getTodayStr();
+
+                if (range === 'TODAY') {
+                    start = end = today;
+                } else if (range === 'WEEK') {
+                    const now = new Date();
+                    const past = new Date(now.setDate(now.getDate() - 7));
+                    start = past.toISOString().split('T')[0];
+                    end = today;
+                } else if (range === 'THIS_MONTH') {
+                    const mr = getMonthRange();
+                    start = mr.start; end = mr.end;
+                } else if (range === 'LAST_MONTH') {
+                    const now = new Date();
+                    const lm = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                    const lmEnd = new Date(now.getFullYear(), now.getMonth(), 0);
+                    start = lm.toISOString().split('T')[0];
+                    end = lmEnd.toISOString().split('T')[0];
+                } else if (range === 'THIS_YEAR') {
+                    const y = new Date().getFullYear();
+                    start = `${y}-01-01`; end = `${y}-12-31`;
+                } else if (range === 'CUSTOM') {
+                    start = elem.reportStartDate.value;
+                    end = elem.reportEndDate.value;
+                }
+
+                document.getElementById('printProfileName').textContent = `ব্যবহারকারী: ${state.profile.name || 'N/A'}`;
+                document.getElementById('printDateRange').textContent = `তারিখ: ${start || 'শুরু'} হতে ${end || 'শেষ'}`;
+
+                let inc = 0, exp = 0;
+                const filteredTx = state.transactions.filter(t => {
+                    if (start && t.date < start) return false;
+                    if (end && t.date > end) return false;
+                    if (t.type === 'INCOME') inc += parseFloat(t.amount);
+                    if (t.type === 'EXPENSE') exp += parseFloat(t.amount);
+                    return true;
+                });
+
+                elem.repIncome.textContent = formatCurrency(inc);
+                elem.repExpense.textContent = formatCurrency(exp);
+                elem.repNet.textContent = formatCurrency(inc - exp);
+
+                const totals = calculateTotals();
+                elem.repReceivable.textContent = formatCurrency(totals.totReceivable);
+                elem.repPayable.textContent = formatCurrency(totals.totPayable);
+
+                let html = `<table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                    <thead>
+                        <tr style="border-bottom:2px solid var(--border-color); text-align:left;">
+                            <th style="padding:6px;">তারিখ</th>
+                            <th style="padding:6px;">টাইপ</th>
+                            <th style="padding:6px;">উৎস/বিবরণ</th>
+                            <th style="padding:6px; text-align:right;">পরিমাণ</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+                filteredTx.forEach(t => {
+                    html += `<tr style="border-bottom:1px solid var(--border-color);">
+                        <td style="padding:6px;">${t.date}</td>
+                        <td style="padding:6px;">${t.type}</td>
+                        <td style="padding:6px;">${escapeHtml(t.source)} ${t.category ? '• ' + escapeHtml(t.category) : ''}</td>
+                        <td style="padding:6px; text-align:right;">${formatCurrency(t.amount)}</td>
+                    </tr>`;
+                });
+
+                html += `</tbody></table>`;
+                elem.reportTableContainer.innerHTML = html;
+            }
+
+            function populateDropdowns() {
+                elem.txSource.innerHTML = state.sources.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+                elem.txToSource.innerHTML = state.sources.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+                elem.txCategory.innerHTML = state.categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+                elem.loanAccountSource.innerHTML = state.sources.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+                elem.repaySource.innerHTML = state.sources.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+
+                const sVal = elem.sourceFilter.value;
+                elem.sourceFilter.innerHTML = '<option value="ALL">সব উৎস</option>' + state.sources.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+                elem.sourceFilter.value = state.sources.includes(sVal) ? sVal : 'ALL';
+
+                const cVal = elem.categoryFilter.value;
+                elem.categoryFilter.innerHTML = '<option value="ALL">সব ক্যাটাগরি</option>' + state.categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+                elem.categoryFilter.value = state.categories.includes(cVal) ? cVal : 'ALL';
+            }
+
+            function setupEvents() {
+                elem.themeToggleBtn.addEventListener('click', () => {
+                    state.settings.theme = state.settings.theme === 'light' ? 'dark' : 'light';
+                    applyTheme(state.settings.theme);
+                    saveStorage();
+                });
+
+                elem.navItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        const target = item.getAttribute('data-view');
+                        if (target) switchView(target);
+                    });
+                });
+
+                elem.mainFab.addEventListener('click', () => elem.fabOptions.classList.toggle('hidden'));
+
+                document.querySelectorAll('.fab-option').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const act = e.target.getAttribute('data-action');
+                        elem.fabOptions.classList.add('hidden');
+                        openTxModal(act);
+                    });
+                });
+
+                document.querySelectorAll('.closeModalBtn').forEach(b => b.addEventListener('click', () => elem.transactionModal.classList.add('hidden')));
+                document.querySelectorAll('.closeLoanModalBtn').forEach(b => b.addEventListener('click', () => elem.loanModal.classList.add('hidden')));
+                document.querySelectorAll('.closeRepayModalBtn').forEach(b => b.addEventListener('click', () => elem.repayModal.classList.add('hidden')));
+
+                elem.transactionForm.addEventListener('submit', handleTxSubmit);
+                elem.loanForm.addEventListener('submit', handleLoanSubmit);
+                elem.repayForm.addEventListener('submit', handleRepaySubmit);
+
+                [elem.searchInput, elem.typeFilter, elem.dateFilter, elem.sourceFilter, elem.categoryFilter].forEach(el => {
+                    el.addEventListener('change', renderHistory);
+                    el.addEventListener('input', renderHistory);
+                });
+
+                elem.transactionList.addEventListener('click', e => {
+                    const id = e.target.getAttribute('data-id');
+                    if (e.target.classList.contains('edit-tx')) editTx(id);
+                    if (e.target.classList.contains('delete-tx')) deleteTx(id);
+                });
+
+                elem.addLoanBtn.addEventListener('click', () => openLoanModal());
+
+                elem.loanList.addEventListener('click', e => {
+                    const id = e.target.getAttribute('data-id');
+                    if (e.target.classList.contains('edit-loan')) editLoan(id);
+                    if (e.target.classList.contains('delete-loan')) deleteLoan(id);
+                    if (e.target.classList.contains('repay-loan')) openRepayModal(id);
+                });
+
+                elem.allowNegativeToggle.addEventListener('change', (e) => {
+                    state.settings.allowNegative = e.target.checked;
+                    saveStorage();
+                });
+
+                elem.addSourceForm.addEventListener('submit', e => {
+                    e.preventDefault();
+                    const val = elem.newSourceName.value.trim();
+                    if (val && !state.sources.includes(val)) {
+                        state.sources.push(val);
+                        elem.newSourceName.value = '';
+                        saveStorage();
+                        renderAll();
+                    }
+                });
+
+                elem.addCategoryForm.addEventListener('submit', e => {
+                    e.preventDefault();
+                    const val = elem.newCategoryName.value.trim();
+                    if (val && !state.categories.includes(val)) {
+                        state.categories.push(val);
+                        elem.newCategoryName.value = '';
+                        saveStorage();
+                        renderAll();
+                    }
+                });
+
+                document.addEventListener('click', e => {
+                    if (e.target.classList.contains('delete-tag')) {
+                        const type = e.target.getAttribute('data-type');
+                        const name = e.target.getAttribute('data-name');
+                        if (type === 'SOURCE') deleteSource(name);
+                        if (type === 'CATEGORY') deleteCategory(name);
+                    }
+                });
+
+                elem.profileForm.addEventListener('submit', handleProfileSubmit);
+
+                elem.reportRangeSelect.addEventListener('change', () => {
+                    if (elem.reportRangeSelect.value === 'CUSTOM') {
+                        elem.customDateGroup.classList.remove('hidden');
+                    } else {
+                        elem.customDateGroup.classList.add('hidden');
+                    }
+                    renderReport();
+                });
+                elem.reportStartDate.addEventListener('change', renderReport);
+                elem.reportEndDate.addEventListener('change', renderReport);
+                elem.printReportBtn.addEventListener('click', () => window.print());
+
+                elem.exportBtn.addEventListener('click', exportJSON);
+                elem.importBtnTrigger.addEventListener('click', () => elem.importFileInput.click());
+                elem.importFileInput.addEventListener('change', importJSON);
+                elem.clearDataBtn.addEventListener('click', handleClearData);
+            }
+
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                elem.themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+            }
+
+            function switchView(id) {
+                elem.views.forEach(v => v.classList.remove('active'));
+                elem.navItems.forEach(i => i.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
+                const btn = document.querySelector(`.bottom-nav .nav-item[data-view="${id}"]`);
+                if (btn) btn.classList.add('active');
+            }
+
+            function openTxModal(type, tx = null) {
+                populateDropdowns();
+                elem.transactionForm.reset();
+
+                const now = new Date();
+                elem.txDate.value = tx ? tx.date : now.toISOString().split('T')[0];
+                elem.txTime.value = tx ? tx.time : now.toTimeString().split(' ')[0].substring(0, 5);
+                elem.txType.value = type;
+                elem.txId.value = tx ? tx.id : '';
+
+                if (type === 'TRANSFER') {
+                    elem.modalTitle.textContent = tx ? 'ট্রান্সফার এডিট' : 'নতুন ট্রান্সফার';
+                    elem.sourceLabel.textContent = 'কোথা থেকে পাঠাবেন *';
+                    elem.toSourceGroup.classList.remove('hidden');
+                    elem.categoryGroup.classList.add('hidden');
+                    elem.txCategory.removeAttribute('required');
+                } else {
+                    elem.modalTitle.textContent = tx ? 'লেনদেন এডিট' : (type === 'INCOME' ? 'নতুন আয় যোগ' : 'নতুন খরচ যোগ');
+                    elem.sourceLabel.textContent = 'উৎস *';
+                    elem.toSourceGroup.classList.add('hidden');
+                    elem.categoryGroup.classList.remove('hidden');
+                    elem.txCategory.setAttribute('required', 'true');
+                }
+
+                if (tx) {
+                    elem.txAmount.value = tx.amount;
+                    elem.txSource.value = tx.source;
+                    if (tx.toSource) elem.txToSource.value = tx.toSource;
+                    if (tx.category) elem.txCategory.value = tx.category;
+                    elem.txNote.value = tx.note || '';
+                }
+
+                elem.transactionModal.classList.remove('hidden');
+            }
+
+            function handleTxSubmit(e) {
+                e.preventDefault();
+                const id = elem.txId.value || 'tx_' + Date.now();
+                const type = elem.txType.value;
+                const amount = parseFloat(elem.txAmount.value);
+                const source = elem.txSource.value;
+                const toSource = elem.txToSource.value;
+                const category = elem.txCategory.value;
+                const date = elem.txDate.value;
+                const time = elem.txTime.value;
+                const note = elem.txNote.value.trim();
+
+                if (type === 'TRANSFER' && source === toSource) {
+                    alert('একই উৎসের মধ্যে ট্রান্সফার করা যাবে না।'); return;
+                }
+
+                if (!state.settings.allowNegative && (type === 'EXPENSE' || type === 'TRANSFER')) {
+                    const bal = calculateSourceBalance(source, elem.txId.value || null);
+                    if (amount > bal) {
+                        alert(`পর্যাপ্ত ব্যালেন্স নেই! "${source}"-এ বর্তমান ব্যালেন্স: ${formatCurrency(bal)}`);
+                        return;
+                    }
+                }
+
+                const txObj = { id, type, amount, source, toSource: type === 'TRANSFER' ? toSource : null, category: type !== 'TRANSFER' ? category : null, date, time, note };
+
+                const idx = state.transactions.findIndex(t => t.id === id);
+                if (idx > -1) state.transactions[idx] = txObj;
+                else state.transactions.push(txObj);
+
+                saveStorage();
+                elem.transactionModal.classList.add('hidden');
+                renderAll();
+            }
+
+            function editTx(id) {
+                const tx = state.transactions.find(t => t.id === id);
+                if (tx) openTxModal(tx.type, tx);
+            }
+
+            function deleteTx(id) {
+                if (confirm('আপনি কি এই লেনদেনটি মুছে ফেলতে চান?')) {
+                    state.transactions = state.transactions.filter(t => t.id !== id);
+                    saveStorage();
+                    renderAll();
+                }
+            }
+
+            function openLoanModal(loan = null) {
+                populateDropdowns();
+                elem.loanForm.reset();
+                elem.loanId.value = loan ? loan.id : '';
+                elem.loanDate.value = loan ? loan.date : getTodayStr();
+
+                if (loan) {
+                    elem.loanModalTitle.textContent = 'ধার/পাওনা এডিট';
+                    elem.loanType.value = loan.type;
+                    elem.loanPerson.value = loan.person;
+                    elem.loanPhone.value = loan.phone || '';
+                    elem.loanAmount.value = loan.amount;
+                    elem.loanAccountSource.value = loan.source;
+                    elem.loanNote.value = loan.note || '';
+                } else {
+                    elem.loanModalTitle.textContent = 'ধার/পাওনা যোগ';
+                }
+
+                elem.loanModal.classList.remove('hidden');
+            }
+
+            function handleLoanSubmit(e) {
+                e.preventDefault();
+                const id = elem.loanId.value || 'loan_' + Date.now();
+                const type = elem.loanType.value;
+                const person = elem.loanPerson.value.trim();
+                const phone = elem.loanPhone.value.trim();
+                const amount = parseFloat(elem.loanAmount.value);
+                const source = elem.loanAccountSource.value;
+                const date = elem.loanDate.value;
+                const note = elem.loanNote.value.trim();
+
+                const existing = state.loans.find(l => l.id === id);
+                const paidAmount = existing ? existing.paidAmount : 0;
+
+                const loanObj = { id, type, person, phone, amount, paidAmount, source, date, note };
+
+                const idx = state.loans.findIndex(l => l.id === id);
+                if (idx > -1) state.loans[idx] = loanObj;
+                else state.loans.push(loanObj);
+
+                saveStorage();
+                elem.loanModal.classList.add('hidden');
+                renderAll();
+            }
+
+            function editLoan(id) {
+                const loan = state.loans.find(l => l.id === id);
+                if (loan) openLoanModal(loan);
+            }
+
+            function deleteLoan(id) {
+                if (confirm('আপনি কি এই ধার/পাওনার হিসাবটি মুছে ফেলতে চান?')) {
+                    state.loans = state.loans.filter(l => l.id !== id);
+                    saveStorage();
+                    renderAll();
+                }
+            }
+
+            function openRepayModal(loanId) {
+                populateDropdowns();
+                const loan = state.loans.find(l => l.id === loanId);
+                if (!loan) return;
+
+                const due = loan.amount - loan.paidAmount;
+                elem.repayLoanId.value = loan.id;
+                elem.repayAmount.value = due;
+                elem.repayDate.value = getTodayStr();
+                elem.repayInfoText.textContent = `${loan.person} (${loan.type === 'RECEIVABLE' ? 'পাব' : 'দেব'}) — বাকি বকেয়া: ${formatCurrency(due)}`;
+
+                elem.repayModal.classList.remove('hidden');
+            }
+
+            function handleRepaySubmit(e) {
+                e.preventDefault();
+                const loanId = elem.repayLoanId.value;
+                const amt = parseFloat(elem.repayAmount.value);
+                const source = elem.repaySource.value;
+                const date = elem.repayDate.value;
+
+                const loan = state.loans.find(l => l.id === loanId);
+                if (loan) {
+                    const due = loan.amount - loan.paidAmount;
+                    if (amt > due) {
+                        alert(`বকেয়ার চেয়ে বেশি টাকা পরিশোধ করা যাবে না! সর্বোচ্চ বকেয়া: ${formatCurrency(due)}`);
+                        return;
+                    }
+                    loan.paidAmount += amt;
+                    
+                    // Log repayment in history as income/expense to reflect in source balance naturally
+                    const repayTx = {
+                        id: 'tx_repay_' + Date.now(),
+                        type: loan.type === 'RECEIVABLE' ? 'INCOME' : 'EXPENSE',
+                        amount: amt,
+                        source: source,
+                        category: 'ধার পরিশোধ',
+                        date: date,
+                        time: new Date().toTimeString().split(' ')[0].substring(0, 5),
+                        note: `${loan.person}-এর ধার পরিশোধ/প্রাপ্তি`
+                    };
+                    state.transactions.push(repayTx);
+
+                    saveStorage();
+                    elem.repayModal.classList.add('hidden');
+                    renderAll();
+                }
+            }
+
+            function handleProfileSubmit(e) {
+                e.preventDefault();
+                state.profile.name = elem.profName.value.trim();
+                state.profile.phone = elem.profPhone.value.trim();
+
+                const file = elem.profImg.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        state.profile.photo = evt.target.result;
+                        saveStorage();
+                        renderAll();
+                        alert('প্রোফাইল আপডেট হয়েছে!');
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    saveStorage();
+                    renderAll();
+                    alert('প্রোফাইল আপডেট হয়েছে!');
+                }
+            }
+
+            function deleteSource(name) {
+                if (confirm(`আপনি কি "${name}" উৎসটি মুছে ফেলতে চান?`)) {
+                    state.sources = state.sources.filter(s => s !== name);
+                    saveStorage();
+                    renderAll();
+                }
+            }
+
+            function deleteCategory(name) {
+                if (confirm(`আপনি কি "${name}" ক্যাটাগরিটি মুছে ফেলতে চান?`)) {
+                    state.categories = state.categories.filter(c => c !== name);
+                    saveStorage();
+                    renderAll();
+                }
+            }
+
+            function exportJSON() {
+                const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `hat_khoroch_backup_${getTodayStr()}.json`;
+                a.click();
+            }
+
+            function importJSON(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    try {
+                        const data = JSON.parse(evt.target.result);
+                        if (data && Array.isArray(data.transactions) && Array.isArray(data.sources)) {
+                            if (confirm('বর্তমান সমস্ত ডাটা ব্যাকআপ দিয়ে প্রতিস্থাপিত হবে। আপনি কি নিশ্চিত?')) {
+                                state = data;
+                                saveStorage();
+                                renderAll();
+                                alert('ডাটা রিস্টোর সফল হয়েছে!');
+                            }
+                        } else {
+                            alert('ভুল ফাইল ফরম্যাট!');
+                        }
+                    } catch (err) {
+                        alert('JSON ফাইল পড়তে সমস্যা হয়েছে।');
+                    }
+                };
+                reader.readAsText(file);
+                elem.importFileInput.value = '';
+            }
+
+            function handleClearData() {
+                if (confirm('আপনি কি নিশ্চিত যে সমস্ত ডাটা স্থায়ীভাবে মুছে ফেলতে চান?')) {
+                    if (confirm('সব হিসাব ও প্রোফাইল মুছে ফেলা হবে। কোনো তথ্য ফেরত পাওয়া যাবে না!')) {
+                        localStorage.removeItem('hk_app_data');
+                        state = {
+                            transactions: [],
+                            loans: [],
+                            sources: [...DEFAULT_SOURCES],
+                            categories: [...DEFAULT_CATEGORIES],
+                            profile: { name: '', phone: '', photo: '' },
+                            settings: { theme: 'light', allowNegative: false }
+                        };
+                        saveStorage();
+                        renderAll();
+                        alert('সমস্ত ডাটা সফলভাবে মুছে ফেলা হয়েছে।');
+                    }
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', init);
+
+        })();
+    </script>
+</body>
+</html>
