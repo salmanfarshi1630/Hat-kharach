@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         /* CSS Variables & Theme Setup */
         :root {
@@ -424,11 +427,11 @@
         .nav-item.active { color: var(--primary); font-weight: bold; }
         .nav-icon { font-size: 1.15rem; margin-bottom: 2px; }
 
-        /* Modals */
+        /* Modals Structure */
         .modal-backdrop {
             position: fixed; top:0; left:0; right:0; bottom:0;
             background-color: rgba(0,0,0,0.5); display: flex;
-            justify-content: center; align-items: center; z-index: 200; padding: 16px;
+            justify-content: center; align-items: center; z-index: 250; padding: 16px;
         }
         .modal-content {
             background-color: var(--bg-card); width: 100%; max-width: 450px;
@@ -578,16 +581,32 @@
 
         <!-- LOAN / DEBT VIEW -->
         <section id="loanView" class="app-view">
-            <div class="section-header">
-                <h3>ধার ও পাওনা ব্যবস্থাপনা</h3>
-                <button class="btn btn-primary" onclick="openLoanModal()">➕ নতুন ধার/পাওনা</button>
+            <div class="max-w-xl mx-auto bg-white rounded-xl shadow-md p-4 sm:p-6 text-gray-800">
+                <!-- Summary Section -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-blue-50 p-4 rounded-lg text-center border border-blue-200">
+                        <p class="text-gray-600 text-sm font-semibold">আমি পাবো (পাওনা)</p>
+                        <p id="total-receivable" class="text-xl font-bold text-blue-600">৳০.০০</p>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg text-center border border-red-200">
+                        <p class="text-gray-600 text-sm font-semibold">আমি দেবো (দেনা)</p>
+                        <p id="total-payable" class="text-xl font-bold text-red-600">৳০.০০</p>
+                    </div>
+                </div>
+
+                <!-- Header Action -->
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold text-gray-700">ধার ও দেনার হিসাব-নিকাশ</h2>
+                    <button id="open-loan-modal" class="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-all">
+                        + নতুন ধার/পাওনা
+                    </button>
+                </div>
+
+                <!-- Loan Item List -->
+                <div id="loan-list" class="space-y-3">
+                    <p id="empty-msg" class="text-center text-gray-400 py-4">এখনো কোনো ধার-দেনার হিসাব নেই</p>
+                </div>
             </div>
-            <div class="grid-2">
-                <div class="card stat-card income-bg"><span class="card-label">মোট পাওনা (পাব)</span><h3 id="loanPaboText">৳০</h3></div>
-                <div class="card stat-card expense-bg"><span class="card-label">মোট দেনা (দেব)</span><h3 id="loanDeboText">৳০</h3></div>
-            </div>
-            <div class="section-header"><h3>ধার ও পাওনার তালিকা</h3></div>
-            <div id="loanList" class="item-list"></div>
         </section>
 
         <!-- REPORT VIEW -->
@@ -787,86 +806,59 @@
         </div>
     </div>
 
-    <!-- MODAL FOR ADD / EDIT LOAN -->
-    <div id="loanModal" class="modal-backdrop hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="loanModalTitle" style="font-size:1.1rem;">ধার/পাওনা যোগ</h3>
-                <button class="close-btn closeLoanModalBtn">&times;</button>
-            </div>
-            <form id="loanForm">
-                <input type="hidden" id="loanId">
-                <div class="form-group">
-                    <label for="loanType">ধরণ *</label>
-                    <select id="loanType" class="form-control" required>
-                        <option value="RECEIVABLE">আমি পাব (আমি ধার দিয়েছি / Receivable)</option>
-                        <option value="PAYABLE">আমি দেব (আমি ধার নিয়েছি / Payable)</option>
+    <!-- MODAL FOR ADD / EDIT LOAN (FIXED Z-INDEX & ALIGNMENT) -->
+    <div id="loan-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-[250]">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl relative max-h-[90vh] overflow-y-auto text-gray-800 my-auto">
+            <h3 id="modal-title" class="text-lg font-bold text-gray-800 mb-4">নতুন ধার/পাওনা যোগ করুন</h3>
+            
+            <form id="loan-form" class="space-y-4">
+                <input type="hidden" id="loan-id">
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">লেনদেনের ধরন *</label>
+                    <select id="loan-type" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" required>
+                        <option value="pabo">আমি পাবো (পাওনা)</option>
+                        <option value="debo">আমি দেবো (দেনা)</option>
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="loanPerson">ব্যক্তির নাম *</label>
-                    <input type="text" id="loanPerson" class="form-control" placeholder="ব্যক্তির নাম..." required>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">ব্যক্তির নাম *</label>
+                    <input type="text" id="loan-person" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="উদা: রহিম" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="loanPhone">মোবাইল নম্বর (ঐচ্ছিক)</label>
-                    <input type="text" id="loanPhone" class="form-control" placeholder="01XXXXXXXXX">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">পরিমাণ (৳) *</label>
+                    <input type="number" id="loan-amount" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="0.00" min="1" step="any" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="loanAmount">পরিমাণ (৳) *</label>
-                    <input type="number" step="any" min="0.01" id="loanAmount" class="form-control" placeholder="0.00" required>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">মোবাইল নম্বর (ঐচ্ছিক)</label>
+                    <input type="tel" id="loan-phone" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="017xxxxxxxx">
                 </div>
 
-                <div class="form-group">
-                    <label for="loanAccountSource">টাকার উৎস/অ্যাকাউন্ট *</label>
-                    <select id="loanAccountSource" class="form-control" required></select>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">তারিখ *</label>
+                    <input type="date" id="loan-date" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="loanDate">তারিখ *</label>
-                    <input type="date" id="loanDate" class="form-control" required>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">রশিদের ছবি (ঐচ্ছিক)</label>
+                    <input type="file" id="loan-receipt" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <input type="hidden" id="existing-receipt">
+                    <div id="receipt-preview-container" class="mt-2 hidden">
+                        <img id="receipt-preview" src="" alt="রশিদ" class="w-20 h-20 object-cover rounded border">
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="loanNote">কারণ/নোট (ঐচ্ছিক)</label>
-                    <input type="text" id="loanNote" class="form-control" placeholder="বিবরণ...">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">নোট / বিবরণ (ঐচ্ছিক)</label>
+                    <textarea id="loan-note" rows="2" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="সংক্ষিপ্ত বিবরণ..."></textarea>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline closeLoanModalBtn">বাতিল</button>
-                    <button type="submit" class="btn btn-primary">সংরক্ষণ করুন</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL FOR LOAN REPAYMENT -->
-    <div id="repayModal" class="modal-backdrop hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 style="font-size:1.1rem;">ধার পরিশোধ / প্রাপ্তি</h3>
-                <button class="close-btn closeRepayModalBtn">&times;</button>
-            </div>
-            <form id="repayForm">
-                <input type="hidden" id="repayLoanId">
-                <p id="repayInfoText" style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;"></p>
-                <div class="form-group">
-                    <label for="repayAmount">পরিশোধের পরিমাণ (৳) *</label>
-                    <input type="number" step="any" min="0.01" id="repayAmount" class="form-control" placeholder="0.00" required>
-                </div>
-                <div class="form-group">
-                    <label for="repaySource">টাকার উৎস/অ্যাকাউন্ট *</label>
-                    <select id="repaySource" class="form-control" required></select>
-                </div>
-                <div class="form-group">
-                    <label for="repayDate">তারিখ *</label>
-                    <input type="date" id="repayDate" class="form-control" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline closeRepayModalBtn">বাতিল</button>
-                    <button type="submit" class="btn btn-primary">জমা নিশ্চিত করুন</button>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" id="close-modal" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">বাতিল</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">সংরক্ষণ করুন</button>
                 </div>
             </form>
         </div>
@@ -874,9 +866,9 @@
 
     <!-- RECEIPT MODAL -->
     <div id="receiptModal" class="modal-backdrop hidden">
-        <div class="modal-content" style="text-align: center;">
-            <h4 style="margin-bottom: 10px;">🧾 রশিদ / মেমোর ছবি</h4>
-            <img id="receiptModalImg" src="" alt="মেমো পাওয়া যায়নি" style="max-width: 100%; max-height: 350px; border-radius: 8px; border: 1px solid var(--border-color);">
+        <div class="modal-content text-center">
+            <h4 style="margin-bottom: 10px; font-weight:bold;">🧾 রশিদ / মেমোর ছবি</h4>
+            <img id="receiptModalImg" src="" alt="মেমো পাওয়া যায়নি" style="max-width: 100%; max-height: 350px; border-radius: 8px; border: 1px solid var(--border-color);" class="mx-auto">
             <div style="margin-top: 15px;">
                 <button class="btn btn-danger closeReceiptModalBtn">বন্ধ করুন</button>
             </div>
@@ -893,7 +885,7 @@
 
             let state = {
                 transactions: [],
-                loans: [],
+                loans: JSON.parse(localStorage.getItem('user_loans')) || [],
                 sources: [],
                 categories: [],
                 profile: { name: '', phone: '', photo: '' },
@@ -920,10 +912,6 @@
                 sourceFilter: document.getElementById('sourceFilter'),
                 categoryFilter: document.getElementById('categoryFilter'),
                 transactionList: document.getElementById('transactionList'),
-
-                loanPaboText: document.getElementById('loanPaboText'),
-                loanDeboText: document.getElementById('loanDeboText'),
-                loanList: document.getElementById('loanList'),
 
                 mainFab: document.getElementById('mainFab'),
                 fabOptions: document.getElementById('fabOptions'),
@@ -977,28 +965,20 @@
                 txTime: document.getElementById('txTime'),
                 txNote: document.getElementById('txNote'),
 
-                loanModal: document.getElementById('loanModal'),
-                loanForm: document.getElementById('loanForm'),
-                loanId: document.getElementById('loanId'),
-                loanType: document.getElementById('loanType'),
-                loanPerson: document.getElementById('loanPerson'),
-                loanPhone: document.getElementById('loanPhone'),
-                loanAmount: document.getElementById('loanAmount'),
-                loanAccountSource: document.getElementById('loanAccountSource'),
-                loanDate: document.getElementById('loanDate'),
-                loanNote: document.getElementById('loanNote'),
-
-                repayModal: document.getElementById('repayModal'),
-                repayForm: document.getElementById('repayForm'),
-                repayLoanId: document.getElementById('repayLoanId'),
-                repayAmount: document.getElementById('repayAmount'),
-                repaySource: document.getElementById('repaySource'),
-                repayDate: document.getElementById('repayDate'),
-                repayInfoText: document.getElementById('repayInfoText'),
-
                 receiptModal: document.getElementById('receiptModal'),
                 receiptModalImg: document.getElementById('receiptModalImg')
             };
+
+            // Loan View DOM Elements
+            const loanModal = document.getElementById('loan-modal');
+            const openModalBtn = document.getElementById('open-loan-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const loanForm = document.getElementById('loan-form');
+            const loanList = document.getElementById('loan-list');
+            const emptyMsg = document.getElementById('empty-msg');
+            const receiptInput = document.getElementById('loan-receipt');
+            const receiptPreviewContainer = document.getElementById('receipt-preview-container');
+            const receiptPreview = document.getElementById('receipt-preview');
 
             function init() {
                 loadStorage();
@@ -1013,7 +993,6 @@
                     if (st) {
                         const parsed = JSON.parse(st);
                         state.transactions = parsed.transactions || [];
-                        state.loans = parsed.loans || [];
                         state.sources = parsed.sources || [...DEFAULT_SOURCES];
                         state.categories = parsed.categories || [...DEFAULT_CATEGORIES];
                         state.profile = parsed.profile || { name: '', phone: '', photo: '' };
@@ -1022,6 +1001,7 @@
                         state.sources = [...DEFAULT_SOURCES];
                         state.categories = [...DEFAULT_CATEGORIES];
                     }
+                    state.loans = JSON.parse(localStorage.getItem('user_loans')) || [];
                 } catch (e) {
                     console.error("Storage Load Error", e);
                 }
@@ -1029,6 +1009,7 @@
 
             function saveStorage() {
                 localStorage.setItem('hk_app_data', JSON.stringify(state));
+                localStorage.setItem('user_loans', JSON.stringify(state.loans));
             }
 
             function calculateSourceBalance(sourceName, excludeTxId = null) {
@@ -1041,15 +1022,6 @@
                     if (tx.type === 'TRANSFER') {
                         if (tx.source === sourceName) balance -= amt;
                         if (tx.toSource === sourceName) balance += amt;
-                    }
-                });
-
-                state.loans.forEach(loan => {
-                    const amt = parseFloat(loan.amount) || 0;
-                    const paid = parseFloat(loan.paidAmount) || 0;
-                    if (loan.source === sourceName) {
-                        if (loan.type === 'RECEIVABLE') { balance -= amt; balance += paid; }
-                        else if (loan.type === 'PAYABLE') { balance += amt; balance -= paid; }
                     }
                 });
                 return balance;
@@ -1073,12 +1045,10 @@
                 });
 
                 let totReceivable = 0, totPayable = 0;
-                state.loans.forEach(loan => {
-                    const due = (parseFloat(loan.amount) || 0) - (parseFloat(loan.paidAmount) || 0);
-                    if (due > 0) {
-                        if (loan.type === 'RECEIVABLE') totReceivable += due;
-                        if (loan.type === 'PAYABLE') totPayable += due;
-                    }
+                state.loans.forEach(item => {
+                    const amt = parseFloat(item.amount) || 0;
+                    if (item.type === 'pabo') totReceivable += amt;
+                    else totPayable += amt;
                 });
 
                 return { todayInc, todayExp, monthInc, monthExp, totReceivable, totPayable };
@@ -1126,7 +1096,7 @@
             function renderAll() {
                 renderDashboard();
                 renderHistory();
-                renderLoans();
+                renderLoansUI();
                 renderProfile();
                 renderSettings();
                 renderReport();
@@ -1221,44 +1191,140 @@
                 });
             }
 
-            function renderLoans() {
-                let rec = 0, pay = 0;
-                elem.loanList.innerHTML = '';
-
-                state.loans.forEach(loan => {
-                    const due = (parseFloat(loan.amount) || 0) - (parseFloat(loan.paidAmount) || 0);
-                    if (loan.type === 'RECEIVABLE') rec += due;
-                    if (loan.type === 'PAYABLE') pay += due;
-
-                    const card = document.createElement('div');
-                    card.className = 'item-card';
-                    const typeText = loan.type === 'RECEIVABLE' ? 'পাব' : 'দেব';
-                    const badgeColor = loan.type === 'RECEIVABLE' ? 'var(--income-color)' : 'var(--expense-color)';
-
-                    card.innerHTML = `
-                        <div class="item-details">
-                            <strong>${escapeHtml(loan.person)} (${typeText}) ${loan.phone ? '• 📞 ' + escapeHtml(loan.phone) : ''}</strong>
-                            <span>📅 ${loan.date} • মোট: ${formatCurrency(loan.amount)} | পরিশোধ: ${formatCurrency(loan.paidAmount)}</span>
-                            <span style="display:block; color:${badgeColor}; font-weight:bold; margin-top:2px;">বাকি বকেয়া: ${formatCurrency(due)}</span>
-                        </div>
-                        <div class="item-amount-group">
-                            <div class="item-actions">
-                                ${due > 0 ? `<button class="action-btn repay-loan" data-id="${loan.id}">💳 পরিশোধ</button>` : '<span style="font-size:0.75rem; color:var(--income-color);">সম্পূর্ণ পরিশোধিত</span>'}
-                                <button class="action-btn edit-loan" data-id="${loan.id}">✏️ এডিট</button>
-                                <button class="action-btn delete-loan" data-id="${loan.id}">🗑️ ডিলেট</button>
-                            </div>
-                        </div>
-                    `;
-                    elem.loanList.appendChild(card);
-                });
-
+            /* Loan Management Functions */
+            function renderLoansUI() {
+                loanList.innerHTML = '';
                 if (state.loans.length === 0) {
-                    elem.loanList.innerHTML = '<div class="card" style="text-align:center; color:var(--text-muted); font-size:0.85rem;">কোনো ধার-পাওনার হিসাব নেই।</div>';
+                    loanList.appendChild(emptyMsg);
+                    emptyMsg.classList.remove('hidden');
+                } else {
+                    emptyMsg.classList.add('hidden');
+                    state.loans.forEach(item => {
+                        const isPabo = item.type === 'pabo';
+                        const card = document.createElement('div');
+                        card.className = `p-4 rounded-lg border flex justify-between items-center ${isPabo ? 'bg-blue-50/50 border-blue-200' : 'bg-red-50/50 border-red-200'}`;
+                        
+                        card.innerHTML = `
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-bold text-gray-800">${escapeHtml(item.person)}</h4>
+                                    <span class="text-xs px-2 py-0.5 rounded-full ${isPabo ? 'bg-blue-100 text-blue-700' : 'bg-red-100 text-red-700'} font-semibold">
+                                        ${isPabo ? 'পাবো' : 'দেবো'}
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500">${item.date} ${item.phone ? '• ' + escapeHtml(item.phone) : ''}</p>
+                                ${item.note ? `<p class="text-xs text-gray-600 italic mt-1">${escapeHtml(item.note)}</p>` : ''}
+                                ${item.receipt ? `<button onclick="viewLoanReceipt('${item.id}')" class="text-xs text-blue-500 underline mt-1 block">রশিদ দেখুন</button>` : ''}
+                            </div>
+                            <div class="text-right flex items-center gap-2">
+                                <span class="font-bold text-lg ${isPabo ? 'text-blue-600' : 'text-red-600'}">${formatCurrency(item.amount)}</span>
+                                <button onclick="editLoan(${item.id})" class="text-blue-500 hover:text-blue-700 text-sm font-semibold px-1">সম্পাদনা</button>
+                                <button onclick="deleteLoan(${item.id})" class="text-red-500 hover:text-red-700 text-sm font-bold px-1">✕</button>
+                            </div>
+                        `;
+                        loanList.appendChild(card);
+                    });
                 }
 
-                elem.loanPaboText.textContent = formatCurrency(rec);
-                elem.loanDeboText.textContent = formatCurrency(pay);
+                const totals = calculateTotals();
+                document.getElementById('total-receivable').innerText = formatCurrency(totals.totReceivable);
+                document.getElementById('total-payable').innerText = formatCurrency(totals.totPayable);
             }
+
+            window.viewLoanReceipt = function(id) {
+                const item = state.loans.find(l => l.id == id);
+                if(item && item.receipt) {
+                    elem.receiptModalImg.src = item.receipt;
+                    elem.receiptModal.classList.remove('hidden');
+                }
+            };
+
+            openModalBtn.addEventListener('click', () => {
+                loanForm.reset();
+                document.getElementById('loan-id').value = '';
+                document.getElementById('existing-receipt').value = '';
+                receiptPreviewContainer.classList.add('hidden');
+                document.getElementById('modal-title').innerText = 'নতুন ধার/পাওনা যোগ করুন';
+                document.getElementById('loan-date').valueAsDate = new Date();
+                loanModal.classList.remove('hidden');
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                loanModal.classList.add('hidden');
+            });
+
+            loanModal.addEventListener('click', (e) => {
+                if (e.target === loanModal) loanModal.classList.add('hidden');
+            });
+
+            loanForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const id = document.getElementById('loan-id').value;
+                const type = document.getElementById('loan-type').value;
+                const person = document.getElementById('loan-person').value.trim();
+                const amount = parseFloat(document.getElementById('loan-amount').value);
+                const phone = document.getElementById('loan-phone').value.trim();
+                const date = document.getElementById('loan-date').value;
+                const note = document.getElementById('loan-note').value.trim();
+                let receiptBase64 = document.getElementById('existing-receipt').value;
+
+                if (receiptInput.files && receiptInput.files[0]) {
+                    receiptBase64 = await convertBase64(receiptInput.files[0]);
+                }
+
+                if (id) {
+                    state.loans = state.loans.map(item => item.id == id ? { id: Number(id), type, person, amount, phone, date, note, receipt: receiptBase64 } : item);
+                } else {
+                    const newLoan = { id: Date.now(), type, person, amount, phone, date, note, receipt: receiptBase64 };
+                    state.loans.push(newLoan);
+                }
+
+                saveStorage();
+                renderAll();
+                loanModal.classList.add('hidden');
+            });
+
+            function convertBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const fileReader = new FileReader();
+                    fileReader.readAsDataURL(file);
+                    fileReader.onload = () => resolve(fileReader.result);
+                    fileReader.onerror = (error) => reject(error);
+                });
+            }
+
+            window.editLoan = function(id) {
+                const item = state.loans.find(l => l.id == id);
+                if (!item) return;
+
+                document.getElementById('loan-id').value = item.id;
+                document.getElementById('loan-type').value = item.type;
+                document.getElementById('loan-person').value = item.person;
+                document.getElementById('loan-amount').value = item.amount;
+                document.getElementById('loan-phone').value = item.phone || '';
+                document.getElementById('loan-date').value = item.date;
+                document.getElementById('loan-note').value = item.note || '';
+                document.getElementById('existing-receipt').value = item.receipt || '';
+
+                if (item.receipt) {
+                    receiptPreview.src = item.receipt;
+                    receiptPreviewContainer.classList.remove('hidden');
+                } else {
+                    receiptPreviewContainer.classList.add('hidden');
+                }
+
+                document.getElementById('modal-title').innerText = 'ধার/পাওনা সম্পাদনা করুন';
+                loanModal.classList.remove('hidden');
+            };
+
+            window.deleteLoan = function(id) {
+                if (confirm('আপনি কি এই হিসাবটি মুছে ফেলতে চান?')) {
+                    state.loans = state.loans.filter(item => item.id != id);
+                    saveStorage();
+                    renderAll();
+                }
+            };
 
             function renderProfile() {
                 const prof = state.profile;
@@ -1389,8 +1455,6 @@
                 elem.txSource.innerHTML = state.sources.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
                 elem.txToSource.innerHTML = state.sources.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
                 elem.txCategory.innerHTML = state.categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
-                elem.loanAccountSource.innerHTML = state.sources.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
-                elem.repaySource.innerHTML = state.sources.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
 
                 const sVal = elem.sourceFilter.value;
                 elem.sourceFilter.innerHTML = '<option value="ALL">সব উৎস</option>' + state.sources.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
@@ -1422,7 +1486,7 @@
                         const act = e.currentTarget.getAttribute('data-action');
                         elem.fabOptions.classList.add('hidden');
                         if (act === 'LOAN') {
-                            openLoanModal();
+                            openModalBtn.click();
                         } else {
                             openTxModal(act);
                         }
@@ -1438,13 +1502,9 @@
                 });
 
                 document.querySelectorAll('.closeModalBtn').forEach(b => b.addEventListener('click', () => elem.transactionModal.classList.add('hidden')));
-                document.querySelectorAll('.closeLoanModalBtn').forEach(b => b.addEventListener('click', () => elem.loanModal.classList.add('hidden')));
-                document.querySelectorAll('.closeRepayModalBtn').forEach(b => b.addEventListener('click', () => elem.repayModal.classList.add('hidden')));
                 document.querySelectorAll('.closeReceiptModalBtn').forEach(b => b.addEventListener('click', () => elem.receiptModal.classList.add('hidden')));
 
                 elem.transactionForm.addEventListener('submit', handleTxSubmit);
-                elem.loanForm.addEventListener('submit', handleLoanSubmit);
-                elem.repayForm.addEventListener('submit', handleRepaySubmit);
 
                 [elem.searchInput, elem.typeFilter, elem.dateFilter, elem.sourceFilter, elem.categoryFilter].forEach(el => {
                     el.addEventListener('change', renderHistory);
@@ -1456,13 +1516,6 @@
                     if (e.target.classList.contains('edit-tx')) editTx(id);
                     if (e.target.classList.contains('delete-tx')) deleteTx(id);
                     if (e.target.classList.contains('view-receipt-btn')) viewReceipt(id);
-                });
-
-                elem.loanList.addEventListener('click', e => {
-                    const id = e.target.getAttribute('data-id');
-                    if (e.target.classList.contains('edit-loan')) editLoan(id);
-                    if (e.target.classList.contains('delete-loan')) deleteLoan(id);
-                    if (e.target.classList.contains('repay-loan')) openRepayModal(id);
                 });
 
                 elem.allowNegativeToggle.addEventListener('change', (e) => {
@@ -1657,114 +1710,6 @@
                 }
             }
 
-            function openLoanModal(loan = null) {
-                populateDropdowns();
-                elem.loanForm.reset();
-                elem.loanId.value = loan ? loan.id : '';
-                elem.loanDate.value = loan ? loan.date : getTodayStr();
-
-                if (loan) {
-                    elem.loanModalTitle.textContent = 'ধার/পাওনা এডিট';
-                    elem.loanType.value = loan.type;
-                    elem.loanPerson.value = loan.person;
-                    elem.loanPhone.value = loan.phone || '';
-                    elem.loanAmount.value = loan.amount;
-                    elem.loanAccountSource.value = loan.source;
-                    elem.loanNote.value = loan.note || '';
-                } else {
-                    elem.loanModalTitle.textContent = 'ধার/পাওনা যোগ';
-                }
-
-                elem.loanModal.classList.remove('hidden');
-            }
-            window.openLoanModal = openLoanModal;
-
-            function handleLoanSubmit(e) {
-                e.preventDefault();
-                const id = elem.loanId.value || 'loan_' + Date.now();
-                const type = elem.loanType.value;
-                const person = elem.loanPerson.value.trim();
-                const phone = elem.loanPhone.value.trim();
-                const amount = parseFloat(elem.loanAmount.value);
-                const source = elem.loanAccountSource.value;
-                const date = elem.loanDate.value;
-                const note = elem.loanNote.value.trim();
-
-                const existing = state.loans.find(l => l.id === id);
-                const paidAmount = existing ? existing.paidAmount : 0;
-
-                const loanObj = { id, type, person, phone, amount, paidAmount, source, date, note };
-
-                const idx = state.loans.findIndex(l => l.id === id);
-                if (idx > -1) state.loans[idx] = loanObj;
-                else state.loans.push(loanObj);
-
-                saveStorage();
-                elem.loanModal.classList.add('hidden');
-                renderAll();
-            }
-
-            function editLoan(id) {
-                const loan = state.loans.find(l => l.id === id);
-                if (loan) openLoanModal(loan);
-            }
-
-            function deleteLoan(id) {
-                if (confirm('আপনি কি এই ধার/পাওনার হিসাবটি মুছে ফেলতে চান?')) {
-                    state.loans = state.loans.filter(l => l.id !== id);
-                    saveStorage();
-                    renderAll();
-                }
-            }
-
-            function openRepayModal(loanId) {
-                populateDropdowns();
-                const loan = state.loans.find(l => l.id === loanId);
-                if (!loan) return;
-
-                const due = loan.amount - loan.paidAmount;
-                elem.repayLoanId.value = loan.id;
-                elem.repayAmount.value = due;
-                elem.repayDate.value = getTodayStr();
-                elem.repayInfoText.textContent = `${loan.person} (${loan.type === 'RECEIVABLE' ? 'পাব' : 'দেব'}) — বাকি বকেয়া: ${formatCurrency(due)}`;
-
-                elem.repayModal.classList.remove('hidden');
-            }
-
-            function handleRepaySubmit(e) {
-                e.preventDefault();
-                const loanId = elem.repayLoanId.value;
-                const amt = parseFloat(elem.repayAmount.value);
-                const source = elem.repaySource.value;
-                const date = elem.repayDate.value;
-
-                const loan = state.loans.find(l => l.id === loanId);
-                if (loan) {
-                    const due = loan.amount - loan.paidAmount;
-                    if (amt > due) {
-                        alert(`বকেয়ার চেয়ে বেশি টাকা পরিশোধ করা যাবে না! সর্বোচ্চ বকেয়া: ${formatCurrency(due)}`);
-                        return;
-                    }
-                    loan.paidAmount += amt;
-                    
-                    const repayTx = {
-                        id: 'tx_repay_' + Date.now(),
-                        type: loan.type === 'RECEIVABLE' ? 'INCOME' : 'EXPENSE',
-                        amount: amt,
-                        source: source,
-                        category: 'ধার পরিশোধ',
-                        date: date,
-                        time: new Date().toTimeString().split(' ')[0].substring(0, 5),
-                        note: `${loan.person}-এর ধার ${loan.type === 'RECEIVABLE' ? 'প্রাপ্তি' : 'পরিশোধ'}`
-                    };
-                    state.transactions.push(repayTx);
-
-                    saveStorage();
-                    elem.repayModal.classList.add('hidden');
-                    renderAll();
-                }
-            }
-
             function handleProfileSubmit(e) {
                 e.preventDefault();
                 state.profile.name = elem.profName.value.trim();
@@ -1807,6 +1752,7 @@
                 if (confirm('আপনি কি নিশ্চিত যে সমস্ত ডাটা স্থায়ীভাবে মুছে ফেলতে চান?')) {
                     if (confirm('সব হিসাব ও প্রোফাইল মুছে ফেলা হবে। কোনো তথ্য ফেরত পাওয়া যাবে না!')) {
                         localStorage.removeItem('hk_app_data');
+                        localStorage.removeItem('user_loans');
                         state = {
                             transactions: [],
                             loans: [],
