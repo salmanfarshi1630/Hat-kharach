@@ -111,12 +111,18 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            border: 2px dashed var(--accent-gold);
+            border: 2px solid var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: rgba(217, 119, 6, 0.05);
             overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .header-title h1 {
@@ -484,7 +490,7 @@
     <header class="app-header">
         <div class="header-brand">
             <div class="logo-container" id="logoContainer">
-                <span style="font-size: 0.65rem; color: var(--text-muted); text-align: center;">লোগো স্থান</span>
+                <img src="https://i.ibb.co.com/HDkwQdny/logo.png" alt="লোগো" id="appLogoImg">
             </div>
             <div class="header-title">
                 <h1 id="headerAppName">হাত-খরচ</h1>
@@ -572,7 +578,10 @@
 
         <!-- LOAN / DEBT VIEW -->
         <section id="loanView" class="app-view">
-            <div class="section-header"><h3>ধার ও পাওনা ব্যবস্থাপনা</h3></div>
+            <div class="section-header">
+                <h3>ধার ও পাওনা ব্যবস্থাপনা</h3>
+                <button class="btn btn-primary" onclick="openLoanModal()">➕ নতুন ধার/পাওনা</button>
+            </div>
             <div class="grid-2">
                 <div class="card stat-card income-bg"><span class="card-label">মোট পাওনা (পাব)</span><h3 id="loanPaboText">৳০</h3></div>
                 <div class="card stat-card expense-bg"><span class="card-label">মোট দেনা (দেব)</span><h3 id="loanDeboText">৳০</h3></div>
@@ -633,7 +642,7 @@
             <div class="section-header"><h3>সেটিংস ও প্রোফাইল</h3></div>
             <div class="card">
                 <div class="profile-banner">
-                    <img id="profileDisplayImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 24 24' fill='none' stroke='%230284c7' stroke-width='2'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>" class="profile-avatar" alt="প্রোফাইল ছবি">
+                    <img id="profileDisplayImg" src="https://i.ibb.co.com/HDkwQdny/logo.png" class="profile-avatar" alt="প্রোফাইল ছবি">
                     <div class="profile-info">
                         <h4 id="profileDisplayName">ব্যবহারকারী</h4>
                         <p id="profileDisplayPhone">মোবাইল: -</p>
@@ -1410,10 +1419,13 @@
 
                 document.querySelectorAll('.fab-option').forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        const act = e.target.getAttribute('data-action');
+                        const act = e.currentTarget.getAttribute('data-action');
                         elem.fabOptions.classList.add('hidden');
-                        if (act === 'LOAN') openLoanModal();
-                        else openTxModal(act);
+                        if (act === 'LOAN') {
+                            openLoanModal();
+                        } else {
+                            openTxModal(act);
+                        }
                     });
                 });
 
@@ -1665,6 +1677,7 @@
 
                 elem.loanModal.classList.remove('hidden');
             }
+            window.openLoanModal = openLoanModal;
 
             function handleLoanSubmit(e) {
                 e.preventDefault();
