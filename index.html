@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>হাত-খরচ — Personal Money Manager</title>
     
-    <!-- Google Fonts for Bengali, Arabic and English -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600&family=Scheherazade+New:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         /* CSS Variables & Theme Setup */
@@ -22,15 +22,12 @@
             --text-muted: #64748b;
             --border-color: #bae6fd;
             --income-color: #16a34a;
-            --income-bg: #dcfce7;
             --expense-color: #dc2626;
-            --expense-bg: #fee2e2;
             --transfer-color: #2563eb;
-            --transfer-bg: #dbeafe;
             --shadow: 0 4px 10px -2px rgba(2, 132, 199, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
             --radius: 14px;
             --font-bn: 'Hind Siliguri', sans-serif;
-            --font-ar: 'Amiri', 'Scheherazade New', serif;
+            --font-ar: 'Amiri', serif;
             --font-en: 'Poppins', sans-serif;
         }
 
@@ -44,11 +41,8 @@
             --text-muted: #94a3b8;
             --border-color: #334155;
             --income-color: #4ade80;
-            --income-bg: #064e3b;
             --expense-color: #f87171;
-            --expense-bg: #7f1d1d;
             --transfer-color: #60a5fa;
-            --transfer-bg: #1e3a8a;
             --shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.4);
         }
 
@@ -66,7 +60,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            padding-bottom: 75px;
+            padding-bottom: 90px;
         }
 
         /* Bismillah Bar */
@@ -113,13 +107,22 @@
             gap: 12px;
         }
 
-        .app-logo {
+        .logo-container {
             width: 45px;
             height: 45px;
-            object-fit: contain;
             border-radius: 50%;
-            border: 2px solid var(--accent-gold);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 2px dashed var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(217, 119, 6, 0.05);
+            overflow: hidden;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .header-title h1 {
@@ -169,23 +172,19 @@
             color: var(--text-main);
         }
 
-        /* Main Container & Layout */
+        /* Layout */
         .main-container {
             padding: 16px;
-            max-width: 650px;
+            max-width: 750px;
             margin: 0 auto;
             width: 100%;
+            flex: 1;
         }
 
-        .app-view {
-            display: none;
-        }
+        .app-view { display: none; }
+        .app-view.active { display: block; }
 
-        .app-view.active {
-            display: block;
-        }
-
-        /* Cards & Grid Layouts */
+        /* Cards */
         .card {
             background-color: var(--bg-card);
             border-radius: var(--radius);
@@ -201,16 +200,12 @@
             gap: 10px;
         }
 
-        .stat-card {
-            padding: 12px 14px;
-        }
-
+        .stat-card { padding: 12px 14px; }
         .stat-card .card-label {
             font-size: 0.8rem;
             color: var(--text-muted);
             font-weight: 500;
         }
-
         .stat-card h3 {
             font-size: 1.15rem;
             margin-top: 4px;
@@ -260,12 +255,10 @@
             color: var(--primary);
         }
 
-        /* Quran Verse Card */
+        /* Quran Card */
         .quran-card {
             border: 1px solid var(--accent-gold);
             background: linear-gradient(135deg, rgba(217, 119, 6, 0.05) 0%, rgba(2, 134, 199, 0.05) 100%);
-            position: relative;
-            overflow: hidden;
             text-align: center;
             padding: 18px 16px;
         }
@@ -275,10 +268,6 @@
             color: var(--accent-gold);
             font-weight: 700;
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
         }
 
         .quran-arabic {
@@ -287,14 +276,12 @@
             font-family: var(--font-ar);
             direction: rtl;
             margin-bottom: 8px;
-            line-height: 1.5;
             font-weight: bold;
         }
 
         .quran-bangla {
             font-size: 0.9rem;
             color: var(--text-main);
-            line-height: 1.4;
             margin-bottom: 6px;
             font-weight: 500;
         }
@@ -305,11 +292,8 @@
             font-weight: 600;
         }
 
-        /* Forms & Inputs */
-        .form-group {
-            margin-bottom: 12px;
-        }
-
+        /* Forms */
+        .form-group { margin-bottom: 12px; }
         .form-group label {
             display: block;
             font-size: 0.82rem;
@@ -327,11 +311,6 @@
             color: var(--text-main);
             font-size: 0.9rem;
             outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary);
         }
 
         .inline-form {
@@ -347,26 +326,30 @@
             font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-            text-align: center;
-            transition: opacity 0.2s;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
         }
 
-        .btn:hover { opacity: 0.9; }
         .btn-primary { background-color: var(--primary); color: #fff; }
         .btn-outline { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
         .btn-danger { background-color: var(--expense-color); color: #fff; }
 
-        /* Tag Management */
-        .tag-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+        /* Receipt Button */
+        .btn-receipt-view {
+            background-color: #8e44ad;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            border: none;
+            cursor: pointer;
+            margin-top: 4px;
         }
 
+        /* Tags */
+        .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
         .tag-item {
             background-color: var(--bg-main);
             border: 1px solid var(--border-color);
@@ -377,53 +360,25 @@
             align-items: center;
             gap: 6px;
         }
+        .tag-item .delete-tag { cursor: pointer; color: var(--expense-color); font-weight: bold; }
 
-        .tag-item .delete-tag {
-            cursor: pointer;
-            color: var(--expense-color);
-            font-weight: bold;
-        }
-
-        /* Settings Toggle */
-        .setting-toggle {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 24px;
-        }
-
+        /* Switch */
+        .setting-toggle { display: flex; justify-content: space-between; align-items: center; }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-
         .slider {
             position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--border-color);
-            transition: .3s;
-            border-radius: 24px;
+            background-color: var(--border-color); transition: .3s; border-radius: 24px;
         }
-
         .slider:before {
             position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
+            background-color: white; transition: .3s; border-radius: 50%;
         }
-
         input:checked + .slider { background-color: var(--primary); }
         input:checked + .slider:before { transform: translateX(20px); }
 
         /* List Items */
-        .item-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
+        .item-list { display: flex; flex-direction: column; gap: 10px; }
         .item-card {
             background-color: var(--bg-card);
             padding: 12px 14px;
@@ -435,214 +390,81 @@
             box-shadow: var(--shadow);
         }
 
-        .item-details strong {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--text-main);
-        }
-
-        .item-details span {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .item-amount-group {
-            text-align: right;
-        }
-
-        .item-amount {
-            font-size: 1rem;
-            font-weight: bold;
-        }
-
-        .item-amount.INCOME, .item-amount.RECEIVABLE { color: var(--income-color); }
-        .item-amount.EXPENSE, .item-amount.PAYABLE { color: var(--expense-color); }
+        .item-details strong { display: block; font-size: 0.9rem; color: var(--text-main); }
+        .item-details span { font-size: 0.75rem; color: var(--text-muted); }
+        .item-amount-group { text-align: right; }
+        .item-amount { font-size: 1rem; font-weight: bold; }
+        .item-amount.INCOME { color: var(--income-color); }
+        .item-amount.EXPENSE { color: var(--expense-color); }
         .item-amount.TRANSFER { color: var(--transfer-color); }
 
-        .item-actions {
-            margin-top: 4px;
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-        }
-
-        .action-btn {
-            background: none;
-            border: none;
-            font-size: 0.78rem;
-            cursor: pointer;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
+        .item-actions { margin-top: 4px; display: flex; gap: 8px; justify-content: flex-end; }
+        .action-btn { background: none; border: none; font-size: 0.78rem; cursor: pointer; color: var(--text-muted); font-weight: 500; }
         .action-btn:hover { color: var(--primary); }
 
-        /* FAB & Bottom Nav */
-        .fab-container {
-            position: fixed;
-            bottom: 75px;
-            right: 20px;
-            z-index: 99;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
+        /* FAB & Nav */
+        .fab-container { position: fixed; bottom: 75px; right: 20px; z-index: 99; display: flex; flex-direction: column; align-items: flex-end; }
         .fab-main {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            font-size: 1.6rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-            cursor: pointer;
-            transition: transform 0.2s;
+            width: 52px; height: 52px; border-radius: 50%; background-color: var(--primary);
+            color: white; border: none; font-size: 1.6rem; box-shadow: 0 4px 12px rgba(0,0,0,0.25); cursor: pointer;
         }
-
-        .fab-options {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .fab-option {
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: none;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            font-size: 0.85rem;
-        }
-
+        .fab-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+        .fab-option { padding: 8px 16px; border-radius: 20px; border: none; color: white; font-weight: bold; cursor: pointer; font-size: 0.85rem; }
         .income-btn { background-color: var(--income-color); }
         .expense-btn { background-color: var(--expense-color); }
         .transfer-btn { background-color: var(--transfer-color); }
 
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background-color: var(--bg-card);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid var(--border-color);
-            z-index: 100;
+            position: fixed; bottom: 0; left: 0; right: 0; height: 60px;
+            background-color: var(--bg-card); display: flex; justify-content: space-around;
+            align-items: center; border-top: 1px solid var(--border-color); z-index: 100;
         }
 
-        .nav-item {
-            background: none;
-            border: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 0.72rem;
-            width: 20%;
-        }
+        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: var(--text-muted); cursor: pointer; font-size: 0.72rem; width: 20%; }
+        .nav-item.active { color: var(--primary); font-weight: bold; }
+        .nav-icon { font-size: 1.15rem; margin-bottom: 2px; }
 
-        .nav-item.active {
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .nav-icon {
-            font-size: 1.15rem;
-            margin-bottom: 2px;
-        }
-
-        /* Modal Backdrop & Content */
+        /* Modals */
         .modal-backdrop {
-            position: fixed;
-            top:0; left:0; right:0; bottom:0;
-            background-color: rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 200;
-            padding: 16px;
+            position: fixed; top:0; left:0; right:0; bottom:0;
+            background-color: rgba(0,0,0,0.5); display: flex;
+            justify-content: center; align-items: center; z-index: 200; padding: 16px;
         }
-
         .modal-content {
-            background-color: var(--bg-card);
-            width: 100%;
-            max-width: 450px;
-            border-radius: var(--radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-            max-height: 90vh;
-            overflow-y: auto;
+            background-color: var(--bg-card); width: 100%; max-width: 450px;
+            border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+            max-height: 90vh; overflow-y: auto;
         }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 16px;
-        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .close-btn { background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; }
+        .modal-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
 
         /* Profile Banner */
-        .profile-banner {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
+        .profile-banner { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .profile-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); background-color: #e2e8f0; }
 
-        .profile-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary);
-            background-color: #e2e8f0;
-        }
+        /* Bank Statement Table */
+        .bank-statement-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; font-family: var(--font-en), var(--font-bn); margin-top: 10px; }
+        .bank-statement-table th, .bank-statement-table td { border: 1px solid #cbd5e1; padding: 6px 4px; text-align: left; }
+        .bank-statement-table th { background-color: #f1f5f9; font-weight: 600; color: #334155; }
+        .bank-statement-table .num-col { text-align: right; white-space: nowrap; }
 
-        .profile-info h4 {
-            font-size: 1rem;
-            color: var(--text-main);
-        }
+        /* App Footer */
+        .app-footer { text-align: center; padding: 10px 0; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; font-family: var(--font-en); }
 
-        .profile-info p {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-        }
-
-        /* Print / PDF Specific Styling */
         @media print {
             body { background: white; color: black; padding-bottom: 0; }
-            .app-header, .bottom-nav, .fab-container, .btn, .icon-btn, .filter-card, .section-header { display: none !important; }
+            .app-header, .bottom-nav, .fab-container, .btn, .icon-btn, .filter-card, .section-header, .bismillah-bar { display: none !important; }
             .main-container { max-width: 100%; padding: 0; }
             .app-view { display: none !important; }
             #reportView { display: block !important; }
-            .card { box-shadow: none; border: 1px solid #ccc; margin-bottom: 10px; }
-            .print-header { display: block !important; text-align: center; margin-bottom: 20px; }
+            .card { box-shadow: none; border: none; padding: 0; margin-bottom: 0; }
+            .print-header { display: block !important; text-align: center; margin-bottom: 15px; }
+            .bank-statement-table th, .bank-statement-table td { border: 1px solid #000 !important; color: #000 !important; }
+            .statement-footer-text { display: block !important; text-align: center; margin-top: 30px; font-weight: bold; }
         }
 
-        .print-header { display: none; }
+        .print-header, .statement-footer-text { display: none; }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -657,8 +479,9 @@
     <!-- Header Bar -->
     <header class="app-header">
         <div class="header-brand">
-            <!-- Embedded User Original Logo Base64 -->
-            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1eb12Afl5ebzhjr3ebf22Wb23/2wBDARERER4RHGQaGG2AeUd5gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgID/wAARCAEgASADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnA09PV1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIR0520443S8A5s77e3/9k=" alt="হাত-খরচ লোগো" class="app-logo">
+            <div class="logo-container" id="logoContainer">
+                <span style="font-size: 0.65rem; color: var(--text-muted); text-align: center;">লোগো স্থান</span>
+            </div>
             <div class="header-title">
                 <h1 id="headerAppName">হাত-খরচ</h1>
                 <span class="subtitle">Personal Money Manager</span>
@@ -677,8 +500,6 @@
         
         <!-- DASHBOARD VIEW -->
         <section id="dashboardView" class="app-view active">
-            
-            <!-- Quran Verse Card (Replaces Total Balance Card) -->
             <div class="card quran-card">
                 <div class="quran-card-header">📖 কুরআনের মহান উপদেশ</div>
                 <div class="quran-arabic">وَلَا تُسْرِفُوا ۚ إِنَّهُ لَا يُحِبُّ الْمُسْرِفِينَ</div>
@@ -686,58 +507,27 @@
                 <div class="quran-ref">— সূরা আল-আ'রাফ (৭:৩১)</div>
             </div>
 
-            <!-- Money Sources List -->
-            <div class="section-header">
-                <h3>টাকার উৎসসমূহ (Sources)</h3>
-            </div>
+            <div class="section-header"><h3>টাকার উৎসসমূহ (Sources)</h3></div>
             <div id="sourcesList" class="sources-grid"></div>
 
-            <!-- Income & Expense Summary Grid -->
-            <div class="section-header">
-                <h3>আয়-ব্যয় সংক্ষিপ্ত</h3>
-            </div>
+            <div class="section-header"><h3>আয়-ব্যয় সংক্ষিপ্ত</h3></div>
             <div class="grid-2">
-                <div class="card stat-card income-bg">
-                    <span class="card-label">আজকের আয়</span>
-                    <h3 id="todayIncomeText">৳০</h3>
-                </div>
-                <div class="card stat-card expense-bg">
-                    <span class="card-label">আজকের খরচ</span>
-                    <h3 id="todayExpenseText">৳০</h3>
-                </div>
-                <div class="card stat-card income-bg">
-                    <span class="card-label">এই মাসের আয়</span>
-                    <h3 id="monthIncomeText">৳০</h3>
-                </div>
-                <div class="card stat-card expense-bg">
-                    <span class="card-label">এই মাসের খরচ</span>
-                    <h3 id="monthExpenseText">৳০</h3>
-                </div>
+                <div class="card stat-card income-bg"><span class="card-label">আজকের আয়</span><h3 id="todayIncomeText">৳০</h3></div>
+                <div class="card stat-card expense-bg"><span class="card-label">আজকের খরচ</span><h3 id="todayExpenseText">৳০</h3></div>
+                <div class="card stat-card income-bg"><span class="card-label">এই মাসের আয়</span><h3 id="monthIncomeText">৳০</h3></div>
+                <div class="card stat-card expense-bg"><span class="card-label">এই মাসের খরচ</span><h3 id="monthExpenseText">৳০</h3></div>
             </div>
 
-            <!-- Loan Summary -->
-            <div class="section-header">
-                <h3>ধার-পাওনা সংক্ষিপ্ত</h3>
-            </div>
+            <div class="section-header"><h3>ধার-পাওনা সংক্ষিপ্ত</h3></div>
             <div class="grid-2">
-                <div class="card stat-card income-bg">
-                    <span class="card-label">আমি পাব (Receivable)</span>
-                    <h3 id="totalReceivableText">৳০</h3>
-                </div>
-                <div class="card stat-card expense-bg">
-                    <span class="card-label">আমি দেব (Payable)</span>
-                    <h3 id="totalPayableText">৳০</h3>
-                </div>
+                <div class="card stat-card income-bg"><span class="card-label">আমি পাব (Receivable)</span><h3 id="totalReceivableText">৳০</h3></div>
+                <div class="card stat-card expense-bg"><span class="card-label">আমি দেব (Payable)</span><h3 id="totalPayableText">৳০</h3></div>
             </div>
         </section>
 
         <!-- HISTORY VIEW -->
         <section id="historyView" class="app-view">
-            <div class="section-header">
-                <h3>লেনদেনের ইতিহাস</h3>
-            </div>
-
-            <!-- Filters -->
+            <div class="section-header"><h3>লেনদেনের ইতিহাস</h3></div>
             <div class="card filter-card">
                 <div class="form-group">
                     <input type="text" id="searchInput" placeholder="খুঁজুন (নোট, ক্যাটাগরি বা উৎস)..." class="form-control">
@@ -773,41 +563,26 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Transaction List -->
             <div id="transactionList" class="item-list"></div>
         </section>
 
         <!-- LOAN / DEBT VIEW -->
         <section id="loanView" class="app-view">
-            <div class="section-header">
-                <h3>ধার ও পাওনা ব্যবস্থাপনা</h3>
-                <button id="addLoanBtn" class="btn btn-primary">+ নতুন ধার/পাওনা</button>
-            </div>
-
+            <div class="section-header"><h3>ধার ও পাওনা ব্যবস্থাপনা</h3></div>
             <div class="grid-2">
-                <div class="card stat-card income-bg">
-                    <span class="card-label">মোট পাওনা (পাব)</span>
-                    <h3 id="loanPaboText">৳০</h3>
-                </div>
-                <div class="card stat-card expense-bg">
-                    <span class="card-label">মোট দেনা (দেব)</span>
-                    <h3 id="loanDeboText">৳০</h3>
-                </div>
+                <div class="card stat-card income-bg"><span class="card-label">মোট পাওনা (পাব)</span><h3 id="loanPaboText">৳০</h3></div>
+                <div class="card stat-card expense-bg"><span class="card-label">মোট দেনা (দেব)</span><h3 id="loanDeboText">৳০</h3></div>
             </div>
-
-            <div class="section-header">
-                <h3>ধার ও পাওনার তালিকা</h3>
-            </div>
+            <div class="section-header"><h3>ধার ও পাওনার তালিকা</h3></div>
             <div id="loanList" class="item-list"></div>
         </section>
 
         <!-- REPORT VIEW -->
         <section id="reportView" class="app-view">
             <div class="print-header">
-                <h2>হাত-খরচ — Personal Money Manager</h2>
-                <p id="printProfileName">ব্যবহারকারী: -</p>
-                <p id="printDateRange">তারিখ: -</p>
+                <h2>হাত-খরচ — Account Statement</h2>
+                <p id="printProfileName">Customer: -</p>
+                <p id="printDateRange">Period: -</p>
                 <hr style="margin: 10px 0;">
             </div>
 
@@ -829,14 +604,8 @@
                     </select>
                 </div>
                 <div class="grid-2 hidden" id="customDateGroup">
-                    <div class="form-group">
-                        <label for="reportStartDate">শুরু তারিখ</label>
-                        <input type="date" id="reportStartDate" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="reportEndDate">শেষ তারিখ</label>
-                        <input type="date" id="reportEndDate" class="form-control">
-                    </div>
+                    <div class="form-group"><label for="reportStartDate">শুরু তারিখ</label><input type="date" id="reportStartDate" class="form-control"></div>
+                    <div class="form-group"><label for="reportEndDate">শেষ তারিখ</label><input type="date" id="reportEndDate" class="form-control"></div>
                 </div>
             </div>
 
@@ -849,24 +618,19 @@
                 <p style="margin-bottom:6px;"><strong>বাকি দেনা (দেব):</strong> <span id="repPayable">৳০</span></p>
             </div>
 
-            <div class="section-header">
-                <h3>বিস্তারিত লেনদেন তালিকা</h3>
-            </div>
-            <div id="reportTableContainer" class="card" style="padding: 10px;">
-                <!-- Printable Table Content -->
-            </div>
+            <!-- সময় ও তারিখ আলাদা কলাম সমৃদ্ধ ব্যাংক স্টেটমেন্ট টেবিল -->
+            <div class="section-header"><h3>ব্যাংক স্টেটমেন্ট (বিস্তারিত লেনদেন)</h3></div>
+            <div id="reportTableContainer" class="card" style="padding: 10px; overflow-x: auto;"></div>
+            
+            <div class="statement-footer-text">Salman Farshi 2026</div>
         </section>
 
         <!-- SETTINGS VIEW -->
         <section id="settingsView" class="app-view">
-            <div class="section-header">
-                <h3>সেটিংস ও প্রোফাইল</h3>
-            </div>
-
-            <!-- Profile Settings -->
+            <div class="section-header"><h3>সেটিংস ও প্রোফাইল</h3></div>
             <div class="card">
                 <div class="profile-banner">
-                    <img id="profileDisplayImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 24 24' fill='none' stroke='%230284c7' stroke-width='2'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>" class="profile-avatar">
+                    <img id="profileDisplayImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 24 24' fill='none' stroke='%230284c7' stroke-width='2'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path><circle cx='12' cy='7' r='4'></circle></svg>" class="profile-avatar" alt="প্রোফাইল ছবি">
                     <div class="profile-info">
                         <h4 id="profileDisplayName">ব্যবহারকারী</h4>
                         <p id="profileDisplayPhone">মোবাইল: -</p>
@@ -874,23 +638,13 @@
                 </div>
                 <hr style="margin: 10px 0; border-color: var(--border-color);">
                 <form id="profileForm">
-                    <div class="form-group">
-                        <label for="profName">আপনার নাম</label>
-                        <input type="text" id="profName" class="form-control" placeholder="আপনার নাম লিখুন">
-                    </div>
-                    <div class="form-group">
-                        <label for="profPhone">মোবাইল নম্বর</label>
-                        <input type="text" id="profPhone" class="form-control" placeholder="01XXXXXXXXX">
-                    </div>
-                    <div class="form-group">
-                        <label for="profImg">প্রোফাইল ছবি (ঐচ্ছিক)</label>
-                        <input type="file" id="profImg" accept="image/*" class="form-control">
-                    </div>
+                    <div class="form-group"><label for="profName">আপনার নাম</label><input type="text" id="profName" class="form-control" placeholder="আপনার নাম লিখুন"></div>
+                    <div class="form-group"><label for="profPhone">মোবাইল নম্বর</label><input type="text" id="profPhone" class="form-control" placeholder="01XXXXXXXXX"></div>
+                    <div class="form-group"><label for="profImg">প্রোফাইল ছবি (ঐচ্ছিক)</label><input type="file" id="profImg" accept="image/*" class="form-control"></div>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">প্রোফাইল সেভ করুন</button>
                 </form>
             </div>
 
-            <!-- Allow Negative Balance Option -->
             <div class="card">
                 <div class="setting-toggle">
                     <div>
@@ -904,7 +658,6 @@
                 </div>
             </div>
 
-            <!-- Manage Sources -->
             <div class="card">
                 <h4 style="font-size:0.95rem; margin-bottom:8px;">উৎস (Sources) ব্যবস্থাপনা</h4>
                 <form id="addSourceForm" class="inline-form">
@@ -914,7 +667,6 @@
                 <div id="manageSourcesList" class="tag-list"></div>
             </div>
 
-            <!-- Manage Categories -->
             <div class="card">
                 <h4 style="font-size:0.95rem; margin-bottom:8px;">ক্যাটাগরি ব্যবস্থাপনা</h4>
                 <form id="addCategoryForm" class="inline-form">
@@ -924,17 +676,6 @@
                 <div id="manageCategoriesList" class="tag-list"></div>
             </div>
 
-            <!-- Data Backup & Restore -->
-            <div class="card">
-                <h4 style="font-size:0.95rem; margin-bottom:8px;">ডাটা ব্যাকআপ ও রিস্টোর</h4>
-                <div class="grid-2">
-                    <button id="exportBtn" class="btn btn-outline">ডাটা এক্সপোর্ট (JSON)</button>
-                    <button id="importBtnTrigger" class="btn btn-outline">ডাটা ইমপোর্ট (JSON)</button>
-                    <input type="file" id="importFileInput" accept=".json" style="display: none;">
-                </div>
-            </div>
-
-            <!-- Clear Data -->
             <div class="card" style="border-color: var(--expense-color);">
                 <h4 style="font-size:0.95rem; margin-bottom:4px; color: var(--expense-color);">ডাটা রিসেট</h4>
                 <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">সমস্ত লেনদেন, ধার-পাওনা, প্রোফাইল ডাটা মুছে ফেলুন।</p>
@@ -944,38 +685,27 @@
 
     </main>
 
-    <!-- Floating Action Button & Menu -->
+    <!-- Footer -->
+    <footer class="app-footer">Salman Farshi 2026</footer>
+
+    <!-- FAB -->
     <div class="fab-container">
         <div id="fabOptions" class="fab-options hidden">
             <button class="fab-option income-btn" data-action="INCOME">➕ আয়</button>
             <button class="fab-option expense-btn" data-action="EXPENSE">➖ খরচ</button>
             <button class="fab-option transfer-btn" data-action="TRANSFER">🔄 ট্রান্সফার</button>
+            <button class="fab-option" style="background-color: var(--accent-gold);" data-action="LOAN">🤝 ধার/পাওনা</button>
         </div>
         <button id="mainFab" class="fab-main">+</button>
     </div>
 
-    <!-- Bottom Navigation Bar -->
+    <!-- Bottom Nav -->
     <nav class="bottom-nav">
-        <button class="nav-item active" data-view="dashboardView">
-            <span class="nav-icon">🏠</span>
-            <span>হোম</span>
-        </button>
-        <button class="nav-item" data-view="historyView">
-            <span class="nav-icon">📜</span>
-            <span>ইতিহাস</span>
-        </button>
-        <button class="nav-item" data-view="loanView">
-            <span class="nav-icon">🤝</span>
-            <span>ধার-পাওনা</span>
-        </button>
-        <button class="nav-item" data-view="reportView">
-            <span class="nav-icon">📊</span>
-            <span>রিপোর্ট</span>
-        </button>
-        <button class="nav-item" data-view="settingsView">
-            <span class="nav-icon">⚙️</span>
-            <span>সেটিংস</span>
-        </button>
+        <button class="nav-item active" data-view="dashboardView"><span class="nav-icon">🏠</span><span>হোম</span></button>
+        <button class="nav-item" data-view="historyView"><span class="nav-icon">📜</span><span>ইতিহাস</span></button>
+        <button class="nav-item" data-view="loanView"><span class="nav-icon">🤝</span><span>ধার-পাওনা</span></button>
+        <button class="nav-item" data-view="reportView"><span class="nav-icon">📊</span><span>রিপোর্ট</span></button>
+        <button class="nav-item" data-view="settingsView"><span class="nav-icon">⚙️</span><span>সেটিংস</span></button>
     </nav>
 
     <!-- MODAL FOR ADD / EDIT TRANSACTION -->
@@ -1009,6 +739,12 @@
                     <select id="txCategory" class="form-control"></select>
                 </div>
 
+                <!-- ফিচার ১: 'অন্যান্য' ক্যাটাগরির জন্য কাস্টম ইনপুট ঘর -->
+                <div class="form-group hidden" id="otherCategoryGroup">
+                    <label for="txOtherCategory">অন্যান্য খরচের বিবরণ লিখুন</label>
+                    <input type="text" id="txOtherCategory" class="form-control" placeholder="যেমন: চা-নাস্তা, গাড়ি ভাড়া ইত্যাদি">
+                </div>
+
                 <div class="grid-2">
                     <div class="form-group">
                         <label for="txDate">তারিখ *</label>
@@ -1023,6 +759,12 @@
                 <div class="form-group">
                     <label for="txNote">নোট (ঐচ্ছিক)</label>
                     <input type="text" id="txNote" class="form-control" placeholder="সংক্ষিপ্ত বিবরণ...">
+                </div>
+
+                <!-- ফিচার ২: রশিদ / মেমো ছবি আপলোডের ফিল্ড -->
+                <div class="form-group">
+                    <label for="txReceipt">🧾 রশিদ / মেমো ছবি যুক্ত করুন (ঐচ্ছিক)</label>
+                    <input type="file" id="txReceipt" accept="image/*" class="form-control">
                 </div>
 
                 <div class="modal-footer">
@@ -1042,7 +784,6 @@
             </div>
             <form id="loanForm">
                 <input type="hidden" id="loanId">
-
                 <div class="form-group">
                     <label for="loanType">ধরণ *</label>
                     <select id="loanType" class="form-control" required>
@@ -1098,24 +839,19 @@
             </div>
             <form id="repayForm">
                 <input type="hidden" id="repayLoanId">
-
                 <p id="repayInfoText" style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;"></p>
-
                 <div class="form-group">
                     <label for="repayAmount">পরিশোধের পরিমাণ (৳) *</label>
                     <input type="number" step="any" min="0.01" id="repayAmount" class="form-control" placeholder="0.00" required>
                 </div>
-
                 <div class="form-group">
                     <label for="repaySource">টাকার উৎস/অ্যাকাউন্ট *</label>
                     <select id="repaySource" class="form-control" required></select>
                 </div>
-
                 <div class="form-group">
                     <label for="repayDate">তারিখ *</label>
                     <input type="date" id="repayDate" class="form-control" required>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline closeRepayModalBtn">বাতিল</button>
                     <button type="submit" class="btn btn-primary">জমা নিশ্চিত করুন</button>
@@ -1124,7 +860,18 @@
         </div>
     </div>
 
-    <!-- JavaScript Application Logic -->
+    <!-- ফিচার ৩: রশিদ/মেমো দেখার মডাল পপআপ -->
+    <div id="receiptModal" class="modal-backdrop hidden">
+        <div class="modal-content" style="text-align: center;">
+            <h4 style="margin-bottom: 10px;">🧾 রশিদ / মেমোর ছবি</h4>
+            <img id="receiptModalImg" src="" alt="মেমো পাওয়া যায়নি" style="max-width: 100%; max-height: 350px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <div style="margin-top: 15px;">
+                <button class="btn btn-danger closeReceiptModalBtn">বন্ধ করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
     <script>
         (function () {
             'use strict';
@@ -1134,7 +881,7 @@
 
             let state = {
                 transactions: [],
-                loans: [], // { id, person, phone, type: 'RECEIVABLE'|'PAYABLE', amount, paidAmount: 0, date, note, source }
+                loans: [],
                 sources: [],
                 categories: [],
                 profile: { name: '', phone: '', photo: '' },
@@ -1165,7 +912,6 @@
                 loanPaboText: document.getElementById('loanPaboText'),
                 loanDeboText: document.getElementById('loanDeboText'),
                 loanList: document.getElementById('loanList'),
-                addLoanBtn: document.getElementById('addLoanBtn'),
 
                 mainFab: document.getElementById('mainFab'),
                 fabOptions: document.getElementById('fabOptions'),
@@ -1177,9 +923,6 @@
                 addCategoryForm: document.getElementById('addCategoryForm'),
                 newCategoryName: document.getElementById('newCategoryName'),
                 manageCategoriesList: document.getElementById('manageCategoriesList'),
-                exportBtn: document.getElementById('exportBtn'),
-                importBtnTrigger: document.getElementById('importBtnTrigger'),
-                importFileInput: document.getElementById('importFileInput'),
                 clearDataBtn: document.getElementById('clearDataBtn'),
 
                 profileForm: document.getElementById('profileForm'),
@@ -1215,6 +958,9 @@
                 toSourceGroup: document.getElementById('toSourceGroup'),
                 txCategory: document.getElementById('txCategory'),
                 categoryGroup: document.getElementById('categoryGroup'),
+                otherCategoryGroup: document.getElementById('otherCategoryGroup'),
+                txOtherCategory: document.getElementById('txOtherCategory'),
+                txReceipt: document.getElementById('txReceipt'),
                 txDate: document.getElementById('txDate'),
                 txTime: document.getElementById('txTime'),
                 txNote: document.getElementById('txNote'),
@@ -1236,7 +982,10 @@
                 repayAmount: document.getElementById('repayAmount'),
                 repaySource: document.getElementById('repaySource'),
                 repayDate: document.getElementById('repayDate'),
-                repayInfoText: document.getElementById('repayInfoText')
+                repayInfoText: document.getElementById('repayInfoText'),
+
+                receiptModal: document.getElementById('receiptModal'),
+                receiptModalImg: document.getElementById('receiptModalImg')
             };
 
             function init() {
@@ -1270,11 +1019,8 @@
                 localStorage.setItem('hk_app_data', JSON.stringify(state));
             }
 
-            // ACCOUNTING LOGIC (NO DOUBLE COUNTING)
             function calculateSourceBalance(sourceName, excludeTxId = null) {
                 let balance = 0;
-                
-                // Base Transactions
                 state.transactions.forEach(tx => {
                     if (excludeTxId && tx.id === excludeTxId) return;
                     const amt = parseFloat(tx.amount) || 0;
@@ -1286,30 +1032,20 @@
                     }
                 });
 
-                // Loans: Giving loan (RECEIVABLE) reduces money from source.
-                // Taking loan (PAYABLE) adds money to source.
                 state.loans.forEach(loan => {
                     const amt = parseFloat(loan.amount) || 0;
                     const paid = parseFloat(loan.paidAmount) || 0;
-
                     if (loan.source === sourceName) {
-                        if (loan.type === 'RECEIVABLE') {
-                            balance -= amt; // Gave cash
-                            balance += paid; // Received payback
-                        } else if (loan.type === 'PAYABLE') {
-                            balance += amt; // Got cash
-                            balance -= paid; // Paid back cash
-                        }
+                        if (loan.type === 'RECEIVABLE') { balance -= amt; balance += paid; }
+                        else if (loan.type === 'PAYABLE') { balance += amt; balance -= paid; }
                     }
                 });
-
                 return balance;
             }
 
             function calculateTotals() {
                 const today = getTodayStr();
                 const mRange = getMonthRange();
-
                 let todayInc = 0, todayExp = 0, monthInc = 0, monthExp = 0;
 
                 state.transactions.forEach(tx => {
@@ -1336,8 +1072,22 @@
                 return { todayInc, todayExp, monthInc, monthExp, totReceivable, totPayable };
             }
 
-            function getTodayStr() {
-                return new Date().toISOString().split('T')[0];
+            function getTodayStr() { return new Date().toISOString().split('T')[0]; }
+
+            function formatDateToDDMMYY(dateStr) {
+                if (!dateStr) return '';
+                const parts = dateStr.split('-');
+                if(parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0].substring(2)}`;
+                return dateStr;
+            }
+
+            function format12HourTime(timeStr) {
+                if(!timeStr) return '';
+                const [h, m] = timeStr.split(':');
+                let hours = parseInt(h);
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12 || 12;
+                return `${String(hours).padStart(2, '0')}:${m} ${ampm}`;
             }
 
             function getMonthRange() {
@@ -1345,14 +1095,15 @@
                 const year = now.getFullYear();
                 const month = String(now.getMonth() + 1).padStart(2, '0');
                 const lastDay = new Date(year, now.getMonth() + 1, 0).getDate();
-                return {
-                    start: `${year}-${month}-01`,
-                    end: `${year}-${month}-${String(lastDay).padStart(2, '0')}`
-                };
+                return { start: `${year}-${month}-01`, end: `${year}-${month}-${String(lastDay).padStart(2, '0')}` };
             }
 
             function formatCurrency(amount) {
-                return `৳${Number(amount || 0).toLocaleString('bn-BD', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+                return `৳${Number(amount || 0).toLocaleString('bn-BD', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            }
+
+            function formatNumberOnly(amount) {
+                return Number(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             }
 
             function escapeHtml(str) {
@@ -1360,7 +1111,6 @@
                 return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
             }
 
-            // RENDERING
             function renderAll() {
                 renderDashboard();
                 renderHistory();
@@ -1396,7 +1146,6 @@
                 const range = elem.dateFilter.value;
                 const src = elem.sourceFilter.value;
                 const cat = elem.categoryFilter.value;
-
                 const today = getTodayStr();
                 const now = new Date();
 
@@ -1404,14 +1153,12 @@
                     if (type !== 'ALL' && tx.type !== type) return false;
                     if (src !== 'ALL' && tx.source !== src && tx.toSource !== src) return false;
                     if (cat !== 'ALL' && tx.category !== cat) return false;
-
                     if (search) {
                         const mNote = tx.note ? tx.note.toLowerCase().includes(search) : false;
                         const mCat = tx.category ? tx.category.toLowerCase().includes(search) : false;
                         const mSrc = tx.source ? tx.source.toLowerCase().includes(search) : false;
                         if (!mNote && !mCat && !mSrc) return false;
                     }
-
                     if (range === 'TODAY' && tx.date !== today) return false;
                     if (range === 'WEEK') {
                         const diffDays = (now - new Date(tx.date)) / (1000 * 60 * 60 * 24);
@@ -1421,7 +1168,6 @@
                         const mr = getMonthRange();
                         if (tx.date < mr.start || tx.date > mr.end) return false;
                     }
-
                     return true;
                 });
 
@@ -1441,10 +1187,13 @@
                         ? `${escapeHtml(tx.source)} ➔ ${escapeHtml(tx.toSource)}`
                         : `${escapeHtml(tx.source)} • ${escapeHtml(tx.category || '')}`;
 
+                    let receiptBtn = tx.receipt ? `<br><button class="btn-receipt-view view-receipt-btn" data-id="${tx.id}">🧾 রশিদ দেখুন</button>` : '';
+
                     card.innerHTML = `
                         <div class="item-details">
                             <strong>${title}</strong>
-                            <span>📅 ${tx.date} ${tx.time ? '🕒 ' + tx.time : ''} ${tx.note ? '• ' + escapeHtml(tx.note) : ''}</span>
+                            <span>📅 ${tx.date} ${tx.time ? '🕒 ' + format12HourTime(tx.time) : ''} ${tx.note ? '• ' + escapeHtml(tx.note) : ''}</span>
+                            ${receiptBtn}
                         </div>
                         <div class="item-amount-group">
                             <div class="item-amount ${tx.type}">
@@ -1471,7 +1220,6 @@
 
                     const card = document.createElement('div');
                     card.className = 'item-card';
-
                     const typeText = loan.type === 'RECEIVABLE' ? 'পাব' : 'দেব';
                     const badgeColor = loan.type === 'RECEIVABLE' ? 'var(--income-color)' : 'var(--expense-color)';
 
@@ -1504,96 +1252,126 @@
                 const prof = state.profile;
                 elem.profileDisplayName.textContent = prof.name || 'ব্যবহারকারী';
                 elem.profileDisplayPhone.textContent = prof.phone ? `মোবাইল: ${prof.phone}` : 'মোবাইল: -';
-                if (prof.photo) {
-                    elem.profileDisplayImg.src = prof.photo;
-                }
+                if (prof.photo) elem.profileDisplayImg.src = prof.photo;
                 elem.profName.value = prof.name || '';
                 elem.profPhone.value = prof.phone || '';
             }
 
             function renderSettings() {
                 elem.allowNegativeToggle.checked = state.settings.allowNegative;
-
                 elem.manageSourcesList.innerHTML = state.sources.map(s => `
                     <div class="tag-item"><span>${escapeHtml(s)}</span><span class="delete-tag" data-type="SOURCE" data-name="${escapeHtml(s)}">&times;</span></div>
                 `).join('');
-
                 elem.manageCategoriesList.innerHTML = state.categories.map(c => `
                     <div class="tag-item"><span>${escapeHtml(c)}</span><span class="delete-tag" data-type="CATEGORY" data-name="${escapeHtml(c)}">&times;</span></div>
                 `).join('');
             }
 
+            /* ১ম কলামে সময় এবং ২য় কলামে তারিখ সমৃদ্ধ স্টেটমেন্ট টেবিল */
             function renderReport() {
                 const range = elem.reportRangeSelect.value;
                 let start = '', end = '';
                 const today = getTodayStr();
 
-                if (range === 'TODAY') {
-                    start = end = today;
-                } else if (range === 'WEEK') {
+                if (range === 'TODAY') start = end = today;
+                else if (range === 'WEEK') {
                     const now = new Date();
-                    const past = new Date(now.setDate(now.getDate() - 7));
-                    start = past.toISOString().split('T')[0];
+                    start = new Date(now.setDate(now.getDate() - 7)).toISOString().split('T')[0];
                     end = today;
                 } else if (range === 'THIS_MONTH') {
-                    const mr = getMonthRange();
-                    start = mr.start; end = mr.end;
+                    const mr = getMonthRange(); start = mr.start; end = mr.end;
                 } else if (range === 'LAST_MONTH') {
                     const now = new Date();
-                    const lm = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-                    const lmEnd = new Date(now.getFullYear(), now.getMonth(), 0);
-                    start = lm.toISOString().split('T')[0];
-                    end = lmEnd.toISOString().split('T')[0];
+                    start = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().split('T')[0];
+                    end = new Date(now.getFullYear(), now.getMonth(), 0).toISOString().split('T')[0];
                 } else if (range === 'THIS_YEAR') {
-                    const y = new Date().getFullYear();
-                    start = `${y}-01-01`; end = `${y}-12-31`;
+                    const y = new Date().getFullYear(); start = `${y}-01-01`; end = `${y}-12-31`;
                 } else if (range === 'CUSTOM') {
-                    start = elem.reportStartDate.value;
-                    end = elem.reportEndDate.value;
+                    start = elem.reportStartDate.value; end = elem.reportEndDate.value;
                 }
 
-                document.getElementById('printProfileName').textContent = `ব্যবহারকারী: ${state.profile.name || 'N/A'}`;
-                document.getElementById('printDateRange').textContent = `তারিখ: ${start || 'শুরু'} হতে ${end || 'শেষ'}`;
+                document.getElementById('printProfileName').textContent = `Customer: ${state.profile.name || 'N/A'}`;
+                document.getElementById('printDateRange').textContent = `Period: ${start || 'Start'} to ${end || 'End'}`;
 
-                let inc = 0, exp = 0;
-                const filteredTx = state.transactions.filter(t => {
+                let totalWithdraw = 0, totalDeposit = 0;
+                const sortedTx = [...state.transactions].sort((a, b) => new Date(`${a.date}T${a.time || '00:00'}`) - new Date(`${b.date}T${b.time || '00:00'}`));
+
+                const filteredTx = sortedTx.filter(t => {
                     if (start && t.date < start) return false;
                     if (end && t.date > end) return false;
-                    if (t.type === 'INCOME') inc += parseFloat(t.amount);
-                    if (t.type === 'EXPENSE') exp += parseFloat(t.amount);
                     return true;
                 });
 
-                elem.repIncome.textContent = formatCurrency(inc);
-                elem.repExpense.textContent = formatCurrency(exp);
-                elem.repNet.textContent = formatCurrency(inc - exp);
+                let runningBalance = 0;
+
+                let tableHtml = `
+                    <table class="bank-statement-table">
+                        <thead>
+                            <tr>
+                                <th>সময় (Time)</th>
+                                <th>তারিখ (Date)</th>
+                                <th>বিবরণ (Particulars)</th>
+                                <th>লেনদেন আইডি</th>
+                                <th class="num-col">ডেবিট (-)</th>
+                                <th class="num-col">ক্রেডিট (+)</th>
+                                <th class="num-col">ব্যালেন্স</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                if (filteredTx.length === 0) {
+                    tableHtml += `<tr><td colspan="7" style="text-align:center;">কোনো লেনদেনের ডাটা পাওয়া যায়নি।</td></tr>`;
+                } else {
+                    filteredTx.forEach((tx, idx) => {
+                        const amt = parseFloat(tx.amount) || 0;
+                        let withdraw = 0, deposit = 0;
+
+                        if (tx.type === 'EXPENSE') { withdraw = amt; totalWithdraw += amt; runningBalance -= amt; }
+                        else if (tx.type === 'INCOME') { deposit = amt; totalDeposit += amt; runningBalance += amt; }
+                        else if (tx.type === 'TRANSFER') { withdraw = amt; totalWithdraw += amt; runningBalance -= amt; }
+
+                        let particulars = tx.type === 'TRANSFER'
+                            ? `TRANSFER [From: ${tx.source} To: ${tx.toSource}] ${tx.note ? '- ' + tx.note : ''}`
+                            : `${tx.category || 'General'} | Source: ${tx.source} ${tx.note ? '- ' + tx.note : ''}`;
+
+                        const instNo = `TXN-${String(tx.id).replace(/\D/g, '').slice(-6) || (100000 + idx)}`;
+
+                        tableHtml += `
+                            <tr>
+                                <td>${format12HourTime(tx.time)}</td>
+                                <td>${formatDateToDDMMYY(tx.date)}</td>
+                                <td>${escapeHtml(particulars)}</td>
+                                <td>${instNo}</td>
+                                <td class="num-col">${withdraw > 0 ? formatNumberOnly(withdraw) : '0.00'}</td>
+                                <td class="num-col">${deposit > 0 ? formatNumberOnly(deposit) : '0.00'}</td>
+                                <td class="num-col">${formatNumberOnly(runningBalance)}</td>
+                            </tr>
+                        `;
+                    });
+                }
+
+                tableHtml += `
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" style="text-align:right;">মোট সর্বমোট</td>
+                                <td class="num-col">${formatNumberOnly(totalWithdraw)}</td>
+                                <td class="num-col">${formatNumberOnly(totalDeposit)}</td>
+                                <td class="num-col">${formatNumberOnly(runningBalance)}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                `;
+
+                elem.reportTableContainer.innerHTML = tableHtml;
+                elem.repIncome.textContent = formatCurrency(totalDeposit);
+                elem.repExpense.textContent = formatCurrency(totalWithdraw);
+                elem.repNet.textContent = formatCurrency(totalDeposit - totalWithdraw);
 
                 const totals = calculateTotals();
                 elem.repReceivable.textContent = formatCurrency(totals.totReceivable);
                 elem.repPayable.textContent = formatCurrency(totals.totPayable);
-
-                let html = `<table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
-                    <thead>
-                        <tr style="border-bottom:2px solid var(--border-color); text-align:left;">
-                            <th style="padding:6px;">তারিখ</th>
-                            <th style="padding:6px;">টাইপ</th>
-                            <th style="padding:6px;">উৎস/বিবরণ</th>
-                            <th style="padding:6px; text-align:right;">পরিমাণ</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
-
-                filteredTx.forEach(t => {
-                    html += `<tr style="border-bottom:1px solid var(--border-color);">
-                        <td style="padding:6px;">${t.date}</td>
-                        <td style="padding:6px;">${t.type}</td>
-                        <td style="padding:6px;">${escapeHtml(t.source)} ${t.category ? '• ' + escapeHtml(t.category) : ''}</td>
-                        <td style="padding:6px; text-align:right;">${formatCurrency(t.amount)}</td>
-                    </tr>`;
-                });
-
-                html += `</tbody></table>`;
-                elem.reportTableContainer.innerHTML = html;
             }
 
             function populateDropdowns() {
@@ -1632,13 +1410,24 @@
                     btn.addEventListener('click', (e) => {
                         const act = e.target.getAttribute('data-action');
                         elem.fabOptions.classList.add('hidden');
-                        openTxModal(act);
+                        if (act === 'LOAN') openLoanModal();
+                        else openTxModal(act);
                     });
+                });
+
+                // 'অন্যান্য' নির্বাচন করলে অতিরিক্ত ঘড় দেখানোর ব্যবস্থা
+                elem.txCategory.addEventListener('change', () => {
+                    if (elem.txCategory.value === 'অন্যান্য') {
+                        elem.otherCategoryGroup.classList.remove('hidden');
+                    } else {
+                        elem.otherCategoryGroup.classList.add('hidden');
+                    }
                 });
 
                 document.querySelectorAll('.closeModalBtn').forEach(b => b.addEventListener('click', () => elem.transactionModal.classList.add('hidden')));
                 document.querySelectorAll('.closeLoanModalBtn').forEach(b => b.addEventListener('click', () => elem.loanModal.classList.add('hidden')));
                 document.querySelectorAll('.closeRepayModalBtn').forEach(b => b.addEventListener('click', () => elem.repayModal.classList.add('hidden')));
+                document.querySelectorAll('.closeReceiptModalBtn').forEach(b => b.addEventListener('click', () => elem.receiptModal.classList.add('hidden')));
 
                 elem.transactionForm.addEventListener('submit', handleTxSubmit);
                 elem.loanForm.addEventListener('submit', handleLoanSubmit);
@@ -1653,9 +1442,8 @@
                     const id = e.target.getAttribute('data-id');
                     if (e.target.classList.contains('edit-tx')) editTx(id);
                     if (e.target.classList.contains('delete-tx')) deleteTx(id);
+                    if (e.target.classList.contains('view-receipt-btn')) viewReceipt(id);
                 });
-
-                elem.addLoanBtn.addEventListener('click', () => openLoanModal());
 
                 elem.loanList.addEventListener('click', e => {
                     const id = e.target.getAttribute('data-id');
@@ -1714,9 +1502,6 @@
                 elem.reportEndDate.addEventListener('change', renderReport);
                 elem.printReportBtn.addEventListener('click', () => window.print());
 
-                elem.exportBtn.addEventListener('click', exportJSON);
-                elem.importBtnTrigger.addEventListener('click', () => elem.importFileInput.click());
-                elem.importFileInput.addEventListener('change', importJSON);
                 elem.clearDataBtn.addEventListener('click', handleClearData);
             }
 
@@ -1736,6 +1521,7 @@
             function openTxModal(type, tx = null) {
                 populateDropdowns();
                 elem.transactionForm.reset();
+                elem.otherCategoryGroup.classList.add('hidden');
 
                 const now = new Date();
                 elem.txDate.value = tx ? tx.date : now.toISOString().split('T')[0];
@@ -1761,7 +1547,15 @@
                     elem.txAmount.value = tx.amount;
                     elem.txSource.value = tx.source;
                     if (tx.toSource) elem.txToSource.value = tx.toSource;
-                    if (tx.category) elem.txCategory.value = tx.category;
+                    if (tx.category) {
+                        if (state.categories.includes(tx.category)) {
+                            elem.txCategory.value = tx.category;
+                        } else {
+                            elem.txCategory.value = 'অন্যান্য';
+                            elem.otherCategoryGroup.classList.remove('hidden');
+                            elem.txOtherCategory.value = tx.category;
+                        }
+                    }
                     elem.txNote.value = tx.note || '';
                 }
 
@@ -1775,10 +1569,15 @@
                 const amount = parseFloat(elem.txAmount.value);
                 const source = elem.txSource.value;
                 const toSource = elem.txToSource.value;
-                const category = elem.txCategory.value;
+                let category = elem.txCategory.value;
+                const otherCat = elem.txOtherCategory.value.trim();
                 const date = elem.txDate.value;
                 const time = elem.txTime.value;
                 const note = elem.txNote.value.trim();
+
+                if (category === 'অন্যান্য' && otherCat !== '') {
+                    category = otherCat;
+                }
 
                 if (type === 'TRANSFER' && source === toSource) {
                     alert('একই উৎসের মধ্যে ট্রান্সফার করা যাবে না।'); return;
@@ -1792,15 +1591,44 @@
                     }
                 }
 
-                const txObj = { id, type, amount, source, toSource: type === 'TRANSFER' ? toSource : null, category: type !== 'TRANSFER' ? category : null, date, time, note };
+                const file = elem.txReceipt.files[0];
+                const existingTx = state.transactions.find(t => t.id === id);
+                let receiptData = existingTx ? existingTx.receipt : null;
 
-                const idx = state.transactions.findIndex(t => t.id === id);
-                if (idx > -1) state.transactions[idx] = txObj;
-                else state.transactions.push(txObj);
+                const saveTransaction = (receipt) => {
+                    const txObj = {
+                        id, type, amount, source,
+                        toSource: type === 'TRANSFER' ? toSource : null,
+                        category: type !== 'TRANSFER' ? category : null,
+                        date, time, note, receipt
+                    };
 
-                saveStorage();
-                elem.transactionModal.classList.add('hidden');
-                renderAll();
+                    const idx = state.transactions.findIndex(t => t.id === id);
+                    if (idx > -1) state.transactions[idx] = txObj;
+                    else state.transactions.push(txObj);
+
+                    saveStorage();
+                    elem.transactionModal.classList.add('hidden');
+                    renderAll();
+                };
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (evt) {
+                        saveTransaction(evt.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    saveTransaction(receiptData);
+                }
+            }
+
+            function viewReceipt(id) {
+                const tx = state.transactions.find(t => t.id === id);
+                if (tx && tx.receipt) {
+                    elem.receiptModalImg.src = tx.receipt;
+                    elem.receiptModal.classList.remove('hidden');
+                }
             }
 
             function editTx(id) {
@@ -1905,7 +1733,6 @@
                     }
                     loan.paidAmount += amt;
                     
-                    // Log repayment in history as income/expense to reflect in source balance naturally
                     const repayTx = {
                         id: 'tx_repay_' + Date.now(),
                         type: loan.type === 'RECEIVABLE' ? 'INCOME' : 'EXPENSE',
@@ -1960,40 +1787,6 @@
                     saveStorage();
                     renderAll();
                 }
-            }
-
-            function exportJSON() {
-                const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = `hat_khoroch_backup_${getTodayStr()}.json`;
-                a.click();
-            }
-
-            function importJSON(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    try {
-                        const data = JSON.parse(evt.target.result);
-                        if (data && Array.isArray(data.transactions) && Array.isArray(data.sources)) {
-                            if (confirm('বর্তমান সমস্ত ডাটা ব্যাকআপ দিয়ে প্রতিস্থাপিত হবে। আপনি কি নিশ্চিত?')) {
-                                state = data;
-                                saveStorage();
-                                renderAll();
-                                alert('ডাটা রিস্টোর সফল হয়েছে!');
-                            }
-                        } else {
-                            alert('ভুল ফাইল ফরম্যাট!');
-                        }
-                    } catch (err) {
-                        alert('JSON ফাইল পড়তে সমস্যা হয়েছে।');
-                    }
-                };
-                reader.readAsText(file);
-                elem.importFileInput.value = '';
             }
 
             function handleClearData() {
