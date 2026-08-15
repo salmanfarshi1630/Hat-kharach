@@ -119,12 +119,6 @@
             overflow: hidden;
         }
 
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         .header-title h1 {
             font-size: 1.25rem;
             color: var(--primary);
@@ -450,7 +444,17 @@
         .bank-statement-table .num-col { text-align: right; white-space: nowrap; }
 
         /* App Footer */
-        .app-footer { text-align: center; padding: 10px 0; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; font-family: var(--font-en); }
+        .app-footer { 
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center; 
+            padding: 16px 0; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            font-family: var(--font-en); 
+            letter-spacing: 1px;
+            margin-top: auto;
+        }
 
         @media print {
             body { background: white; color: black; padding-bottom: 0; }
@@ -618,7 +622,6 @@
                 <p style="margin-bottom:6px;"><strong>বাকি দেনা (দেব):</strong> <span id="repPayable">৳০</span></p>
             </div>
 
-            <!-- সময় ও তারিখ আলাদা কলাম সমৃদ্ধ ব্যাংক স্টেটমেন্ট টেবিল -->
             <div class="section-header"><h3>ব্যাংক স্টেটমেন্ট (বিস্তারিত লেনদেন)</h3></div>
             <div id="reportTableContainer" class="card" style="padding: 10px; overflow-x: auto;"></div>
             
@@ -686,7 +689,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="app-footer">Salman Farshi 2026</footer>
+    <footer class="app-footer">
+        &copy; 2026 SALMAN FARSHI | All Rights Reserved
+    </footer>
 
     <!-- FAB -->
     <div class="fab-container">
@@ -739,7 +744,6 @@
                     <select id="txCategory" class="form-control"></select>
                 </div>
 
-                <!-- ফিচার ১: 'অন্যান্য' ক্যাটাগরির জন্য কাস্টম ইনপুট ঘর -->
                 <div class="form-group hidden" id="otherCategoryGroup">
                     <label for="txOtherCategory">অন্যান্য খরচের বিবরণ লিখুন</label>
                     <input type="text" id="txOtherCategory" class="form-control" placeholder="যেমন: চা-নাস্তা, গাড়ি ভাড়া ইত্যাদি">
@@ -761,7 +765,6 @@
                     <input type="text" id="txNote" class="form-control" placeholder="সংক্ষিপ্ত বিবরণ...">
                 </div>
 
-                <!-- ফিচার ২: রশিদ / মেমো ছবি আপলোডের ফিল্ড -->
                 <div class="form-group">
                     <label for="txReceipt">🧾 রশিদ / মেমো ছবি যুক্ত করুন (ঐচ্ছিক)</label>
                     <input type="file" id="txReceipt" accept="image/*" class="form-control">
@@ -787,14 +790,14 @@
                 <div class="form-group">
                     <label for="loanType">ধরণ *</label>
                     <select id="loanType" class="form-control" required>
-                        <option value="RECEIVABLE">আমি পাব (Receivable)</option>
-                        <option value="PAYABLE">আমি দেব (Payable)</option>
+                        <option value="RECEIVABLE">আমি পাব (আমি ধার দিয়েছি / Receivable)</option>
+                        <option value="PAYABLE">আমি দেব (আমি ধার নিয়েছি / Payable)</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="loanPerson">ব্যক্তির নাম *</label>
-                    <input type="text" id="loanPerson" class="form-control" placeholder="নাম..." required>
+                    <input type="text" id="loanPerson" class="form-control" placeholder="ব্যক্তির নাম..." required>
                 </div>
 
                 <div class="form-group">
@@ -860,7 +863,7 @@
         </div>
     </div>
 
-    <!-- ফিচার ৩: রশিদ/মেমো দেখার মডাল পপআপ -->
+    <!-- RECEIPT MODAL -->
     <div id="receiptModal" class="modal-backdrop hidden">
         <div class="modal-content" style="text-align: center;">
             <h4 style="margin-bottom: 10px;">🧾 রশিদ / মেমোর ছবি</h4>
@@ -877,7 +880,7 @@
             'use strict';
 
             const DEFAULT_SOURCES = ["হাতে ক্যাশ", "bKash", "Nagad", "Rocket", "Upay", "Bank", "অন্যান্য"];
-            const DEFAULT_CATEGORIES = ["খাবার", "যাতায়াত", "শিক্ষা", "মোবাইল/ইন্টারনেট", "চিকিৎসা", "পরিবার", "কেনাকাটা", "ইসলামিক/দান", "বিনোদন", "বিল", "অন্যান্য"];
+            const DEFAULT_CATEGORIES = ["খাবার", "যাতায়াত", "শিক্ষা", "মোবাইল/ইন্টারনেট", "চিকিৎসা", "পরিবার", "কেনাকাটা", "ইসলামিক/দান", "বিনোদন", "বিল", "ধার পরিশোধ", "অন্যান্য"];
 
             let state = {
                 transactions: [],
@@ -1227,11 +1230,11 @@
                         <div class="item-details">
                             <strong>${escapeHtml(loan.person)} (${typeText}) ${loan.phone ? '• 📞 ' + escapeHtml(loan.phone) : ''}</strong>
                             <span>📅 ${loan.date} • মোট: ${formatCurrency(loan.amount)} | পরিশোধ: ${formatCurrency(loan.paidAmount)}</span>
-                            <span style="display:block; color:${badgeColor}; font-weight:bold; margin-top:2px;">বাকি: ${formatCurrency(due)}</span>
+                            <span style="display:block; color:${badgeColor}; font-weight:bold; margin-top:2px;">বাকি বকেয়া: ${formatCurrency(due)}</span>
                         </div>
                         <div class="item-amount-group">
                             <div class="item-actions">
-                                ${due > 0 ? `<button class="action-btn repay-loan" data-id="${loan.id}">💳 পরিশোধ</button>` : '<span style="font-size:0.75rem; color:var(--income-color);">পরিশোধিত</span>'}
+                                ${due > 0 ? `<button class="action-btn repay-loan" data-id="${loan.id}">💳 পরিশোধ</button>` : '<span style="font-size:0.75rem; color:var(--income-color);">সম্পূর্ণ পরিশোধিত</span>'}
                                 <button class="action-btn edit-loan" data-id="${loan.id}">✏️ এডিট</button>
                                 <button class="action-btn delete-loan" data-id="${loan.id}">🗑️ ডিলেট</button>
                             </div>
@@ -1267,7 +1270,6 @@
                 `).join('');
             }
 
-            /* ১ম কলামে সময় এবং ২য় কলামে তারিখ সমৃদ্ধ স্টেটমেন্ট টেবিল */
             function renderReport() {
                 const range = elem.reportRangeSelect.value;
                 let start = '', end = '';
@@ -1355,10 +1357,10 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="4" style="text-align:right;">মোট সর্বমোট</td>
-                                <td class="num-col">${formatNumberOnly(totalWithdraw)}</td>
-                                <td class="num-col">${formatNumberOnly(totalDeposit)}</td>
-                                <td class="num-col">${formatNumberOnly(runningBalance)}</td>
+                                <td colspan="4" style="text-align:right; font-weight:bold;">মোট সর্বমোট</td>
+                                <td class="num-col" style="font-weight:bold;">${formatNumberOnly(totalWithdraw)}</td>
+                                <td class="num-col" style="font-weight:bold;">${formatNumberOnly(totalDeposit)}</td>
+                                <td class="num-col" style="font-weight:bold;">${formatNumberOnly(runningBalance)}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -1415,7 +1417,6 @@
                     });
                 });
 
-                // 'অন্যান্য' নির্বাচন করলে অতিরিক্ত ঘড় দেখানোর ব্যবস্থা
                 elem.txCategory.addEventListener('change', () => {
                     if (elem.txCategory.value === 'অন্যান্য') {
                         elem.otherCategoryGroup.classList.remove('hidden');
@@ -1741,7 +1742,7 @@
                         category: 'ধার পরিশোধ',
                         date: date,
                         time: new Date().toTimeString().split(' ')[0].substring(0, 5),
-                        note: `${loan.person}-এর ধার পরিশোধ/প্রাপ্তি`
+                        note: `${loan.person}-এর ধার ${loan.type === 'RECEIVABLE' ? 'প্রাপ্তি' : 'পরিশোধ'}`
                     };
                     state.transactions.push(repayTx);
 
