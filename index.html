@@ -107,6 +107,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            margin: 0 auto;
         }
 
         .logo-container {
@@ -146,17 +147,33 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            position: absolute;
+            right: 16px;
+        }
+        
+        .header-left-actions {
+            position: absolute;
+            left: 16px;
+            display: flex;
+            align-items: center;
+            z-index: 10;
         }
 
         .website-link {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--primary);
             text-decoration: none;
-            padding: 6px 12px;
+            padding: 4px 10px;
             border: 1px solid var(--primary);
             border-radius: 20px;
             font-weight: 600;
             transition: all 0.2s;
+            text-align: center;
+            line-height: 1.2;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .website-link:hover {
@@ -485,22 +502,27 @@
     <!-- Islamic Bismillah Bar -->
     <div class="bismillah-bar">
         <div class="bismillah-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-        <div class="bismillah-meaning">পরম করুণাময়, অতি দয়ালু আল্লাহর নামে</div>
+        <div class="bismillah-meaning" data-translate="bismillahMeaning">পরম করুণাময়, অতি দয়ালু আল্লাহর নামে</div>
     </div>
 
     <!-- Header Bar -->
     <header class="app-header">
+        <div class="header-left-actions">
+            <a href="https://salmanfarshi1630.github.io/" target="_blank" class="website-link">
+                <span style="font-size: 0.7rem; line-height: 1.1;">আমার</span>
+                <span style="font-size: 0.7rem; line-height: 1.1;" data-translate="myWebsite">ওয়েবসাইট</span>
+            </a>
+        </div>
         <div class="header-brand">
             <div class="logo-container" id="logoContainer">
                 <img src="https://i.ibb.co.com/HDkwQdny/logo.png" alt="লোগো" id="appLogoImg">
             </div>
             <div class="header-title">
-                <h1 id="headerAppName">হাত-খরচ</h1>
-                <span class="subtitle">Personal Money Manager</span>
+                <h1 id="headerAppName" data-translate="appName">হাত-খরচ</h1>
+                <span class="subtitle" data-translate="myWebsiteSub">আমার ওয়েবসাইট</span>
             </div>
         </div>
         <div class="header-actions">
-            <a href="https://salmanfarshi1630.github.io/" target="_blank" class="website-link">আমার ওয়েবসাইট</a>
             <button id="themeToggleBtn" class="icon-btn" aria-label="Toggle Theme">
                 <span id="themeIcon">🌙</span>
             </button>
@@ -513,97 +535,100 @@
         <!-- DASHBOARD VIEW -->
         <section id="dashboardView" class="app-view active">
             <div class="card quran-card">
-                <div class="quran-card-header">📖 কুরআনের মহান উপদেশ</div>
+                <div class="quran-card-header" data-translate="quranHeader">📖 কুরআনের মহান উপদেশ</div>
                 <div class="quran-arabic">وَلَا تُسْرِفُوا ۚ إِنَّهُ لَا يُحِبُّ الْمُسْرِفِينَ</div>
-                <div class="quran-bangla">“আর তোমরা অপব্যয় করো না। নিশ্চয়ই তিনি অপব্যয়কারীদের ভালোবাসেন না।”</div>
-                <div class="quran-ref">— সূরা আল-আ'রাফ (৭:৩১)</div>
+                <div class="quran-bangla" data-translate="quranText">“আর তোমরা অপব্যয় করো না। নিশ্চয়ই তিনি অপব্যয়কারীদের ভালোবাসেন না।”</div>
+                <div class="quran-ref" data-translate="quranRef">— সূরা আল-আ'রাফ (৭:৩১)</div>
             </div>
 
-            <div class="section-header"><h3>টাকার উৎসসমূহ (Sources)</h3></div>
+            <div class="section-header"><h3 data-translate="moneySources">টাকার উৎসসমূহ (Sources)</h3></div>
             <div id="sourcesList" class="sources-grid"></div>
 
-            <div class="section-header"><h3>আয়-ব্যয় সংক্ষিপ্ত</h3></div>
+            <div class="section-header"><h3 data-translate="incomeExpenseSummary">আয়-ব্যয় সংক্ষিপ্ত</h3></div>
             <div class="grid-2">
-                <div class="card stat-card income-bg"><span class="card-label">আজকের আয়</span><h3 id="todayIncomeText">৳০</h3></div>
-                <div class="card stat-card expense-bg"><span class="card-label">আজকের খরচ</span><h3 id="todayExpenseText">৳০</h3></div>
-                <div class="card stat-card income-bg"><span class="card-label">এই মাসের আয়</span><h3 id="monthIncomeText">৳০</h3></div>
-                <div class="card stat-card expense-bg"><span class="card-label">এই মাসের খরচ</span><h3 id="monthExpenseText">৳০</h3></div>
+                <div class="card stat-card income-bg"><span class="card-label" data-translate="todayIncome">আজকের আয়</span><h3 id="todayIncomeText">৳০</h3></div>
+                <div class="card stat-card expense-bg"><span class="card-label" data-translate="todayExpense">আজকের খরচ</span><h3 id="todayExpenseText">৳০</h3></div>
+                <div class="card stat-card income-bg"><span class="card-label" data-translate="monthIncome">এই মাসের আয়</span><h3 id="monthIncomeText">৳০</h3></div>
+                <div class="card stat-card expense-bg"><span class="card-label" data-translate="monthExpense">এই মাসের খরচ</span><h3 id="monthExpenseText">৳০</h3></div>
             </div>
 
-            <div class="section-header"><h3>ধার-পাওনা সংক্ষিপ্ত</h3></div>
-            <div class="grid-2">
-                <div class="card stat-card income-bg"><span class="card-label">আমি পাব (Receivable)</span><h3 id="totalReceivableText">৳০</h3></div>
-                <div class="card stat-card expense-bg"><span class="card-label">আমি দেব (Payable)</span><h3 id="totalPayableText">৳০</h3></div>
+            <!-- Loan & Debt on Home Screen -->
+            <div class="card" style="border: 1px solid var(--border-color);">
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="p-3 rounded-lg text-center border" style="background-color: var(--bg-main); border-color: var(--border-color);">
+                        <p class="text-xs font-semibold" style="color: var(--text-muted);" data-translate="receivableTitle">আমি পাবো (পাওনা)</p>
+                        <p id="total-receivable" class="text-lg font-bold" style="color: var(--income-color);">৳০.০০</p>
+                    </div>
+                    <div class="p-3 rounded-lg text-center border" style="background-color: var(--bg-main); border-color: var(--border-color);">
+                        <p class="text-xs font-semibold" style="color: var(--text-muted);" data-translate="payableTitle">আমি দেবো (দেনা)</p>
+                        <p id="total-payable" class="text-lg font-bold" style="color: var(--expense-color);">৳০.০০</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-sm font-bold" style="color: var(--text-main);" data-translate="loanHeaderTitle">ধার ও দেনার হিসাব-নিকাশ</h3>
+                    <button id="open-loan-modal" class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold hover:bg-blue-700 transition-all" data-translate="newLoanBtn">
+                        + নতুন ধার/পাওনা
+                    </button>
+                </div>
+
+                <div id="loan-list" class="space-y-2">
+                    <p id="empty-msg" class="text-center py-2 text-xs" style="color: var(--text-muted);" data-translate="noLoans">এখনো কোনো ধার-দেনার হিসাব নেই</p>
+                </div>
             </div>
         </section>
 
         <!-- HISTORY VIEW -->
         <section id="historyView" class="app-view">
-            <div class="section-header"><h3>লেনদেনের ইতিহাস</h3></div>
+            <div class="section-header"><h3 data-translate="txHistory">লেনদেনের ইতিহাস</h3></div>
             <div class="card filter-card">
                 <div class="form-group">
-                    <input type="text" id="searchInput" placeholder="খুঁজুন (নোট, ক্যাটাগরি বা উৎস)..." class="form-control">
+                    <input type="text" id="searchInput" placeholder="খুঁজুন (নোট, ক্যাটাগরি বা উৎস)..." data-translate-placeholder="searchPlaceholder" class="form-control">
                 </div>
                 <div class="grid-2">
                     <div class="form-group">
-                        <label for="typeFilter">টাইপ</label>
+                        <label for="typeFilter" data-translate="typeLabel">টাইপ</label>
                         <select id="typeFilter" class="form-control">
-                            <option value="ALL">সব টাইপ</option>
-                            <option value="INCOME">আয়</option>
-                            <option value="EXPENSE">খরচ</option>
-                            <option value="TRANSFER">ট্রান্সফার</option>
+                            <option value="ALL" data-translate="allTypes">সব টাইপ</option>
+                            <option value="INCOME" data-translate="incomeOpt">আয়</option>
+                            <option value="EXPENSE" data-translate="expenseOpt">খরচ</option>
+                            <option value="TRANSFER" data-translate="transferOpt">ট্রান্সফার</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="dateFilter">সময়সীমা</label>
+                        <label for="dateFilter" data-translate="timeRangeLabel">সময়সীমা</label>
                         <select id="dateFilter" class="form-control">
-                            <option value="ALL">সব সময়</option>
-                            <option value="TODAY">আজ</option>
-                            <option value="WEEK">এই সপ্তাহ</option>
-                            <option value="MONTH">এই মাস</option>
+                            <option value="ALL" data-translate="allTime">সব সময়</option>
+                            <option value="TODAY" data-translate="todayOpt">আজ</option>
+                            <option value="WEEK" data-translate="weekOpt">এই সপ্তাহ</option>
+                            <option value="MONTH" data-translate="monthOpt">এই মাস</option>
                         </select>
                     </div>
                 </div>
                 <div class="grid-2">
                     <div class="form-group">
-                        <label for="sourceFilter">উৎস</label>
-                        <select id="sourceFilter" class="form-control"><option value="ALL">সব উৎস</option></select>
+                        <label for="sourceFilter" data-translate="sourceLabelNav">উৎস</label>
+                        <select id="sourceFilter" class="form-control"><option value="ALL" data-translate="allSources">সব উৎস</option></select>
                     </div>
                     <div class="form-group">
-                        <label for="categoryFilter">ক্যাটাগরি</label>
-                        <select id="categoryFilter" class="form-control"><option value="ALL">সব ক্যাটাগরি</option></select>
+                        <label for="categoryFilter" data-translate="categoryLabelNav">ক্যাটাগরি</label>
+                        <select id="categoryFilter" class="form-control"><option value="ALL" data-translate="allCategories">সব ক্যাটাগরি</option></select>
                     </div>
                 </div>
             </div>
             <div id="transactionList" class="item-list"></div>
         </section>
 
-        <!-- LOAN / DEBT VIEW -->
+        <!-- NOTE VIEW (Replacing Loan View position) -->
         <section id="loanView" class="app-view">
-            <div class="max-w-xl mx-auto bg-white rounded-xl shadow-md p-4 sm:p-6 text-gray-800">
-                <!-- Summary Section -->
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div class="bg-blue-50 p-4 rounded-lg text-center border border-blue-200">
-                        <p class="text-gray-600 text-sm font-semibold">আমি পাবো (পাওনা)</p>
-                        <p id="total-receivable" class="text-xl font-bold text-blue-600">৳০.০০</p>
-                    </div>
-                    <div class="bg-red-50 p-4 rounded-lg text-center border border-red-200">
-                        <p class="text-gray-600 text-sm font-semibold">আমি দেবো (দেনা)</p>
-                        <p id="total-payable" class="text-xl font-bold text-red-600">৳০.০০</p>
-                    </div>
-                </div>
-
-                <!-- Header Action -->
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-bold text-gray-700">ধার ও দেনার হিসাব-নিকাশ</h2>
-                    <button id="open-loan-modal" class="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-all">
-                        + নতুন ধার/পাওনা
-                    </button>
-                </div>
-
-                <!-- Loan Item List -->
-                <div id="loan-list" class="space-y-3">
-                    <p id="empty-msg" class="text-center text-gray-400 py-4">এখনো কোনো ধার-দেনার হিসাব নেই</p>
+            <div class="section-header"><h3 data-translate="notepadTitle">নোট প্যাড (Quick Notes)</h3></div>
+            <div class="card">
+                <form id="noteForm" class="inline-form" style="margin-bottom: 12px;">
+                    <input type="text" id="noteInput" class="form-control" placeholder="জরুরি নোট লিখে রাখুন..." data-translate-placeholder="notePlaceholder" required>
+                    <button type="submit" class="btn btn-primary" data-translate="addBtn">যোগ</button>
+                </form>
+                <div id="notesList" class="item-list" style="max-height: 400px; overflow-y: auto;">
+                    <p id="emptyNoteMsg" style="text-align:center; color:var(--text-muted); font-size:0.85rem;" data-translate="noNotes">কোনো নোট নেই</p>
                 </div>
             </div>
         </section>
@@ -618,38 +643,38 @@
             </div>
 
             <div class="section-header">
-                <h3>স্টেটমেন্ট ও রিপোর্ট</h3>
-                <button id="printReportBtn" class="btn btn-primary">🖨️ প্রিন্ট / PDF সেভ</button>
+                <h3 data-translate="statementReportTitle">স্টেটমেন্ট ও রিপোর্ট</h3>
+                <button id="printReportBtn" class="btn btn-primary" data-translate="printBtn">🖨️ প্রিন্ট / PDF সেভ</button>
             </div>
 
             <div class="card filter-card">
                 <div class="form-group">
-                    <label for="reportRangeSelect">সময়সীমা নির্বাচন করুন</label>
+                    <label for="reportRangeSelect" data-translate="selectTimeRange">সময়সীমা নির্বাচন করুন</label>
                     <select id="reportRangeSelect" class="form-control">
-                        <option value="TODAY">আজ</option>
-                        <option value="WEEK">এই সপ্তাহ</option>
-                        <option value="THIS_MONTH" selected>এই মাস</option>
-                        <option value="LAST_MONTH">গত মাস</option>
-                        <option value="THIS_YEAR">এই বছর</option>
-                        <option value="CUSTOM">কাস্টম তারিখ</option>
+                        <option value="TODAY" data-translate="todayOpt">আজ</option>
+                        <option value="WEEK" data-translate="weekOpt">এই সপ্তাহ</option>
+                        <option value="THIS_MONTH" selected data-translate="thisMonthOpt">এই মাস</option>
+                        <option value="LAST_MONTH" data-translate="lastMonthOpt">গত মাস</option>
+                        <option value="THIS_YEAR" data-translate="thisYearOpt">এই বছর</option>
+                        <option value="CUSTOM" data-translate="customDateOpt">কাস্টম তারিখ</option>
                     </select>
                 </div>
                 <div class="grid-2 hidden" id="customDateGroup">
-                    <div class="form-group"><label for="reportStartDate">শুরু তারিখ</label><input type="date" id="reportStartDate" class="form-control"></div>
-                    <div class="form-group"><label for="reportEndDate">শেষ তারিখ</label><input type="date" id="reportEndDate" class="form-control"></div>
+                    <div class="form-group"><label for="reportStartDate" data-translate="startDate">শুরু তারিখ</label><input type="date" id="reportStartDate" class="form-control"></div>
+                    <div class="form-group"><label for="reportEndDate" data-translate="endDate">শেষ তারিখ</label><input type="date" id="reportEndDate" class="form-control"></div>
                 </div>
             </div>
 
             <div id="reportSummaryContent" class="card">
-                <h4 style="font-size:1rem; margin-bottom:12px; color:var(--primary);">রিপোর্ট সংক্ষিপ্তি</h4>
-                <p style="margin-bottom:6px;"><strong>মোট আয়:</strong> <span id="repIncome">৳০</span></p>
-                <p style="margin-bottom:6px;"><strong>মোট খরচ:</strong> <span id="repExpense">৳০</span></p>
-                <p style="margin-bottom:6px;"><strong>নিট সঞ্চয়/ব্যালেন্স:</strong> <span id="repNet">৳০</span></p>
-                <p style="margin-bottom:6px;"><strong>বাকি পাওনা (পাব):</strong> <span id="repReceivable">৳০</span></p>
-                <p style="margin-bottom:6px;"><strong>বাকি দেনা (দেব):</strong> <span id="repPayable">৳০</span></p>
+                <h4 style="font-size:1rem; margin-bottom:12px; color:var(--primary);" data-translate="reportSummaryTitle">রিপোর্ট সংক্ষিপ্তি</h4>
+                <p style="margin-bottom:6px;"><strong data-translate="totalIncomeRep">মোট আয়:</strong> <span id="repIncome">৳০</span></p>
+                <p style="margin-bottom:6px;"><strong data-translate="totalExpenseRep">মোট খরচ:</strong> <span id="repExpense">৳০</span></p>
+                <p style="margin-bottom:6px;"><strong data-translate="netSavingsRep">নিট সঞ্চয়/ব্যালেন্স:</strong> <span id="repNet">৳০</span></p>
+                <p style="margin-bottom:6px;"><strong data-translate="receivableRep">বাকি পাওনা (পাব):</strong> <span id="repReceivable">৳০</span></p>
+                <p style="margin-bottom:6px;"><strong data-translate="payableRep">বাকি দেনা (দেব):</strong> <span id="repPayable">৳০</span></p>
             </div>
 
-            <div class="section-header"><h3>ব্যাংক স্টেটমেন্ট (বিস্তারিত লেনদেন)</h3></div>
+            <div class="section-header"><h3 data-translate="bankStatementTitle">ব্যাংক স্টেটমেন্ট (বিস্তারিত লেনদেন)</h3></div>
             <div id="reportTableContainer" class="card" style="padding: 10px; overflow-x: auto;"></div>
             
             <div class="statement-footer-text"></div>
@@ -657,7 +682,20 @@
 
         <!-- SETTINGS VIEW -->
         <section id="settingsView" class="app-view">
-            <div class="section-header"><h3>সেটিংস ও প্রোফাইল</h3></div>
+            <div class="section-header"><h3 data-translate="settingsProfileTitle">সেটিংস ও প্রোফাইল</h3></div>
+            
+            <!-- Language Settings Card -->
+            <div class="card">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="languageSelect" style="font-weight: bold; font-size: 0.9rem; color: var(--text-main);" data-translate="languageLabel">ভাষা পরিবর্তন করুন (Language)</label>
+                    <select id="languageSelect" class="form-control" style="margin-top: 6px;">
+                        <option value="bn">বাংলা (Bengali)</option>
+                        <option value="ar">العربية (Arabic)</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="profile-banner">
                     <img id="profileDisplayImg" src="https://i.ibb.co.com/HDkwQdny/logo.png" class="profile-avatar" alt="প্রোফাইল ছবি">
@@ -668,18 +706,18 @@
                 </div>
                 <hr style="margin: 10px 0; border-color: var(--border-color);">
                 <form id="profileForm">
-                    <div class="form-group"><label for="profName">আপনার নাম</label><input type="text" id="profName" class="form-control" placeholder="আপনার নাম লিখুন"></div>
-                    <div class="form-group"><label for="profPhone">মোবাইল নম্বর</label><input type="text" id="profPhone" class="form-control" placeholder="01XXXXXXXXX"></div>
-                    <div class="form-group"><label for="profImg">প্রোফাইল ছবি (ঐচ্ছিক)</label><input type="file" id="profImg" accept="image/*" class="form-control"></div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">প্রোফাইল সেভ করুন</button>
+                    <div class="form-group"><label for="profName" data-translate="yourName">আপনার নাম</label><input type="text" id="profName" class="form-control" placeholder="আপনার নাম লিখুন" data-translate-placeholder="namePlaceholder"></div>
+                    <div class="form-group"><label for="profPhone" data-translate="mobileNo">মোবাইল নম্বর</label><input type="text" id="profPhone" class="form-control" placeholder="01XXXXXXXXX"></div>
+                    <div class="form-group"><label for="profImg" data-translate="profilePic">প্রোফাইল ছবি (ঐচ্ছিক)</label><input type="file" id="profImg" accept="image/*" class="form-control"></div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;" data-translate="saveProfileBtn">প্রোফাইল সেভ করুন</button>
                 </form>
             </div>
 
             <div class="card">
                 <div class="setting-toggle">
                     <div>
-                        <strong>নেগেটিভ ব্যালেন্স অনুমতি</strong>
-                        <p style="font-size:0.75rem; color:var(--text-muted);">ব্যালেন্স ০-এর কম হলেও খরচ/ট্রান্সফার করার অনুমতি দিন</p>
+                        <strong data-translate="negativeBalTitle">নেগেটিভ ব্যালেন্স অনুমতি</strong>
+                        <p style="font-size:0.75rem; color:var(--text-muted);" data-translate="negativeBalDesc">ব্যালেন্স ০-এর কম হলেও খরচ/ট্রান্সফার করার অনুমতি দিন</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" id="allowNegativeToggle">
@@ -689,27 +727,27 @@
             </div>
 
             <div class="card">
-                <h4 style="font-size:0.95rem; margin-bottom:8px;">উৎস (Sources) ব্যবস্থাপনা</h4>
+                <h4 style="font-size:0.95rem; margin-bottom:8px;" data-translate="sourceMgmtTitle">উৎস (Sources) ব্যবস্থাপনা</h4>
                 <form id="addSourceForm" class="inline-form">
-                    <input type="text" id="newSourceName" placeholder="নতুন উৎসের নাম..." class="form-control" required>
-                    <button type="submit" class="btn btn-primary">যোগ</button>
+                    <input type="text" id="newSourceName" placeholder="নতুন উৎসের নাম..." data-translate-placeholder="newSourcePlaceholder" class="form-control" required>
+                    <button type="submit" class="btn btn-primary" data-translate="addBtn">যোগ</button>
                 </form>
                 <div id="manageSourcesList" class="tag-list"></div>
             </div>
 
             <div class="card">
-                <h4 style="font-size:0.95rem; margin-bottom:8px;">ক্যাটাগরি ব্যবস্থাপনা</h4>
+                <h4 style="font-size:0.95rem; margin-bottom:8px;" data-translate="categoryMgmtTitle">ক্যাটাগরি ব্যবস্থাপনা</h4>
                 <form id="addCategoryForm" class="inline-form">
-                    <input type="text" id="newCategoryName" placeholder="নতুন ক্যাটাগরির নাম..." class="form-control" required>
-                    <button type="submit" class="btn btn-primary">যোগ</button>
+                    <input type="text" id="newCategoryName" placeholder="নতুন ক্যাটারির নাম..." data-translate-placeholder="newCategoryPlaceholder" class="form-control" required>
+                    <button type="submit" class="btn btn-primary" data-translate="addBtn">যোগ</button>
                 </form>
                 <div id="manageCategoriesList" class="tag-list"></div>
             </div>
 
             <div class="card" style="border-color: var(--expense-color);">
-                <h4 style="font-size:0.95rem; margin-bottom:4px; color: var(--expense-color);">ডাটা রিসেট</h4>
-                <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">সমস্ত লেনদেন, ধার-পাওনা, প্রোফাইল ডাটা মুছে ফেলুন।</p>
-                <button id="clearDataBtn" class="btn btn-danger">সব ডাটা মুছে ফেলুন</button>
+                <h4 style="font-size:0.95rem; margin-bottom:4px; color: var(--expense-color);" data-translate="dataResetTitle">ডাটা রিসেট</h4>
+                <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;" data-translate="dataResetDesc">সমস্ত লেনদেন, ধার-পাওনা, প্রোফাইল ডাটা মুছে ফেলুন।</p>
+                <button id="clearDataBtn" class="btn btn-danger" data-translate="clearDataBtn">সব ডাটা মুছে ফেলুন</button>
             </div>
         </section>
 
@@ -723,28 +761,28 @@
     <!-- FAB -->
     <div class="fab-container">
         <div id="fabOptions" class="fab-options hidden">
-            <button class="fab-option income-btn" data-action="INCOME">➕ আয়</button>
-            <button class="fab-option expense-btn" data-action="EXPENSE">➖ খরচ</button>
-            <button class="fab-option transfer-btn" data-action="TRANSFER">🔄 ট্রান্সফার</button>
-            <button class="fab-option" style="background-color: var(--accent-gold);" data-action="LOAN">🤝 ধার/পাওনা</button>
+            <button class="fab-option income-btn" data-action="INCOME" data-translate="fabIncome">➕ আয়</button>
+            <button class="fab-option expense-btn" data-action="EXPENSE" data-translate="fabExpense">➖ খরচ</button>
+            <button class="fab-option transfer-btn" data-action="TRANSFER" data-translate="fabTransfer">🔄 ট্রান্সফার</button>
+            <button class="fab-option" style="background-color: var(--accent-gold);" data-action="LOAN" data-translate="fabLoan">🤝 ধার/পাওনা</button>
         </div>
         <button id="mainFab" class="fab-main">+</button>
     </div>
 
     <!-- Bottom Nav -->
     <nav class="bottom-nav">
-        <button class="nav-item active" data-view="dashboardView"><span class="nav-icon">🏠</span><span>হোম</span></button>
-        <button class="nav-item" data-view="historyView"><span class="nav-icon">📜</span><span>ইতিহাস</span></button>
-        <button class="nav-item" data-view="loanView"><span class="nav-icon">🤝</span><span>ধার-পাওনা</span></button>
-        <button class="nav-item" data-view="reportView"><span class="nav-icon">📊</span><span>রিপোর্ট</span></button>
-        <button class="nav-item" data-view="settingsView"><span class="nav-icon">⚙️</span><span>সেটিংস</span></button>
+        <button class="nav-item active" data-view="dashboardView"><span class="nav-icon">🏠</span><span data-translate="navHome">হোম</span></button>
+        <button class="nav-item" data-view="historyView"><span class="nav-icon">📜</span><span data-translate="navHistory">ইতিহাস</span></button>
+        <button class="nav-item" data-view="loanView"><span class="nav-icon">📝</span><span data-translate="navNote">নোট</span></button>
+        <button class="nav-item" data-view="reportView"><span class="nav-icon">📊</span><span data-translate="navReport">রিপোর্ট</span></button>
+        <button class="nav-item" data-view="settingsView"><span class="nav-icon">⚙️</span><span data-translate="navSettings">সেটিংস</span></button>
     </nav>
 
     <!-- MODAL FOR ADD / EDIT TRANSACTION -->
     <div id="transactionModal" class="modal-backdrop hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle" style="font-size:1.1rem;">নতুন লেনদেন</h3>
+                <h3 id="modalTitle" style="font-size:1.1rem;" data-translate="newTxTitle">নতুন লেনদেন</h3>
                 <button class="close-btn closeModalBtn">&times;</button>
             </div>
             <form id="transactionForm">
@@ -752,97 +790,97 @@
                 <input type="hidden" id="txType">
 
                 <div class="form-group">
-                    <label for="txAmount">পরিমাণ (৳) *</label>
+                    <label for="txAmount" data-translate="amountLabel">পরিমাণ (৳) *</label>
                     <input type="number" step="any" min="0.01" id="txAmount" class="form-control" placeholder="0.00" required>
                 </div>
 
                 <div class="form-group" id="sourceGroup">
-                    <label for="txSource" id="sourceLabel">উৎস *</label>
+                    <label for="txSource" id="sourceLabel" data-translate="sourceLabelModal">উৎস *</label>
                     <select id="txSource" class="form-control" required></select>
                 </div>
 
                 <div class="form-group hidden" id="toSourceGroup">
-                    <label for="txToSource">কোন উৎসে পাঠাবেন *</label>
+                    <label for="txToSource" data-translate="toSourceLabel">কোন উৎসে পাঠাবেন *</label>
                     <select id="txToSource" class="form-control"></select>
                 </div>
 
                 <div class="form-group" id="categoryGroup">
-                    <label for="txCategory">ক্যাটাগরি *</label>
+                    <label for="txCategory" data-translate="categoryLabelModal">ক্যাটাগরি *</label>
                     <select id="txCategory" class="form-control"></select>
                 </div>
 
                 <div class="form-group hidden" id="otherCategoryGroup">
-                    <label for="txOtherCategory">অন্যান্য খরচের বিবরণ লিখুন</label>
+                    <label for="txOtherCategory" data-translate="otherCatLabel">অন্যান্য খরচের বিবরণ লিখুন</label>
                     <input type="text" id="txOtherCategory" class="form-control" placeholder="যেমন: চা-নাস্তা, গাড়ি ভাড়া ইত্যাদি">
                 </div>
 
                 <div class="grid-2">
                     <div class="form-group">
-                        <label for="txDate">তারিখ *</label>
+                        <label for="txDate" data-translate="dateLabel">তারিখ *</label>
                         <input type="date" id="txDate" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="txTime">সময় *</label>
+                        <label for="txTime" data-translate="timeLabel">সময় *</label>
                         <input type="time" id="txTime" class="form-control" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="txNote">নোট (ঐচ্ছিক)</label>
-                    <input type="text" id="txNote" class="form-control" placeholder="সংক্ষিপ্ত বিবরণ...">
+                    <label for="txNote" data-translate="noteLabel">নোট (ঐচ্ছিক)</label>
+                    <input type="text" id="txNote" class="form-control" placeholder="সংক্ষিপ্ত বিবরণ..." data-translate-placeholder="noteDescPlaceholder">
                 </div>
 
                 <div class="form-group">
-                    <label for="txReceipt">🧾 রশিদ / মেমো ছবি যুক্ত করুন (ঐচ্ছিক)</label>
+                    <label for="txReceipt" data-translate="receiptLabel">🧾 রশিদ / মেমো ছবি যুক্ত করুন (ঐচ্ছিক)</label>
                     <input type="file" id="txReceipt" accept="image/*" class="form-control">
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline closeModalBtn">বাতিল</button>
-                    <button type="submit" class="btn btn-primary">সংরক্ষণ করুন</button>
+                    <button type="button" class="btn btn-outline closeModalBtn" data-translate="cancelBtn">বাতিল</button>
+                    <button type="submit" class="btn btn-primary" data-translate="saveBtn">সংরক্ষণ করুন</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL FOR ADD / EDIT LOAN (FIXED Z-INDEX & ALIGNMENT) -->
+    <!-- MODAL FOR ADD / EDIT LOAN -->
     <div id="loan-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-[250]">
-        <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl relative max-h-[90vh] overflow-y-auto text-gray-800 my-auto">
-            <h3 id="modal-title" class="text-lg font-bold text-gray-800 mb-4">নতুন ধার/পাওনা যোগ করুন</h3>
+        <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl relative max-h-[90vh] overflow-y-auto text-gray-800 my-auto" style="background-color: var(--bg-card); color: var(--text-main);">
+            <h3 id="modal-title" class="text-lg font-bold mb-4" data-translate="newLoanModalTitle">নতুন ধার/পাওনা যোগ করুন</h3>
             
             <form id="loan-form" class="space-y-4">
                 <input type="hidden" id="loan-id">
                 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-600 mb-1">লেনদেনের ধরন *</label>
-                    <select id="loan-type" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" required>
-                        <option value="pabo">আমি পাবো (পাওনা)</option>
-                        <option value="debo">আমি দেবো (দেনা)</option>
+                    <label class="block text-sm font-semibold mb-1" style="color: var(--text-muted);" data-translate="loanTypeLabel">লেনদেনের ধরন *</label>
+                    <select id="loan-type" class="w-full border rounded-lg p-2 outline-none" style="background-color: var(--bg-main); color: var(--text-main); border-color: var(--border-color);" required>
+                        <option value="pabo" data-translate="paboOpt">আমি পাবো (পাওনা)</option>
+                        <option value="debo" data-translate="deboOpt">আমি দেবো (দেনা)</option>
                     </select>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-600 mb-1">ব্যক্তির নাম *</label>
-                    <input type="text" id="loan-person" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="উদা: রহিম" required>
+                    <label class="block text-sm font-semibold mb-1" style="color: var(--text-muted);" data-translate="personNameLabel">ব্যক্তির নাম *</label>
+                    <input type="text" id="loan-person" class="w-full border rounded-lg p-2 outline-none" style="background-color: var(--bg-main); color: var(--text-main); border-color: var(--border-color);" placeholder="উদা: রহিম" required>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-600 mb-1">পরিমাণ (৳) *</label>
-                    <input type="number" id="loan-amount" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="0.00" min="1" step="any" required>
+                    <label class="block text-sm font-semibold mb-1" style="color: var(--text-muted);" data-translate="amountLabel">পরিমাণ (৳) *</label>
+                    <input type="number" id="loan-amount" class="w-full border rounded-lg p-2 outline-none" style="background-color: var(--bg-main); color: var(--text-main); border-color: var(--border-color);" placeholder="0.00" min="1" step="any" required>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-600 mb-1">মোবাইল নম্বর (ঐচ্ছিক)</label>
-                    <input type="tel" id="loan-phone" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="017xxxxxxxx">
+                    <label class="block text-sm font-semibold mb-1" style="color: var(--text-muted);" data-translate="mobileNoOptional">মোবাইল নম্বর (ঐচ্ছিক)</label>
+                    <input type="tel" id="loan-phone" class="w-full border rounded-lg p-2 outline-none" style="background-color: var(--bg-main); color: var(--text-main); border-color: var(--border-color);" placeholder="017xxxxxxxx">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-600 mb-1">তারিখ *</label>
-                    <input type="date" id="loan-date" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" required>
+                    <label class="block text-sm font-semibold mb-1" style="color: var(--text-muted);" data-translate="dateLabel">তারিখ *</label>
+                    <input type="date" id="loan-date" class="w-full border rounded-lg p-2 outline-none" style="background-color: var(--bg-main); color: var(--text-main); border-color: var(--border-color);" required>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-600 mb-1">রশিদের ছবি (ঐচ্ছিক)</label>
+                    <label class="block text-sm font-semibold mb-1" style="color: var(--text-muted);" data-translate="receiptImgLabel">রশিদের ছবি (ঐচ্ছিক)</label>
                     <input type="file" id="loan-receipt" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                     <input type="hidden" id="existing-receipt">
                     <div id="receipt-preview-container" class="mt-2 hidden">
@@ -851,13 +889,13 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-600 mb-1">নোট / বিবরণ (ঐচ্ছিক)</label>
-                    <textarea id="loan-note" rows="2" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="সংক্ষিপ্ত বিবরণ..."></textarea>
+                    <label class="block text-sm font-semibold mb-1" style="color: var(--text-muted);" data-translate="noteDescLabel">নোট / বিবরণ (ঐচ্ছিক)</label>
+                    <textarea id="loan-note" rows="2" class="w-full border rounded-lg p-2 outline-none" style="background-color: var(--bg-main); color: var(--text-main); border-color: var(--border-color);" placeholder="সংক্ষিপ্ত বিবরণ..."></textarea>
                 </div>
 
                 <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" id="close-modal" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">বাতিল</button>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">সংরক্ষণ করুন</button>
+                    <button type="button" id="close-modal" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400" data-translate="cancelBtn">বাতিল</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" data-translate="saveBtn">সংরক্ষণ করুন</button>
                 </div>
             </form>
         </div>
@@ -866,10 +904,10 @@
     <!-- RECEIPT MODAL -->
     <div id="receiptModal" class="modal-backdrop hidden">
         <div class="modal-content text-center">
-            <h4 style="margin-bottom: 10px; font-weight:bold;">🧾 রশিদ / মেমোর ছবি</h4>
+            <h4 style="margin-bottom: 10px; font-weight:bold;" data-translate="receiptModalTitle">🧾 রশিদ / মেমোর ছবি</h4>
             <img id="receiptModalImg" src="" alt="মেমো পাওয়া যায়নি" style="max-width: 100%; max-height: 350px; border-radius: 8px; border: 1px solid var(--border-color);" class="mx-auto">
             <div style="margin-top: 15px;">
-                <button class="btn btn-danger closeReceiptModalBtn">বন্ধ করুন</button>
+                <button class="btn btn-danger closeReceiptModalBtn" data-translate="closeBtn">বন্ধ করুন</button>
             </div>
         </div>
     </div>
@@ -879,16 +917,332 @@
         (function () {
             'use strict';
 
+            const TRANSLATIONS = {
+                bn: {
+                    appName: "হাত-খরচ",
+                    myWebsite: "ওয়েবসাইট",
+                    myWebsiteSub: "Personal Money Manager",
+                    bismillahMeaning: "পরম করুণাময়, অতি দয়ালু আল্লাহর নামে",
+                    quranHeader: "📖 কুরআনের মহান উপদেশ",
+                    quranText: "“আর তোমরা অপব্যয় করো না। নিশ্চয়ই তিনি অপব্যয়কারীদের ভালোবাসেন না।”",
+                    quranRef: "— সূরা আল-আ'রাফ (৭:৩১)",
+                    moneySources: "টাকার উৎসসমূহ (Sources)",
+                    incomeExpenseSummary: "আয়-ব্যয় সংক্ষিপ্ত",
+                    todayIncome: "আজকের আয়",
+                    todayExpense: "আজকের খরচ",
+                    monthIncome: "এই মাসের আয়",
+                    monthExpense: "এই মাসের খরচ",
+                    notepadTitle: "নোট প্যাড (Quick Notes)",
+                    notePlaceholder: "জরুরি নোট লিখে রাখুন...",
+                    addBtn: "যোগ",
+                    noNotes: "কোনো নোট নেই",
+                    txHistory: "লেনদেনের ইতিহাস",
+                    searchPlaceholder: "খুঁজুন (নোট, ক্যাটাগরি বা উৎস)...",
+                    typeLabel: "টাইপ",
+                    allTypes: "সব টাইপ",
+                    incomeOpt: "আয়",
+                    expenseOpt: "খরচ",
+                    transferOpt: "ট্রান্সফার",
+                    timeRangeLabel: "সময়সীমা",
+                    allTime: "সব সময়",
+                    todayOpt: "আজ",
+                    weekOpt: "এই সপ্তাহ",
+                    monthOpt: "এই মাস",
+                    sourceLabelNav: "উৎস",
+                    allSources: "সব উৎস",
+                    categoryLabelNav: "ক্যাটাগরি",
+                    allCategories: "সব ক্যাটাগরি",
+                    receivableTitle: "আমি পাবো (পাওনা)",
+                    payableTitle: "আমি দেবো (দেনা)",
+                    loanHeaderTitle: "ধার ও দেনার হিসাব-নিকাশ",
+                    newLoanBtn: "+ নতুন ধার/পাওনা",
+                    noLoans: "এখনো কোনো ধার-দেনার হিসাব নেই",
+                    statementReportTitle: "স্টেটমেন্ট ও রিপোর্ট",
+                    printBtn: "🖨️ প্রিন্ট / PDF সেভ",
+                    selectTimeRange: "সময়সীমা নির্বাচন করুন",
+                    thisMonthOpt: "এই মাস",
+                    lastMonthOpt: "গত মাস",
+                    thisYearOpt: "এই বছর",
+                    customDateOpt: "কাস্টম তারিখ",
+                    startDate: "শুরু তারিখ",
+                    endDate: "শেষ তারিখ",
+                    reportSummaryTitle: "রিপোর্ট সংক্ষিপ্তি",
+                    totalIncomeRep: "মোট আয়:",
+                    totalExpenseRep: "মোট খরচ:",
+                    netSavingsRep: "নিট সঞ্চয়/ব্যালেন্স:",
+                    receivableRep: "বাকি পাওনা (পাব):",
+                    payableRep: "বাকি দেনা (দেব):",
+                    bankStatementTitle: "ব্যাংক স্টেটমেন্ট (বিস্তারিত লেনদেন)",
+                    settingsProfileTitle: "সেটিংস ও প্রোফাইল",
+                    languageLabel: "ভাষা পরিবর্তন করুন (Language)",
+                    yourName: "আপনার নাম",
+                    namePlaceholder: "আপনার নাম লিখুন",
+                    mobileNo: "মোবাইল নম্বর",
+                    profilePic: "প্রোফাইল ছবি (ঐচ্ছিক)",
+                    saveProfileBtn: "প্রোফাইল সেভ করুন",
+                    negativeBalTitle: "নেগেটিভ ব্যালেন্স অনুমতি",
+                    negativeBalDesc: "ব্যালেন্স ০-এর কম হলেও খরচ/ট্রান্সফার করার অনুমতি দিন",
+                    sourceMgmtTitle: "উৎস (Sources) ব্যবস্থাপনা",
+                    newSourcePlaceholder: "নতুন উৎসের নাম...",
+                    categoryMgmtTitle: "ক্যাটাগরি ব্যবস্থাপনা",
+                    newCategoryPlaceholder: "নতুন ক্যাটাগরির নাম...",
+                    dataResetTitle: "ডাটা রিসেট",
+                    dataResetDesc: "সমস্ত লেনদেন, ধার-পাওনা, প্রোফাইল ডাটা মুছে ফেলুন।",
+                    clearDataBtn: "সব ডাটা মুছে ফেলুন",
+                    fabIncome: "➕ আয়",
+                    fabExpense: "➖ খরচ",
+                    fabTransfer: "🔄 ট্রান্সফার",
+                    fabLoan: "🤝 ধার/পাওনা",
+                    navHome: "হোম",
+                    navHistory: "ইতিহাস",
+                    navNote: "নোট",
+                    navReport: "রিপোর্ট",
+                    navSettings: "সেটিংস",
+                    newTxTitle: "নতুন লেনদেন",
+                    amountLabel: "পরিমাণ (৳) *",
+                    sourceLabelModal: "উৎস *",
+                    toSourceLabel: "কোন উৎসে পাঠাবেন *",
+                    categoryLabelModal: "ক্যাটাগরি *",
+                    otherCatLabel: "অন্যান্য খরচের বিবরণ লিখুন",
+                    dateLabel: "তারিখ *",
+                    timeLabel: "সময় *",
+                    noteLabel: "নোট (ঐচ্ছিক)",
+                    noteDescPlaceholder: "সংক্ষিপ্ত বিবরণ...",
+                    receiptLabel: "🧾 রশিদ / মেমো ছবি যুক্ত করুন (ঐচ্ছিক)",
+                    cancelBtn: "বাতিল",
+                    saveBtn: "সংরক্ষণ করুন",
+                    newLoanModalTitle: "নতুন ধার/পাওনা যোগ করুন",
+                    loanTypeLabel: "লেনদেনের ধরন *",
+                    paboOpt: "আমি পাবো (পাওনা)",
+                    deboOpt: "আমি দেবো (দেনা)",
+                    personNameLabel: "ব্যক্তির নাম *",
+                    mobileNoOptional: "মোবাইল নম্বর (ঐচ্ছিক)",
+                    receiptImgLabel: "রশিদের ছবি (ঐচ্ছিক)",
+                    noteDescLabel: "নোট / বিবরণ (ঐচ্ছিক)",
+                    receiptModalTitle: "🧾 রশিদ / মেমোর ছবি",
+                    closeBtn: "বন্ধ করুন"
+                },
+                ar: {
+                    appName: "مصروفات شخصية",
+                    myWebsite: "موقع الكتروني",
+                    myWebsiteSub: "Personal Money Manager",
+                    bismillahMeaning: "بسم الله الرحمن الرحيم",
+                    quranHeader: "📖 نصيحة قرآنية عظيمة",
+                    quranText: "“وَلَا تُسْرِفُوا ۚ إِنَّهُ لَا يُحِبُّ الْمُسْرِفِينَ”",
+                    quranRef: "— سورة الأعراف (٧:٣١)",
+                    moneySources: "مصادر الأموال",
+                    incomeExpenseSummary: "ملخص الدخل والمصروفات",
+                    todayIncome: "دخل اليوم",
+                    todayExpense: "مصروف اليوم",
+                    monthIncome: "دخل هذا الشهر",
+                    monthExpense: "مصروف هذا الشهر",
+                    notepadTitle: "مفكرة سريعة (Quick Notes)",
+                    notePlaceholder: "اكتب ملاحظة عاجلة...",
+                    addBtn: "إضافة",
+                    noNotes: "لا توجد ملاحظات",
+                    txHistory: "سجل المعاملات",
+                    searchPlaceholder: "بحث (ملاحظة، فئة، أو مصدر)...",
+                    typeLabel: "النوع",
+                    allTypes: "كل الأنواع",
+                    incomeOpt: "دخل",
+                    expenseOpt: "مصروف",
+                    transferOpt: "تحويل",
+                    timeRangeLabel: "النطاق الزمني",
+                    allTime: "كل الأوقات",
+                    todayOpt: "اليوم",
+                    weekOpt: "هذا الأسبوع",
+                    monthOpt: "هذا الشهر",
+                    sourceLabelNav: "المصدر",
+                    allSources: "كل المصادر",
+                    categoryLabelNav: "الفئة",
+                    allCategories: "كل الفئات",
+                    receivableTitle: "له عندي / لي (مستحقات)",
+                    payableTitle: "علي (ديون)",
+                    loanHeaderTitle: "حساب الديون والمستحقات",
+                    newLoanBtn: "+ دين / مستحق جديد",
+                    noLoans: "لا توجد حسابات ديون حتى الآن",
+                    statementReportTitle: "البيان والتقرير",
+                    printBtn: "🖨️ طباعة / حفظ PDF",
+                    selectTimeRange: "اختر النطاق الزمني",
+                    thisMonthOpt: "هذا الشهر",
+                    lastMonthOpt: "الشهر الماضي",
+                    thisYearOpt: "هذا العام",
+                    customDateOpt: "تاريخ مخصص",
+                    startDate: "تاريخ البداية",
+                    endDate: "تاريخ النهاية",
+                    reportSummaryTitle: "ملخص التقرير",
+                    totalIncomeRep: "إجمالي الدخل:",
+                    totalExpenseRep: "إجمالي المصروفات:",
+                    netSavingsRep: "صافي التوفير / الرصيد:",
+                    receivableRep: "المستحقات (لي):",
+                    payableRep: "الديون (عليّ):",
+                    bankStatementTitle: "كشف الحساب البنكي (المعاملات التفصيلية)",
+                    settingsProfileTitle: "الإعدادات والملف الشخصي",
+                    languageLabel: "تغيير اللغة (Language)",
+                    yourName: "اسمك",
+                    namePlaceholder: "أدخل اسمك",
+                    mobileNo: "رقم الجوال",
+                    profilePic: "صورة الملف الشخصي (اختياري)",
+                    saveProfileBtn: "حفظ الملف الشخصي",
+                    negativeBalTitle: "السماح بالرصيد السلبي",
+                    negativeBalDesc: "السماح بالمصروفات أو التحويل حتى لو كان الرصيد أقل من الصفر",
+                    sourceMgmtTitle: "إدارة المصادر",
+                    newSourcePlaceholder: "اسم مصدر جديد...",
+                    categoryMgmtTitle: "إدارة الفئات",
+                    newCategoryPlaceholder: "اسم فئة جديدة...",
+                    dataResetTitle: "إعادة ضبط البيانات",
+                    dataResetDesc: "حذف جميع المعاملات، الديون، وبيانات الملف الشخصي.",
+                    clearDataBtn: "حذف جميع البيانات",
+                    fabIncome: "➕ دخل",
+                    fabExpense: "➖ مصروف",
+                    fabTransfer: "🔄 تحويل",
+                    fabLoan: "🤝 دين/مستحق",
+                    navHome: "الرئيسية",
+                    navHistory: "السجل",
+                    navNote: "ملاحظات",
+                    navReport: "التقرير",
+                    navSettings: "الإعدادات",
+                    newTxTitle: "معاملة جديدة",
+                    amountLabel: "المبلغ (৳) *",
+                    sourceLabelModal: "المصدر *",
+                    toSourceLabel: "إلى أي مصدر تحويل *",
+                    categoryLabelModal: "الفئة *",
+                    otherCatLabel: "أدخل تفاصيل مصروف آخر",
+                    dateLabel: "التاريخ *",
+                    timeLabel: "الوقت *",
+                    noteLabel: "ملاحظة (اختياري)",
+                    noteDescPlaceholder: "تفاصيل مختصرة...",
+                    receiptLabel: "🧾 إرفاق إيصال / صورة (اختياري)",
+                    cancelBtn: "إلغاء",
+                    saveBtn: "حفظ",
+                    newLoanModalTitle: "إضافة دين / مستحق جديد",
+                    loanTypeLabel: "نوع المعاملة *",
+                    paboOpt: "لي (مستحق)",
+                    deboOpt: "عليّ (دين)",
+                    personNameLabel: "اسم الشخص *",
+                    mobileNoOptional: "رقم الجوال (اختياري)",
+                    receiptImgLabel: "صورة الإيصال (اختياري)",
+                    noteDescLabel: "ملاحظة / تفاصيل (اختياري)",
+                    receiptModalTitle: "🧾 صورة الإيصال",
+                    closeBtn: "إغلاق"
+                },
+                en: {
+                    appName: "Hat-Khoroch",
+                    myWebsite: "Website",
+                    myWebsiteSub: "Personal Money Manager",
+                    bismillahMeaning: "In the name of Allah, the Most Gracious, the Most Merciful",
+                    quranHeader: "📖 Great Quranic Advice",
+                    quranText: "“And do not waste. Indeed, He does not like the wasteful.”",
+                    quranRef: "— Surah Al-A'raf (7:31)",
+                    moneySources: "Money Sources",
+                    incomeExpenseSummary: "Income & Expense Summary",
+                    todayIncome: "Today's Income",
+                    todayExpense: "Today's Expense",
+                    monthIncome: "This Month's Income",
+                    monthExpense: "This Month's Expense",
+                    notepadTitle: "Quick Notes",
+                    notePlaceholder: "Write a quick note...",
+                    addBtn: "Add",
+                    noNotes: "No notes available",
+                    txHistory: "Transaction History",
+                    searchPlaceholder: "Search (note, category or source)...",
+                    typeLabel: "Type",
+                    allTypes: "All Types",
+                    incomeOpt: "Income",
+                    expenseOpt: "Expense",
+                    transferOpt: "Transfer",
+                    timeRangeLabel: "Time Range",
+                    allTime: "All Time",
+                    todayOpt: "Today",
+                    weekOpt: "This Week",
+                    monthOpt: "This Month",
+                    sourceLabelNav: "Source",
+                    allSources: "All Sources",
+                    categoryLabelNav: "Category",
+                    allCategories: "All Categories",
+                    receivableTitle: "To Receive (Receivable)",
+                    payableTitle: "To Pay (Payable)",
+                    loanHeaderTitle: "Loan & Debt Ledger",
+                    newLoanBtn: "+ New Loan/Debt",
+                    noLoans: "No loan records yet",
+                    statementReportTitle: "Statement & Report",
+                    printBtn: "🖨️ Print / Save PDF",
+                    selectTimeRange: "Select Time Range",
+                    thisMonthOpt: "This Month",
+                    lastMonthOpt: "Last Month",
+                    thisYearOpt: "This Year",
+                    customDateOpt: "Custom Date",
+                    startDate: "Start Date",
+                    endDate: "End Date",
+                    reportSummaryTitle: "Report Summary",
+                    totalIncomeRep: "Total Income:",
+                    totalExpenseRep: "Total Expense:",
+                    netSavingsRep: "Net Savings/Balance:",
+                    receivableRep: "Total Receivable:",
+                    payableRep: "Total Payable:",
+                    bankStatementTitle: "Bank Statement (Detailed Transactions)",
+                    settingsProfileTitle: "Settings & Profile",
+                    languageLabel: "Change Language",
+                    yourName: "Your Name",
+                    namePlaceholder: "Enter your name",
+                    mobileNo: "Mobile Number",
+                    profilePic: "Profile Picture (Optional)",
+                    saveProfileBtn: "Save Profile",
+                    negativeBalTitle: "Allow Negative Balance",
+                    negativeBalDesc: "Allow expenses/transfers even if balance is below zero",
+                    sourceMgmtTitle: "Sources Management",
+                    newSourcePlaceholder: "New source name...",
+                    categoryMgmtTitle: "Categories Management",
+                    newCategoryPlaceholder: "New category name...",
+                    dataResetTitle: "Data Reset",
+                    dataResetDesc: "Delete all transactions, loans, and profile data.",
+                    clearDataBtn: "Delete All Data",
+                    fabIncome: "➕ Income",
+                    fabExpense: "➖ Expense",
+                    fabTransfer: "🔄 Transfer",
+                    fabLoan: "🤝 Loan/Debt",
+                    navHome: "Home",
+                    navHistory: "History",
+                    navNote: "Notes",
+                    navReport: "Report",
+                    navSettings: "Settings",
+                    newTxTitle: "New Transaction",
+                    amountLabel: "Amount (৳) *",
+                    sourceLabelModal: "Source *",
+                    toSourceLabel: "To Source *",
+                    categoryLabelModal: "Category *",
+                    otherCatLabel: "Enter other expense details",
+                    dateLabel: "Date *",
+                    timeLabel: "Time *",
+                    noteLabel: "Note (Optional)",
+                    noteDescPlaceholder: "Short description...",
+                    receiptLabel: "🧾 Attach Receipt/Memo (Optional)",
+                    cancelBtn: "Cancel",
+                    saveBtn: "Save",
+                    newLoanModalTitle: "Add New Loan/Debt",
+                    loanTypeLabel: "Transaction Type *",
+                    paboOpt: "To Receive (Receivable)",
+                    deboOpt: "To Pay (Payable)",
+                    personNameLabel: "Person Name *",
+                    mobileNoOptional: "Mobile Number (Optional)",
+                    receiptImgLabel: "Receipt Image (Optional)",
+                    noteDescLabel: "Note / Description (Optional)",
+                    receiptModalTitle: "🧾 Receipt Image",
+                    closeBtn: "Close"
+                }
+            };
+
             const DEFAULT_SOURCES = ["হাতে ক্যাশ", "bKash", "Nagad", "Rocket", "Upay", "Bank", "অন্যান্য"];
             const DEFAULT_CATEGORIES = ["খাবার", "যাতায়াত", "শিক্ষা", "মোবাইল/ইন্টারনেট", "চিকিৎসা", "পরিবার", "কেনাকাটা", "ইসলামিক/দান", "বিনোদন", "বিল", "ধার পরিশোধ", "অন্যান্য"];
 
             let state = {
                 transactions: [],
                 loans: JSON.parse(localStorage.getItem('user_loans')) || [],
+                notes: JSON.parse(localStorage.getItem('user_notes')) || [],
                 sources: [],
                 categories: [],
                 profile: { name: '', phone: '', photo: '' },
-                settings: { theme: 'light', allowNegative: false }
+                settings: { theme: 'light', allowNegative: false, lang: 'bn' }
             };
 
             const elem = {
@@ -901,9 +1255,12 @@
                 todayExpenseText: document.getElementById('todayExpenseText'),
                 monthIncomeText: document.getElementById('monthIncomeText'),
                 monthExpenseText: document.getElementById('monthExpenseText'),
-                totalReceivableText: document.getElementById('totalReceivableText'),
-                totalPayableText: document.getElementById('totalPayableText'),
                 sourcesList: document.getElementById('sourcesList'),
+
+                noteForm: document.getElementById('noteForm'),
+                noteInput: document.getElementById('noteInput'),
+                notesList: document.getElementById('notesList'),
+                emptyNoteMsg: document.getElementById('emptyNoteMsg'),
 
                 searchInput: document.getElementById('searchInput'),
                 typeFilter: document.getElementById('typeFilter'),
@@ -915,6 +1272,7 @@
                 mainFab: document.getElementById('mainFab'),
                 fabOptions: document.getElementById('fabOptions'),
 
+                languageSelect: document.getElementById('languageSelect'),
                 allowNegativeToggle: document.getElementById('allowNegativeToggle'),
                 addSourceForm: document.getElementById('addSourceForm'),
                 newSourceName: document.getElementById('newSourceName'),
@@ -968,7 +1326,6 @@
                 receiptModalImg: document.getElementById('receiptModalImg')
             };
 
-            // Loan View DOM Elements
             const loanModal = document.getElementById('loan-modal');
             const openModalBtn = document.getElementById('open-loan-modal');
             const closeModalBtn = document.getElementById('close-modal');
@@ -982,6 +1339,7 @@
             function init() {
                 loadStorage();
                 applyTheme(state.settings.theme);
+                applyLanguage(state.settings.lang);
                 setupEvents();
                 renderAll();
             }
@@ -995,12 +1353,13 @@
                         state.sources = parsed.sources || [...DEFAULT_SOURCES];
                         state.categories = parsed.categories || [...DEFAULT_CATEGORIES];
                         state.profile = parsed.profile || { name: '', phone: '', photo: '' };
-                        state.settings = parsed.settings || { theme: 'light', allowNegative: false };
+                        state.settings = parsed.settings || { theme: 'light', allowNegative: false, lang: 'bn' };
                     } else {
                         state.sources = [...DEFAULT_SOURCES];
                         state.categories = [...DEFAULT_CATEGORIES];
                     }
                     state.loans = JSON.parse(localStorage.getItem('user_loans')) || [];
+                    state.notes = JSON.parse(localStorage.getItem('user_notes')) || [];
                 } catch (e) {
                     console.error("Storage Load Error", e);
                 }
@@ -1009,6 +1368,24 @@
             function saveStorage() {
                 localStorage.setItem('hk_app_data', JSON.stringify(state));
                 localStorage.setItem('user_loans', JSON.stringify(state.loans));
+                localStorage.setItem('user_notes', JSON.stringify(state.notes));
+            }
+
+            function applyLanguage(lang) {
+                state.settings.lang = lang;
+                elem.languageSelect.value = lang;
+                document.documentElement.setAttribute('lang', lang);
+                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+                const dict = TRANSLATIONS[lang] || TRANSLATIONS.bn;
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    if (dict[key]) el.textContent = dict[key];
+                });
+                document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+                    const key = el.getAttribute('data-translate-placeholder');
+                    if (dict[key]) el.placeholder = dict[key];
+                });
             }
 
             function calculateSourceBalance(sourceName, excludeTxId = null) {
@@ -1080,7 +1457,7 @@
             }
 
             function formatCurrency(amount) {
-                return `৳${Number(amount || 0).toLocaleString('bn-BD', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                return `৳${Number(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             }
 
             function formatNumberOnly(amount) {
@@ -1094,6 +1471,7 @@
 
             function renderAll() {
                 renderDashboard();
+                renderNotes();
                 renderHistory();
                 renderLoansUI();
                 renderProfile();
@@ -1108,8 +1486,6 @@
                 elem.todayExpenseText.textContent = formatCurrency(totals.todayExp);
                 elem.monthIncomeText.textContent = formatCurrency(totals.monthInc);
                 elem.monthExpenseText.textContent = formatCurrency(totals.monthExp);
-                elem.totalReceivableText.textContent = formatCurrency(totals.totReceivable);
-                elem.totalPayableText.textContent = formatCurrency(totals.totPayable);
 
                 elem.sourcesList.innerHTML = '';
                 state.sources.forEach(src => {
@@ -1120,6 +1496,36 @@
                     elem.sourcesList.appendChild(div);
                 });
             }
+
+            function renderNotes() {
+                elem.notesList.innerHTML = '';
+                if (state.notes.length === 0) {
+                    elem.notesList.appendChild(elem.emptyNoteMsg);
+                    elem.emptyNoteMsg.classList.remove('hidden');
+                } else {
+                    elem.emptyNoteMsg.classList.add('hidden');
+                    state.notes.forEach(note => {
+                        const card = document.createElement('div');
+                        card.className = 'item-card';
+                        card.innerHTML = `
+                            <div class="item-details">
+                                <strong style="font-weight: normal;">${escapeHtml(note.text)}</strong>
+                                <span>📅 ${note.date}</span>
+                            </div>
+                            <div>
+                                <button onclick="deleteNote(${note.id})" class="action-btn" style="color:var(--expense-color);">🗑️</button>
+                            </div>
+                        `;
+                        elem.notesList.appendChild(card);
+                    });
+                }
+            }
+
+            window.deleteNote = function(id) {
+                state.notes = state.notes.filter(n => n.id !== id);
+                saveStorage();
+                renderNotes();
+            };
 
             function renderHistory() {
                 const search = elem.searchInput.value.toLowerCase().trim();
@@ -1190,7 +1596,6 @@
                 });
             }
 
-            /* Loan Management Functions */
             function renderLoansUI() {
                 loanList.innerHTML = '';
                 if (state.loans.length === 0) {
@@ -1201,24 +1606,24 @@
                     state.loans.forEach(item => {
                         const isPabo = item.type === 'pabo';
                         const card = document.createElement('div');
-                        card.className = `p-4 rounded-lg border flex justify-between items-center ${isPabo ? 'bg-blue-50/50 border-blue-200' : 'bg-red-50/50 border-red-200'}`;
+                        card.className = `p-3 rounded-lg border flex justify-between items-center ${isPabo ? 'bg-blue-50/50 border-blue-200' : 'bg-red-50/50 border-red-200'}`;
                         
                         card.innerHTML = `
                             <div>
                                 <div class="flex items-center gap-2">
-                                    <h4 class="font-bold text-gray-800">${escapeHtml(item.person)}</h4>
-                                    <span class="text-xs px-2 py-0.5 rounded-full ${isPabo ? 'bg-blue-100 text-blue-700' : 'bg-red-100 text-red-700'} font-semibold">
+                                    <h4 class="font-bold text-gray-800 text-sm">${escapeHtml(item.person)}</h4>
+                                    <span class="text-[10px] px-2 py-0.5 rounded-full ${isPabo ? 'bg-blue-100 text-blue-700' : 'bg-red-100 text-red-700'} font-semibold">
                                         ${isPabo ? 'পাবো' : 'দেবো'}
                                     </span>
                                 </div>
-                                <p class="text-xs text-gray-500">${item.date} ${item.phone ? '• ' + escapeHtml(item.phone) : ''}</p>
-                                ${item.note ? `<p class="text-xs text-gray-600 italic mt-1">${escapeHtml(item.note)}</p>` : ''}
-                                ${item.receipt ? `<button onclick="viewLoanReceipt('${item.id}')" class="text-xs text-blue-500 underline mt-1 block">রশিদ দেখুন</button>` : ''}
+                                <p class="text-[11px] text-gray-500">${item.date} ${item.phone ? '• ' + escapeHtml(item.phone) : ''}</p>
+                                ${item.note ? `<p class="text-[11px] text-gray-600 italic mt-0.5">${escapeHtml(item.note)}</p>` : ''}
+                                ${item.receipt ? `<button onclick="viewLoanReceipt('${item.id}')" class="text-[11px] text-blue-500 underline mt-0.5 block">রশিদ দেখুন</button>` : ''}
                             </div>
                             <div class="text-right flex items-center gap-2">
-                                <span class="font-bold text-lg ${isPabo ? 'text-blue-600' : 'text-red-600'}">${formatCurrency(item.amount)}</span>
-                                <button onclick="editLoan(${item.id})" class="text-blue-500 hover:text-blue-700 text-sm font-semibold px-1">সম্পাদনা</button>
-                                <button onclick="deleteLoan(${item.id})" class="text-red-500 hover:text-red-700 text-sm font-bold px-1">✕</button>
+                                <span class="font-bold text-base ${isPabo ? 'text-blue-600' : 'text-red-600'}">${formatCurrency(item.amount)}</span>
+                                <button onclick="editLoan(${item.id})" class="text-blue-500 hover:text-blue-700 text-xs font-semibold px-1">সম্পাদনা</button>
+                                <button onclick="deleteLoan(${item.id})" class="text-red-500 hover:text-red-700 text-xs font-bold px-1">✕</button>
                             </div>
                         `;
                         loanList.appendChild(card);
@@ -1471,6 +1876,11 @@
                     saveStorage();
                 });
 
+                elem.languageSelect.addEventListener('change', (e) => {
+                    applyLanguage(e.target.value);
+                    saveStorage();
+                });
+
                 elem.navItems.forEach(item => {
                     item.addEventListener('click', () => {
                         const target = item.getAttribute('data-view');
@@ -1490,6 +1900,17 @@
                             openTxModal(act);
                         }
                     });
+                });
+
+                elem.noteForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const val = elem.noteInput.value.trim();
+                    if(val) {
+                        state.notes.push({ id: Date.now(), text: val, date: getTodayStr() });
+                        elem.noteInput.value = '';
+                        saveStorage();
+                        renderNotes();
+                    }
                 });
 
                 elem.txCategory.addEventListener('change', () => {
@@ -1752,13 +2173,15 @@
                     if (confirm('সব হিসাব ও প্রোফাইল মুছে ফেলা হবে। কোনো তথ্য ফেরত পাওয়া যাবে না!')) {
                         localStorage.removeItem('hk_app_data');
                         localStorage.removeItem('user_loans');
+                        localStorage.removeItem('user_notes');
                         state = {
                             transactions: [],
                             loans: [],
+                            notes: [],
                             sources: [...DEFAULT_SOURCES],
                             categories: [...DEFAULT_CATEGORIES],
                             profile: { name: '', phone: '', photo: '' },
-                            settings: { theme: 'light', allowNegative: false }
+                            settings: { theme: 'light', allowNegative: false, lang: 'bn' }
                         };
                         saveStorage();
                         renderAll();
