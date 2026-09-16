@@ -103,16 +103,25 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.05);
         }
 
+        .header-left-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .header-brand {
             display: flex;
             align-items: center;
             gap: 12px;
             margin: 0 auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .logo-container {
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             border: 2px solid var(--primary);
             display: flex;
@@ -129,14 +138,14 @@
         }
 
         .header-title h1 {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             color: var(--primary);
             line-height: 1.1;
             font-weight: 700;
         }
 
         .header-title .subtitle {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
             display: block;
             font-family: var(--font-en);
@@ -147,38 +156,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            position: absolute;
-            right: 16px;
-        }
-        
-        .header-left-actions {
-            position: absolute;
-            left: 16px;
-            display: flex;
-            align-items: center;
-            z-index: 10;
-        }
-
-        .website-link {
-            font-size: 0.7rem;
-            color: var(--primary);
-            text-decoration: none;
-            padding: 4px 10px;
-            border: 1px solid var(--primary);
-            border-radius: 20px;
-            font-weight: 600;
-            transition: all 0.2s;
-            text-align: center;
-            line-height: 1.2;
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .website-link:hover {
-            background-color: var(--primary);
-            color: #ffffff;
         }
 
         .icon-btn {
@@ -189,6 +166,17 @@
             padding: 6px;
             border-radius: 50%;
             color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-settings-btn {
+            font-size: 1.1rem;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            padding: 8px 10px;
+            border-radius: 50%;
         }
 
         /* Layout */
@@ -421,27 +409,150 @@
         .action-btn { background: none; border: none; font-size: 0.78rem; cursor: pointer; color: var(--text-muted); font-weight: 500; }
         .action-btn:hover { color: var(--primary); }
 
-        /* FAB & Nav */
-        .fab-container { position: fixed; bottom: 75px; right: 20px; z-index: 99; display: flex; flex-direction: column; align-items: flex-end; }
-        .fab-main {
-            width: 52px; height: 52px; border-radius: 50%; background-color: var(--primary);
-            color: white; border: none; font-size: 1.6rem; box-shadow: 0 4px 12px rgba(0,0,0,0.25); cursor: pointer;
+        /* FAB Modal Popup for Green Plus Button */
+        .fab-options-modal {
+            position: fixed;
+            bottom: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 90%;
+            max-width: 320px;
         }
-        .fab-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
-        .fab-option { padding: 8px 16px; border-radius: 20px; border: none; color: white; font-weight: bold; cursor: pointer; font-size: 0.85rem; }
+        .fab-option {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-align: center;
+        }
         .income-btn { background-color: var(--income-color); }
         .expense-btn { background-color: var(--expense-color); }
         .transfer-btn { background-color: var(--transfer-color); }
 
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; height: 60px;
-            background-color: var(--bg-card); display: flex; justify-content: space-around;
-            align-items: center; border-top: 1px solid var(--border-color); z-index: 100;
+        /* Calculator Styles inside Action Menu */
+        .calc-modal-wrapper {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 4px;
+        }
+        .calc-display {
+            background: var(--bg-card);
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-family: monospace;
+            padding: 8px 10px;
+            border-radius: 6px;
+            text-align: right;
+            margin-bottom: 8px;
+            border: 1px solid var(--border-color);
+            min-height: 38px;
+            word-break: break-all;
+        }
+        .calc-keys {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+        .calc-btn {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 8px 0;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .calc-btn:active { background: var(--border-color); }
+        .calc-btn.op { background: var(--primary); color: white; border: none; }
+        .calc-btn.action { background: var(--expense-color); color: white; border: none; }
+
+        /* Toast notification */
+        .toast-msg {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            z-index: 300;
+            animation: fadeInOut 2s ease forwards;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, 10px); }
+            15% { opacity: 1; transform: translate(-50%, 0); }
+            85% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, -10px); }
         }
 
-        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: var(--text-muted); cursor: pointer; font-size: 0.72rem; width: 20%; }
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; height: 65px;
+            background-color: var(--bg-card); display: flex; justify-content: space-around;
+            align-items: center; border-top: 1px solid var(--border-color); z-index: 100;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        .nav-item { 
+            background: none; border: none; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; color: var(--text-muted); 
+            cursor: pointer; font-size: 0.7rem; flex: 1; height: 100%;
+        }
         .nav-item.active { color: var(--primary); font-weight: bold; }
         .nav-icon { font-size: 1.15rem; margin-bottom: 2px; }
+
+        /* Central Green Plus Nav Button */
+        .nav-item-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            height: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .center-plus-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: var(--income-color);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(22, 163, 74, 0.4);
+            transition: transform 0.2s;
+        }
+        .center-plus-btn:active {
+            transform: scale(0.92);
+        }
+        .center-plus-label {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-weight: 600;
+        }
 
         /* Modals Structure */
         .modal-backdrop {
@@ -483,7 +594,7 @@
 
         @media print {
             body { background: white; color: black; padding-bottom: 0; }
-            .app-header, .bottom-nav, .fab-container, .btn, .icon-btn, .filter-card, .section-header, .bismillah-bar { display: none !important; }
+            .app-header, .bottom-nav, .btn, .icon-btn, .filter-card, .section-header, .bismillah-bar { display: none !important; }
             .main-container { max-width: 100%; padding: 0; }
             .app-view { display: none !important; }
             #reportView { display: block !important; }
@@ -508,10 +619,9 @@
     <!-- Header Bar -->
     <header class="app-header">
         <div class="header-left-actions">
-            <a href="https://salmanfarshi1630.github.io/" target="_blank" class="website-link">
-                <span style="font-size: 0.7rem; line-height: 1.1;">আমার</span>
-                <span style="font-size: 0.7rem; line-height: 1.1;" data-translate="myWebsite">ওয়েবসাইট</span>
-            </a>
+            <button id="headerSettingsBtn" class="icon-btn header-settings-btn" data-view="settingsView" aria-label="Settings">
+                ⚙️
+            </button>
         </div>
         <div class="header-brand">
             <div class="logo-container" id="logoContainer">
@@ -535,12 +645,17 @@
         <!-- DASHBOARD VIEW -->
         <section id="dashboardView" class="app-view active">
             <div class="card quran-card">
-                <div class="quran-card-header" data-translate="quranHeader">📖 কুরআনের মহান উপদেশ</div>
+                <div class="quran-card-header" data-translate="quranHeader">📖পবিত্র কুরআনের মহান উপদেশ</div>
                 <div class="quran-arabic">وَلَا تُسْرِفُوا ۚ إِنَّهُ لَا يُحِبُّ الْمُسْرِفِينَ</div>
                 <div class="quran-bangla" data-translate="quranText">“আর তোমরা অপব্যয় করো না। নিশ্চয়ই তিনি অপব্যয়কারীদের ভালোবাসেন না।”</div>
                 <div class="quran-ref" data-translate="quranRef">— সূরা আল-আ'রাফ (৭:৩১)</div>
             </div>
-
+            <div class="card quran-card">
+                <div class="card-header" style="font-size: 0.82rem; color: var(--accent-gold); font-weight: 700; margin-bottom: 8px;">🌿 রাসূলুল্লাহ ﷺ-এর সুন্দর শিক্ষা</div>
+                <div class="quran-arabic">كُلُوا وَاشْرَبُوا وَالْبَسُوا وَتَصَدَّقُوا، فِي غَيْرِ إِسْرَافٍ وَلَا مَخِيلَةٍ</div>
+                <div class="quran-bangla">“তোমরা খাও, পান করো, এবং দান-সদকা করো; তবে অপচয় ও অহংকার করো না।”</div>
+                <div class="quran-ref">— সুনান ইবনু মাজাহ, হাদিস: ৩৬০৫</div>
+            </div>
             <div class="section-header"><h3 data-translate="moneySources">টাকার উৎসসমূহ (Sources)</h3></div>
             <div id="sourcesList" class="sources-grid"></div>
 
@@ -619,7 +734,7 @@
             <div id="transactionList" class="item-list"></div>
         </section>
 
-        <!-- NOTE VIEW (Replacing Loan View position) -->
+        <!-- NOTE VIEW -->
         <section id="loanView" class="app-view">
             <div class="section-header"><h3 data-translate="notepadTitle">নোট প্যাড (Quick Notes)</h3></div>
             <div class="card">
@@ -684,6 +799,14 @@
         <section id="settingsView" class="app-view">
             <div class="section-header"><h3 data-translate="settingsProfileTitle">সেটিংস ও প্রোফাইল</h3></div>
             
+            <!-- Website Visit Card -->
+            <div class="card" style="text-align: center; background: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(217, 119, 6, 0.08) 100%); border: 1px solid var(--primary);">
+                <p style="font-size: 0.9rem; font-weight: 600; color: var(--text-main); margin-bottom: 8px;">বিস্তারিত জানতে ভিজিট করুন আমার ওয়েবসাইট</p>
+                <a href="https://salmanfarshi1630.github.io/" target="_blank" class="btn btn-primary" style="display: inline-block; text-decoration: none; width: 100%; text-align: center;">
+                    🌐 ভিজিট ওয়েবসাইট
+                </a>
+            </div>
+
             <!-- Language Settings Card -->
             <div class="card">
                 <div class="form-group" style="margin-bottom: 0;">
@@ -706,10 +829,24 @@
                 <hr style="margin: 10px 0; border-color: var(--border-color);">
                 <form id="profileForm">
                     <div class="form-group"><label for="profName" data-translate="yourName">আপনার নাম</label><input type="text" id="profName" class="form-control" placeholder="আপনার নাম লিখুন" data-translate-placeholder="namePlaceholder"></div>
+                    
+                    <!-- NEW: Address Field -->
+                    <div class="form-group">
+                        <label for="profAddress" data-translate="addressLabel">📍 আপনার ঠিকানা লিখুন</label>
+                        <textarea id="profAddress" class="form-control" rows="2" placeholder="আপনার ঠিকানা লিখুন"></textarea>
+                    </div>
+
                     <div class="form-group"><label for="profPhone" data-translate="mobileNo">মোবাইল নম্বর</label><input type="text" id="profPhone" class="form-control" placeholder="01XXXXXXXXX"></div>
                     <div class="form-group"><label for="profImg" data-translate="profilePic">প্রোফাইল ছবি (ঐচ্ছিক)</label><input type="file" id="profImg" accept="image/*" class="form-control"></div>
                     <button type="submit" class="btn btn-primary" style="width: 100%;" data-translate="saveProfileBtn">প্রোফাইল সেভ করুন</button>
                 </form>
+            </div>
+
+            <!-- NEW: Share Button Section -->
+            <div class="card">
+                <h4 style="font-size:0.95rem; margin-bottom:8px;" data-translate="shareSectionTitle">📤 শেয়ার করুন</h4>
+                <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;" data-translate="shareSectionDesc">অ্যাপটি আপনার বন্ধু ও পরিবারের সাথে শেয়ার করুন।</p>
+                <button type="button" id="shareAppBtn" class="btn btn-primary" style="width: 100%;">📤 শেয়ার করুন</button>
             </div>
 
             <div class="card">
@@ -757,24 +894,62 @@
         &copy; 2026 SALMAN FARSHI | All Rights Reserved
     </footer>
 
-    <!-- FAB -->
-    <div class="fab-container">
-        <div id="fabOptions" class="fab-options hidden">
-            <button class="fab-option income-btn" data-action="INCOME" data-translate="fabIncome">➕ আয়</button>
-            <button class="fab-option expense-btn" data-action="EXPENSE" data-translate="fabExpense">➖ খরচ</button>
-            <button class="fab-option transfer-btn" data-action="TRANSFER" data-translate="fabTransfer">🔄 ট্রান্সফার</button>
-            <button class="fab-option" style="background-color: var(--accent-gold);" data-action="LOAN" data-translate="fabLoan">🤝 ধার/পাওনা</button>
+    <!-- Central Plus Action Options Popup Modal -->
+    <div id="fabOptionsModal" class="fab-options-modal hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <strong style="font-size: 0.9rem;" data-translate="newTxTitle">নতুন লেনদেন</strong>
+            <button id="closeFabModal" class="close-btn" style="font-size: 1.2rem;">&times;</button>
         </div>
-        <button id="mainFab" class="fab-main">+</button>
+        <button class="fab-option income-btn" data-action="INCOME" data-translate="fabIncome">➕ আয়</button>
+        <button class="fab-option expense-btn" data-action="EXPENSE" data-translate="fabExpense">➖ খরচ</button>
+        <button class="fab-option transfer-btn" data-action="TRANSFER" data-translate="fabTransfer">🔄 ট্রান্সফার</button>
+        <button class="fab-option" style="background-color: var(--accent-gold);" data-action="LOAN" data-translate="fabLoan">🤝 ধার/পাওনা</button>
+        
+        <!-- Calculator Option inside FAB -->
+        <button class="fab-option" id="openCalcOpt" style="background-color: var(--primary); display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="8" y1="10" x2="8" y2="10.01"></line><line x1="12" y1="10" x2="12" y2="10.01"></line><line x1="16" y1="10" x2="16" y2="10.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line></svg>
+            <span data-translate="fabCalc">🧮 ক্যালকুলেটর</span>
+        </button>
+
+        <!-- Usable Calculator UI Container -->
+        <div id="calcModalContainer" class="calc-modal-wrapper hidden">
+            <div id="calcDisplay" class="calc-display">0</div>
+            <div class="calc-keys">
+                <button type="button" class="calc-btn action" data-action="clear">AC</button>
+                <button type="button" class="calc-btn action" data-action="back">⌫</button>
+                <button type="button" class="calc-btn op" data-action="÷">÷</button>
+                <button type="button" class="calc-btn op" data-action="×">×</button>
+                <button type="button" class="calc-btn" data-num="7">7</button>
+                <button type="button" class="calc-btn" data-num="8">8</button>
+                <button type="button" class="calc-btn" data-num="9">9</button>
+                <button type="button" class="calc-btn op" data-action="-">−</button>
+                <button type="button" class="calc-btn" data-num="4">4</button>
+                <button type="button" class="calc-btn" data-num="5">5</button>
+                <button type="button" class="calc-btn" data-num="6">6</button>
+                <button type="button" class="calc-btn op" data-action="+">+</button>
+                <button type="button" class="calc-btn" data-num="1">1</button>
+                <button type="button" class="calc-btn" data-num="2">2</button>
+                <button type="button" class="calc-btn" data-num="3">3</button>
+                <button type="button" class="calc-btn op" data-action="=">=</button>
+                <button type="button" class="calc-btn" data-num="0" style="grid-column: span 2;">0</button>
+                <button type="button" class="calc-btn" data-num=".">.</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Bottom Nav -->
+    <!-- Bottom Nav (Updated Order: Home | Transactions | Green Plus | Notes | Reports) -->
     <nav class="bottom-nav">
         <button class="nav-item active" data-view="dashboardView"><span class="nav-icon">🏠</span><span data-translate="navHome">হোম</span></button>
-        <button class="nav-item" data-view="historyView"><span class="nav-icon">📜</span><span data-translate="navHistory">ইতিহাস</span></button>
+        <button class="nav-item" data-view="historyView"><span class="nav-icon">📜</span><span data-translate="navHistory">লেনদেন</span></button>
+        
+        <!-- Central Green Plus Button -->
+        <div class="nav-item-center" id="centerPlusNavBtn">
+            <button class="center-plus-btn">+</button>
+            <span class="center-plus-label">যোগ</span>
+        </div>
+
         <button class="nav-item" data-view="loanView"><span class="nav-icon">📝</span><span data-translate="navNote">নোট</span></button>
         <button class="nav-item" data-view="reportView"><span class="nav-icon">📊</span><span data-translate="navReport">রিপোর্ট</span></button>
-        <button class="nav-item" data-view="settingsView"><span class="nav-icon">⚙️</span><span data-translate="navSettings">সেটিংস</span></button>
     </nav>
 
     <!-- MODAL FOR ADD / EDIT TRANSACTION -->
@@ -919,7 +1094,6 @@
             const TRANSLATIONS = {
                 bn: {
                     appName: "হাত-খরচ",
-                    myWebsite: "ওয়েবসাইট",
                     myWebsiteSub: "Personal Money Manager",
                     bismillahMeaning: "পরম করুণাময়, অতি দয়ালু আল্লাহর নামে",
                     quranHeader: "📖 কুরআনের মহান উপদেশ",
@@ -976,9 +1150,12 @@
                     languageLabel: "ভাষা পরিবর্তন করুন (Language)",
                     yourName: "আপনার নাম",
                     namePlaceholder: "আপনার নাম লিখুন",
+                    addressLabel: "📍 আপনার ঠিকানা লিখুন",
                     mobileNo: "মোবাইল নম্বর",
                     profilePic: "প্রোফাইল ছবি (ঐচ্ছিক)",
                     saveProfileBtn: "প্রোফাইল সেভ করুন",
+                    shareSectionTitle: "📤 শেয়ার করুন",
+                    shareSectionDesc: "অ্যাপটি আপনার বন্ধু ও পরিবারের সাথে শেয়ার করুন।",
                     negativeBalTitle: "নেগেটিভ ব্যালেন্স অনুমতি",
                     negativeBalDesc: "ব্যালেন্স ০-এর কম হলেও খরচ/ট্রান্সফার করার অনুমতি দিন",
                     sourceMgmtTitle: "উৎস (Sources) ব্যবস্থাপনা",
@@ -992,8 +1169,9 @@
                     fabExpense: "➖ খরচ",
                     fabTransfer: "🔄 ট্রান্সফার",
                     fabLoan: "🤝 ধার/পাওনা",
+                    fabCalc: " ক্যালকুলেটর",
                     navHome: "হোম",
-                    navHistory: "ইতিহাস",
+                    navHistory: "লেনদেন",
                     navNote: "নোট",
                     navReport: "রিপোর্ট",
                     navSettings: "সেটিংস",
@@ -1023,7 +1201,6 @@
                 },
                 en: {
                     appName: "Hat-Khoroch",
-                    myWebsite: "Website",
                     myWebsiteSub: "Personal Money Manager",
                     bismillahMeaning: "In the name of Allah, the Most Gracious, the Most Merciful",
                     quranHeader: "📖 Great Quranic Advice",
@@ -1080,9 +1257,12 @@
                     languageLabel: "Change Language",
                     yourName: "Your Name",
                     namePlaceholder: "Enter your name",
+                    addressLabel: "📍 Enter Your Address",
                     mobileNo: "Mobile Number",
                     profilePic: "Profile Picture (Optional)",
                     saveProfileBtn: "Save Profile",
+                    shareSectionTitle: "📤 Share App",
+                    shareSectionDesc: "Share this app with your friends and family.",
                     negativeBalTitle: "Allow Negative Balance",
                     negativeBalDesc: "Allow expenses/transfers even if balance is below zero",
                     sourceMgmtTitle: "Sources Management",
@@ -1096,8 +1276,9 @@
                     fabExpense: "➖ Expense",
                     fabTransfer: "🔄 Transfer",
                     fabLoan: "🤝 Loan/Debt",
+                    fabCalc: "🧮 Calculator",
                     navHome: "Home",
-                    navHistory: "History",
+                    navHistory: "Transactions",
                     navNote: "Notes",
                     navReport: "Report",
                     navSettings: "Settings",
@@ -1136,7 +1317,7 @@
                 notes: JSON.parse(localStorage.getItem('user_notes')) || [],
                 sources: [],
                 categories: [],
-                profile: { name: '', phone: '', photo: '' },
+                profile: { name: '', address: '', phone: '', photo: '' },
                 settings: { theme: 'light', allowNegative: false, lang: 'bn' }
             };
 
@@ -1144,7 +1325,7 @@
                 themeToggleBtn: document.getElementById('themeToggleBtn'),
                 themeIcon: document.getElementById('themeIcon'),
                 views: document.querySelectorAll('.app-view'),
-                navItems: document.querySelectorAll('.bottom-nav .nav-item'),
+                navItems: document.querySelectorAll('.bottom-nav .nav-item, #headerSettingsBtn'),
                 
                 todayIncomeText: document.getElementById('todayIncomeText'),
                 todayExpenseText: document.getElementById('todayExpenseText'),
@@ -1164,8 +1345,12 @@
                 categoryFilter: document.getElementById('categoryFilter'),
                 transactionList: document.getElementById('transactionList'),
 
-                mainFab: document.getElementById('mainFab'),
-                fabOptions: document.getElementById('fabOptions'),
+                centerPlusNavBtn: document.getElementById('centerPlusNavBtn'),
+                fabOptionsModal: document.getElementById('fabOptionsModal'),
+                closeFabModal: document.getElementById('closeFabModal'),
+                openCalcOpt: document.getElementById('openCalcOpt'),
+                calcModalContainer: document.getElementById('calcModalContainer'),
+                calcDisplay: document.getElementById('calcDisplay'),
 
                 languageSelect: document.getElementById('languageSelect'),
                 allowNegativeToggle: document.getElementById('allowNegativeToggle'),
@@ -1179,11 +1364,13 @@
 
                 profileForm: document.getElementById('profileForm'),
                 profName: document.getElementById('profName'),
+                profAddress: document.getElementById('profAddress'),
                 profPhone: document.getElementById('profPhone'),
                 profImg: document.getElementById('profImg'),
                 profileDisplayName: document.getElementById('profileDisplayName'),
                 profileDisplayPhone: document.getElementById('profileDisplayPhone'),
                 profileDisplayImg: document.getElementById('profileDisplayImg'),
+                shareAppBtn: document.getElementById('shareAppBtn'),
 
                 reportRangeSelect: document.getElementById('reportRangeSelect'),
                 customDateGroup: document.getElementById('customDateGroup'),
@@ -1231,6 +1418,8 @@
             const receiptPreviewContainer = document.getElementById('receipt-preview-container');
             const receiptPreview = document.getElementById('receipt-preview');
 
+            let calcInputString = "0";
+
             function init() {
                 loadStorage();
                 applyTheme(state.settings.theme);
@@ -1247,9 +1436,8 @@
                         state.transactions = parsed.transactions || [];
                         state.sources = parsed.sources || [...DEFAULT_SOURCES];
                         state.categories = parsed.categories || [...DEFAULT_CATEGORIES];
-                        state.profile = parsed.profile || { name: '', phone: '', photo: '' };
+                        state.profile = parsed.profile || { name: '', address: '', phone: '', photo: '' };
                         state.settings = parsed.settings || { theme: 'light', allowNegative: false, lang: 'bn' };
-                        // Force change to bn if stored language was ar
                         if (state.settings.lang === 'ar') state.settings.lang = 'bn';
                     } else {
                         state.sources = [...DEFAULT_SOURCES];
@@ -1633,6 +1821,7 @@
                 elem.profileDisplayPhone.textContent = prof.phone ? `মোবাইল: ${prof.phone}` : 'মোবাইল: -';
                 if (prof.photo) elem.profileDisplayImg.src = prof.photo;
                 elem.profName.value = prof.name || '';
+                elem.profAddress.value = prof.address || '';
                 elem.profPhone.value = prof.phone || '';
             }
 
@@ -1766,6 +1955,16 @@
                 elem.categoryFilter.value = state.categories.includes(cVal) ? cVal : 'ALL';
             }
 
+            function showToast(message) {
+                const existingToast = document.querySelector('.toast-msg');
+                if (existingToast) existingToast.remove();
+                const toast = document.createElement('div');
+                toast.className = 'toast-msg';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 2000);
+            }
+
             function setupEvents() {
                 elem.themeToggleBtn.addEventListener('click', () => {
                     state.settings.theme = state.settings.theme === 'light' ? 'dark' : 'light';
@@ -1785,12 +1984,66 @@
                     });
                 });
 
-                elem.mainFab.addEventListener('click', () => elem.fabOptions.classList.toggle('hidden'));
+                // Central Plus Button & Modal Handler
+                elem.centerPlusNavBtn.addEventListener('click', () => {
+                    elem.fabOptionsModal.classList.toggle('hidden');
+                    elem.calcModalContainer.classList.add('hidden'); // reset calc view on toggle
+                });
 
-                document.querySelectorAll('.fab-option').forEach(btn => {
+                elem.closeFabModal.addEventListener('click', () => {
+                    elem.fabOptionsModal.classList.add('hidden');
+                    elem.calcModalContainer.classList.add('hidden');
+                });
+
+                // Calculator Toggle inside FAB
+                elem.openCalcOpt.addEventListener('click', () => {
+                    elem.calcModalContainer.classList.toggle('hidden');
+                });
+
+                // Calculator Logic
+                document.querySelectorAll('.calc-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const num = e.target.getAttribute('data-num');
+                        const action = e.target.getAttribute('data-action');
+
+                        if (num !== null) {
+                            if (calcInputString === "0" || calcInputString === "Error") {
+                                calcInputString = num;
+                            } else {
+                                calcInputString += num;
+                            }
+                        } else if (action !== null) {
+                            if (action === 'clear') {
+                                calcInputString = "0";
+                            } else if (action === 'back') {
+                                calcInputString = calcInputString.length > 1 ? calcInputString.slice(0, -1) : "0";
+                            } else if (['+', '-', '×', '÷'].includes(action)) {
+                                const lastChar = calcInputString.slice(-1);
+                                if (['+', '-', '×', '÷'].includes(lastChar)) {
+                                    calcInputString = calcInputString.slice(0, -1) + action;
+                                } else {
+                                    calcInputString += action;
+                                }
+                            } else if (action === '=') {
+                                try {
+                                    let evalStr = calcInputString.replace(/×/g, '*').replace(/÷/g, '/');
+                                    let res = eval(evalStr);
+                                    if (!isFinite(res)) throw new Error();
+                                    calcInputString = String(parseFloat(res.toFixed(6)));
+                                } catch (err) {
+                                    calcInputString = "Error";
+                                }
+                            }
+                        }
+                        elem.calcDisplay.textContent = calcInputString;
+                    });
+                });
+
+                document.querySelectorAll('.fab-option:not(#openCalcOpt)').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         const act = e.currentTarget.getAttribute('data-action');
-                        elem.fabOptions.classList.add('hidden');
+                        elem.fabOptionsModal.classList.add('hidden');
+                        elem.calcModalContainer.classList.add('hidden');
                         if (act === 'LOAN') {
                             openModalBtn.click();
                         } else {
@@ -1873,6 +2126,30 @@
 
                 elem.profileForm.addEventListener('submit', handleProfileSubmit);
 
+                // Share Button Event (Native Web Share API + Clipboard Fallback)
+                elem.shareAppBtn.addEventListener('click', async () => {
+                    const shareData = {
+                        title: 'হাত-খরচ — Personal Money Manager',
+                        text: 'হাত-খরচ — Personal Money Manager\nআয়, ব্যয়, ট্রান্সফার ও ধার-পাওনার হিসাব সহজে পরিচালনা করুন।',
+                        url: 'https://salmanfarshi1630.github.io/Project-Chake/'
+                    };
+
+                    if (navigator.share) {
+                        try {
+                            await navigator.share(shareData);
+                        } catch (err) {
+                            console.log('Share canceled or failed', err);
+                        }
+                    } else {
+                        try {
+                            await navigator.clipboard.writeText(shareData.url);
+                            showToast('লিংক কপি হয়েছে।');
+                        } catch (err) {
+                            alert('লিংক কপি করা সম্ভব হয়নি।');
+                        }
+                    }
+                });
+
                 elem.reportRangeSelect.addEventListener('change', () => {
                     if (elem.reportRangeSelect.value === 'CUSTOM') {
                         elem.customDateGroup.classList.remove('hidden');
@@ -1896,9 +2173,17 @@
             function switchView(id) {
                 elem.views.forEach(v => v.classList.remove('active'));
                 elem.navItems.forEach(i => i.classList.remove('active'));
-                document.getElementById(id).classList.add('active');
-                const btn = document.querySelector(`.bottom-nav .nav-item[data-view="${id}"]`);
-                if (btn) btn.classList.add('active');
+                
+                const targetView = document.getElementById(id);
+                if (targetView) targetView.classList.add('active');
+
+                if (id === 'settingsView') {
+                    const sBtn = document.getElementById('headerSettingsBtn');
+                    if (sBtn) sBtn.classList.add('active');
+                } else {
+                    const btn = document.querySelector(`.bottom-nav .nav-item[data-view="${id}"]`);
+                    if (btn) btn.classList.add('active');
+                }
             }
 
             function openTxModal(type, tx = null) {
@@ -2030,6 +2315,7 @@
             function handleProfileSubmit(e) {
                 e.preventDefault();
                 state.profile.name = elem.profName.value.trim();
+                state.profile.address = elem.profAddress.value.trim();
                 state.profile.phone = elem.profPhone.value.trim();
 
                 const file = elem.profImg.files[0];
@@ -2077,7 +2363,7 @@
                             notes: [],
                             sources: [...DEFAULT_SOURCES],
                             categories: [...DEFAULT_CATEGORIES],
-                            profile: { name: '', phone: '', photo: '' },
+                            profile: { name: '', address: '', phone: '', photo: '' },
                             settings: { theme: 'light', allowNegative: false, lang: 'bn' }
                         };
                         saveStorage();
